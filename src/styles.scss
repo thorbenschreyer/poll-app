@@ -1,1 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --primary-color-purple: rgba(rgba(53, 39, 58, 1));
+  --primary-color-orange: rgba(rgba(255, 183, 112, 1));
+  --secondary-color-orange: rgba(rgba(255, 207, 161, 1));
+  --bg-color-card: rgba(rgba(250, 245, 254, 1));
+}
+
+@font-face {
+  font-family: 'Mulish-Bold';
+  src: url('../public/Font/Mulish/Mulish-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mulish-Extralight';
+  src: url('../public/Font/Mulish/Mulish-ExtraLight.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mulish-Light';
+  src: url('../public/Font/Mulish/Mulish-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mulish-Medium';
+  src: url('../public/Font/Mulish/Mulish-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mulish-Regular';
+  src: url('../public/Font/Mulish/Mulish-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mulish-Semibold';
+  src: url('../public/Font/Mulish/Mulish-SemiBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nerko-One';
+  src: url('../public/Font/Nerko_One/NerkoOne-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
