@@ -11,6 +11,8 @@ nav {
 }
 
 .category-select {
+    position: relative;
+
   &__button {
     background-color: unset;
     border: none;
@@ -44,6 +46,24 @@ nav {
       justify-content: center;
       align-items: center;
       
+    }
+  }
+
+  &__list {
+    position: absolute;
+    width: 206px;
+    list-style: none;
+    font-size: 16px;
+    margin-top: 4px;
+    font-style: "Mulish-Regular";
+    color: rgba(53, 39, 58, 1);
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 6px;
+    opacity: 1;
+    
+    >li {
+        padding: 5px 8px;
+
     }
   }
 }
