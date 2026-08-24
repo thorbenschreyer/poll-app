@@ -16,15 +16,12 @@
           </div>
         </span>
       </button>
+      <p class="used-category">{{usedCategory()}}</p>
 
       <ul class="category-select__list" [class.isActive]="isActive()">
-        <li>All Surveys</li>
-        <li>Team Activities</li>
-        <li>Health & Wellness</li>
-        <li>Gaming & Entertainment</li>
-        <li>Education & Learning</li>
-        <li>Lifestyle & Preferences</li>
-        <li>Technology & Innovation</li>
+        @for (categorie of categorylist; track categorie) {
+            <li (click)="selectCategory(categorie)">{{categorie}}</li>
+        }
       </ul>
     </div>
   </nav>

@@ -45,7 +45,7 @@ nav {
       }
     }
 
-    &:hover {
+    &:not(.isActive):hover {
       border-radius: 6px;
       background-color: rgba(217, 217, 217, 0.12);
       .img-hover {
@@ -81,7 +81,14 @@ nav {
     }
 
     > li {
+      margin-left: 4px;
       padding: 5px 8px;
+      width: fit-content;
+
+      &:hover {
+        background-color: rgba(244, 233, 251, 1);
+        border-radius: 6px;
+      }
     }
   }
 }
@@ -104,4 +111,12 @@ nav {
   inset: 0;
   right: 0px;
   opacity: 0;
+}
+
+.used-category {
+    position: absolute;
+    left: 12px;
+    font-style: 'Mulish-Regular';
+    font-size: 16px;
+    color: var(--primary-color-orange);
 }
