@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-all-surveys',
@@ -6,4 +6,9 @@ import { Component } from '@angular/core';
   templateUrl: './all-surveys.html',
   styleUrl: './all-surveys.scss',
 })
-export class AllSurveys {}
+export class AllSurveys {
+  isOpen:boolean = true;
+  arrowState:number = 2;
+
+
+}
