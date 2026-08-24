@@ -33,10 +33,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   width: 321px;
   height: 320px;
   background-color: var(--bg-color-card);
   border-top-right-radius: 80px;
+
+  &:hover {
+    background-color: rgba(244, 233, 251, 1);
+  }
 }
 
 .survey-detail {

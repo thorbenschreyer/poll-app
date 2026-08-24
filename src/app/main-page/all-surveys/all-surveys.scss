@@ -12,7 +12,7 @@ nav {
 
 .category-select {
   position: relative;
-  
+
   &__button {
     cursor: pointer;
     background-color: unset;
@@ -123,6 +123,7 @@ nav {
 }
 
 .survey {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -137,12 +138,11 @@ nav {
     background-color: rgba(254, 233, 212, 1);
 
     &:hover {
-        background-color: var(--secondary-color-orange);
+      background-color: var(--secondary-color-orange);
     }
 
     &.isActive {
-        background-color: var(--primary-color-orange);
+      background-color: var(--primary-color-orange);
     }
   }
-
 }
