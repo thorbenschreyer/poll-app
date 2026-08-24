@@ -12,8 +12,9 @@ nav {
 
 .category-select {
   position: relative;
-
+  
   &__button {
+    cursor: pointer;
     background-color: unset;
     border: none;
     width: 206px;
@@ -114,9 +115,34 @@ nav {
 }
 
 .used-category {
-    position: absolute;
-    left: 12px;
-    font-style: 'Mulish-Regular';
-    font-size: 16px;
-    color: var(--primary-color-orange);
+  position: absolute;
+  left: 12px;
+  font-style: 'Mulish-Regular';
+  font-size: 16px;
+  color: var(--primary-color-orange);
+}
+
+.survey {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-family: 'Nokora-Regular';
+  font-size: 16px;
+  color: rgba(53, 39, 58, 1);
+
+  &__design {
+    background-color: rgba(254, 233, 212, 1);
+
+    &:hover {
+        background-color: var(--secondary-color-orange);
+    }
+
+    &.isActive {
+        background-color: var(--primary-color-orange);
+    }
+  }
+
 }

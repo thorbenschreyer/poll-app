@@ -1,15 +1,15 @@
 <section class="all-surveys-section">
   <nav>
-    <div>
-      <a href="">Active survey</a>
-      <a href="">Past survey</a>
+    <div class="survey">
+      <a class="survey survey__design" (click)="activeSurvey.set(!activeSurvey()); filterActivePastSurvey()" [class.isActive]="activeSurvey()">Active survey</a>
+      <a class="survey survey__design" (click)="pastSurvey.set(!pastSurvey()); filterActivePastSurvey()" [class.isActive]="pastSurvey()">Past survey</a>
     </div>
 
     <div class="category-select">
-      <button class="category-select__button" (click)="isActive.set(!isActive())" [class.isActive]="isActive()">
+      <button class="category-select__button" (click)="categoryIsActive.set(!categoryIsActive())" [class.isActive]="categoryIsActive()">
         <span
           >Sort by categories
-          <div class="category-select__button--state"  [class.isActive]="isActive()">
+          <div class="category-select__button--state"  [class.isActive]="categoryIsActive()">
             <img class="img-white" src="/assets/arrow_drop_down-down-white.svg" alt="" />
             <img class="img-hover" src="/assets/arrow_drop_down-down-orange.svg" alt="" />
             <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
@@ -18,7 +18,7 @@
       </button>
       <p class="used-category">{{usedCategory()}}</p>
 
-      <ul class="category-select__list" [class.isActive]="isActive()">
+      <ul class="category-select__list" [class.isActive]="categoryIsActive()">
         @for (categorie of categorylist; track categorie) {
             <li (click)="selectCategory(categorie)">{{categorie}}</li>
         }
