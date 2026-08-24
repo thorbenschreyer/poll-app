@@ -1,0 +1,61 @@
+.main-surveys {
+    margin: 0px 16px 0px 16px;
+    height: 100vh;
+    border: 1px solid red;
+}
+
+.your-surves-h2 {
+    font-family: 'Nerko-One';
+    font-size: 72px;
+    color: var(--primary-color-orange);
+    text-align: center;
+}
+
+.ending-surveys-section {
+    margin: 0px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-headline {
+    font-family: 'Mulish-Medium';
+    font-size: 32px;
+    color: rgba(255, 255, 255, 1);
+    margin: 40px 0px 32px 0px;
+
+}
+
+.ending-surveys {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.survey {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 321px;
+    height: 320px;
+    background-color: var(--bg-color-card);
+    border-top-right-radius: 80px;
+}
+
+.survey-detail {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 233px;
+    height: 210px;
+    border-radius: 1px;
+}
+
+.category {
+    margin-bottom: 24px;
+}
+
+.ending-batch {
+    position: absolute;
+    bottom: 0px;
+}

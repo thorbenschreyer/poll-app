@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
   templateUrl: './survey-overview.html',
   styleUrl: './survey-overview.scss',
 })
-export class SurveyOverview {}
+export class SurveyOverview {
+
+  day:number = 2;
+
+
+
+
+
+}

@@ -5,6 +5,7 @@
   --primary-color-orange: rgba(255, 183, 112, 1);
   --secondary-color-orange: rgba(255, 207, 161, 1);
   --bg-color-card: rgba(250, 245, 254, 1);
+  --white-color: rgba(255, 255, 255, 1);
 }
 
 @font-face {
@@ -56,19 +57,47 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Nokora-Regular';
+  src: url('../public/Font/Nokora//Nokora-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nokora-bold';
+  src: url('../public/Font/Nokora/Nokora-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nokora';
+  src: url('../public/Font/Nokora/Nokora-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Mulish-Regular', Arial, Helvetica, sans-serif;
+}
+
+a{
+  text-decoration: none;
 }
 
 .background-color {
   &--primary {
     background-color: var(--primary-color-purple);
   }
-  
 }
 
 .content-container {
   max-width: 1440px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
