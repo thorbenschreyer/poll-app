@@ -60,3 +60,15 @@
   margin: 0;
   padding: 0;
 }
+
+.background-color {
+  &--primary {
+    background-color: var(--primary-color-purple);
+  }
+  
+}
+
+.content-container {
+  max-width: 1440px;
+  margin: auto;
+}
