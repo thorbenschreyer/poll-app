@@ -7,8 +7,7 @@ import { Component, signal } from '@angular/core';
   styleUrl: './all-surveys.scss',
 })
 export class AllSurveys {
-  isOpen:boolean = true;
-  arrowState:number = 2;
-
+  
+  isActive = signal(false)
 
 }

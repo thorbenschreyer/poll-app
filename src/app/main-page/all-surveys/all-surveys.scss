@@ -6,12 +6,12 @@
 }
 
 nav {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .category-select {
-    position: relative;
+  position: relative;
 
   &__button {
     background-color: unset;
@@ -23,29 +23,43 @@ nav {
     font-size: 18px;
     transition: all ease-in-out 200ms;
 
-    &--state{
-        position: relative;
-        width: 24px;
-        height: 24px;
-        margin-left: 8px;
+    &.isActive {
+      border-radius: 6px;
+      background-color: rgba(217, 217, 217, 0.12);
+    }
+
+    &--state {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      margin-left: 8px;
+
+      &.isActive {
+        .img-hover,
+        .img-white {
+          opacity: 0;
+        }
+        .img-open {
+          opacity: 1;
+        }
+      }
     }
 
     &:hover {
-        border-radius: 6px;
-        background-color: rgba(217, 217, 217, 0.12);
-        .img-hover {
-            opacity: 1;
-        }
-        .img-white {
-            opacity: 0;
-        }
+      border-radius: 6px;
+      background-color: rgba(217, 217, 217, 0.12);
+      .img-hover {
+        opacity: 1;
+      }
+      .img-white {
+        opacity: 0;
+      }
     }
 
     > span {
       display: flex;
       justify-content: center;
       align-items: center;
-      
     }
   }
 
@@ -55,35 +69,39 @@ nav {
     list-style: none;
     font-size: 16px;
     margin-top: 4px;
-    font-style: "Mulish-Regular";
+    font-style: 'Mulish-Regular';
     color: rgba(53, 39, 58, 1);
     background-color: rgba(255, 255, 255, 1);
     border-radius: 6px;
-    opacity: 1;
-    
-    >li {
-        padding: 5px 8px;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
 
+    &.isActive {
+      opacity: 1;
+    }
+
+    > li {
+      padding: 5px 8px;
     }
   }
 }
 
 .img-white {
-    position: absolute;
-    right: 0px;
-    inset: 0;
+  position: absolute;
+  right: 0px;
+  inset: 0;
 }
 
 .img-hover {
-    position: absolute;
-    right: 0px;
-    inset: 0;
-    opacity: 0;
+  position: absolute;
+  right: 0px;
+  inset: 0;
+  opacity: 0;
 }
 
 .img-open {
-    position: absolute;
-    inset: 0;
-    right: 0px;
-    opacity: 0;
+  position: absolute;
+  inset: 0;
+  right: 0px;
+  opacity: 0;
 }

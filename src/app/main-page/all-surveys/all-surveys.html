@@ -6,10 +6,10 @@
     </div>
 
     <div class="category-select">
-      <button class="category-select__button">
+      <button class="category-select__button" (click)="isActive.set(!isActive())" [class.isActive]="isActive()">
         <span
           >Sort by categories
-          <div class="category-select__button--state">
+          <div class="category-select__button--state"  [class.isActive]="isActive()">
             <img class="img-white" src="/assets/arrow_drop_down-down-white.svg" alt="" />
             <img class="img-hover" src="/assets/arrow_drop_down-down-orange.svg" alt="" />
             <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
@@ -17,7 +17,7 @@
         </span>
       </button>
 
-      <ul class="category-select__list">
+      <ul class="category-select__list" [class.isActive]="isActive()">
         <li>All Surveys</li>
         <li>Team Activities</li>
         <li>Health & Wellness</li>
