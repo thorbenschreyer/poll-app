@@ -17,6 +17,13 @@ export class AllSurveys {
   sortedSurveylist = signal<Survey[]>(this.filterservice.surveyList());
   day = 1;
 
+  ngOnInit() {
+    let today = new Date()
+    console.log(today);
+  }
+
+
+
   categorylist = [
     'All Surveys',
     'Team Activities',
@@ -26,6 +33,10 @@ export class AllSurveys {
     'Lifestyle & Preferences',
     'Technology & Innovation',
   ];
+
+  filterDays() {
+    
+  }
 
   /**
    * Als erstes setzt diese funktion die verwendete Category.
