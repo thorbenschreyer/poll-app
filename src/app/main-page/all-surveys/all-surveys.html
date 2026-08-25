@@ -3,13 +3,13 @@
     <div class="survey-badge">
       <a
         class="survey-badge survey-badge__design"
-        (click)="filterservice.activeSurvey.set(!filterservice.activeSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),activeStatCategory)"
+        (click)="filterservice.activeSurvey.set(!filterservice.activeSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),this.usedCategory())"
         [class.isActive]="filterservice.activeSurvey()"
         >Active survey</a
       >
       <a
         class="survey-badge survey-badge__design"
-        (click)="filterservice.pastSurvey.set(!filterservice.pastSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),activeStatCategory)"
+        (click)="filterservice.pastSurvey.set(!filterservice.pastSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),this.usedCategory())"
         [class.isActive]="filterservice.pastSurvey()"
         >Past survey</a
       >

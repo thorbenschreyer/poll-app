@@ -12,9 +12,8 @@ import { Survey } from '../../interfaces/survey';
 })
 export class AllSurveys {
   categoryIsActive = signal(false);
-  usedCategory = signal('');
+  usedCategory = signal('All Surveys');
   day = 1;
-  activeStatCategory = "All Surveys"
 
   filterservice = inject(FilterService);
   sortedSurveylist = signal<Survey[]>(this.filterservice.surveyList());
@@ -22,8 +21,9 @@ export class AllSurveys {
 
   
   filterSurveyList(pastSurvey: boolean, activeSurvey: boolean, category: string) {
+    this.usedCategory.set(category);
     const newList:Survey[] = this.filterservice.filterByActivity(pastSurvey, activeSurvey)
-    this.sortedSurveylist.set(this.filterservice.filterByCategory(category, newList));
+    this.sortedSurveylist.set(this.filterservice.filterByCategory(this.usedCategory(), newList));
   }
 
 
