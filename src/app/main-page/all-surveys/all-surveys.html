@@ -1,28 +1,212 @@
 <section class="all-surveys-section">
   <nav>
-    <div class="survey">
-      <a class="survey survey__design" (click)="activeSurvey.set(!activeSurvey()); filterActivePastSurvey()" [class.isActive]="activeSurvey()">Active survey</a>
-      <a class="survey survey__design" (click)="pastSurvey.set(!pastSurvey()); filterActivePastSurvey()" [class.isActive]="pastSurvey()">Past survey</a>
+    <div class="survey-badge">
+      <a
+        class="survey-badge survey-badge__design"
+        (click)="activeSurvey.set(!activeSurvey()); filterActivePastSurvey()"
+        [class.isActive]="activeSurvey()"
+        >Active survey</a
+      >
+      <a
+        class="survey-badge survey-badge__design"
+        (click)="pastSurvey.set(!pastSurvey()); filterActivePastSurvey()"
+        [class.isActive]="pastSurvey()"
+        >Past survey</a
+      >
     </div>
 
     <div class="category-select">
-      <button class="category-select__button" (click)="categoryIsActive.set(!categoryIsActive())" [class.isActive]="categoryIsActive()">
+      <button
+        class="category-select__button"
+        (click)="categoryIsActive.set(!categoryIsActive())"
+        [class.isActive]="categoryIsActive()"
+      >
         <span
           >Sort by categories
-          <div class="category-select__button--state"  [class.isActive]="categoryIsActive()">
+          <div class="category-select__button--state" [class.isActive]="categoryIsActive()">
             <img class="img-white" src="/assets/arrow_drop_down-down-white.svg" alt="" />
             <img class="img-hover" src="/assets/arrow_drop_down-down-orange.svg" alt="" />
             <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
           </div>
         </span>
       </button>
-      <p class="used-category">{{usedCategory()}}</p>
+      <p class="used-category">{{ usedCategory() }}</p>
 
       <ul class="category-select__list" [class.isActive]="categoryIsActive()">
         @for (categorie of categorylist; track categorie) {
-            <li (click)="selectCategory(categorie)">{{categorie}}</li>
+          <li (click)="selectCategory(categorie)">{{ categorie }}</li>
         }
       </ul>
     </div>
   </nav>
+  <div class="all-surveys">
+    <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+        <div class="survey">
+      <div class="survey-detail">
+        <p class="category">Gaming & Entertainment</p>
+        <h3 class="survey-header">Gaming habits and favorite games!</h3>
+        <span class="ending-batch"
+          >Ends in {{ day }}
+          @if (day == 1) {
+            Day
+          } @else {
+            Days
+          }
+        </span>
+      </div>
+    </div>
+  </div>
 </section>

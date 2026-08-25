@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
+import { SurveyOverview } from '../survey-overview/survey-overview';
 
 @Component({
   selector: 'app-all-surveys',
-  imports: [],
+  imports: [SurveyOverview],
   templateUrl: './all-surveys.html',
   styleUrl: './all-surveys.scss',
 })
@@ -11,6 +12,7 @@ export class AllSurveys {
   usedCategory = signal('');
   pastSurvey = signal(false);
   activeSurvey = signal(false);
+  day = 1
 
   filterActivePastSurvey() {
     console.log("Past: " + this.pastSurvey)

@@ -1,6 +1,5 @@
 .all-surveys-section {
-  border: 1px solid red;
-  width: 1042px; // Remove #TODO
+  max-width: 1042px;
   margin: 0px 16px 128px 16px;
   height: 482px;
 }
@@ -8,6 +7,8 @@
 nav {
   display: flex;
   justify-content: space-between;
+  margin: 0px 6px;
+  margin-bottom: 8px;
 }
 
 .category-select {
@@ -75,10 +76,13 @@ nav {
     background-color: rgba(255, 255, 255, 1);
     border-radius: 6px;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 200ms ease-in-out;
 
     &.isActive {
       opacity: 1;
+      pointer-events: all;
+      z-index: 9999;
     }
 
     > li {
@@ -122,7 +126,7 @@ nav {
   color: var(--primary-color-orange);
 }
 
-.survey {
+.survey-badge {
   cursor: pointer;
   display: flex;
   flex-direction: row;
@@ -145,4 +149,80 @@ nav {
       background-color: var(--primary-color-orange);
     }
   }
+}
+
+.all-surveys {
+  margin: 32px 0px 0px 16px;
+  display: flex;
+  height: 422px;
+  overflow-y: auto;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.survey {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 493px;
+  height: 130px;
+  background-color: rgba(217, 217, 217, 0.08);
+  border-radius: 5px 50px 5px 5px;
+
+  &:hover {
+    background-color: rgba(217, 217, 217, 0.16);
+  }
+}
+
+.survey-detail {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 473px;
+  height: 104px;
+  border-radius: 1px;
+}
+
+.category {
+  font-family: 'Mulish-Medium';
+  color: var(--secondary-color-orange);
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.survey-header {
+  font-family: 'Mulish-Bold';
+  font-size: 24px;
+  color: rgba(255, 255, 255, 1);
+}
+
+.ending-batch {
+  position: absolute;
+  font-family: 'Mulish-Medium';
+  font-size: 16px;
+  bottom: 0px;
+  right: 0px;
+  background-color: var(--secondary-color-orange);
+  padding: 3px 6px;
+  border-top-right-radius: 14px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 64px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color-orange);
+  box-shadow: 3px 3px 3.2px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color-orange);
 }
