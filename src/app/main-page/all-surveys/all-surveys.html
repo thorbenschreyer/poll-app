@@ -34,7 +34,7 @@
 
       <ul class="category-select__list" [class.isActive]="categoryIsActive()">
         @for (categorie of categorylist; track categorie) {
-          <li (click)="filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),categorie)">{{ categorie }}</li>
+          <li (click)="categoryIsActive.set(!categoryIsActive()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),categorie)">{{ categorie }}</li>
         }
       </ul>
     </div>
