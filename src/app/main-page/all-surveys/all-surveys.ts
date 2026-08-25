@@ -18,11 +18,6 @@ export class AllSurveys {
   filterservice = inject(FilterService);
   sortedSurveylist = signal<Survey[]>(this.filterservice.surveyList());
 
-  filterActivePastSurvey() {
-    console.log(this.sortedSurveylist());
-    console.log('Active' + this.filterservice.activeSurvey());
-  }
-
   selectCategory(category: string) {
     this.usedCategory.set(category);
     this.categoryIsActive.set(!this.categoryIsActive());
@@ -32,6 +27,13 @@ export class AllSurveys {
       this.sortedSurveylist.set(this.filterservice.surveyList());
       this.usedCategory.set('');
     }
+  }
+
+  setActivityFilter() {
+    this.filterservice.filterByActivity(
+      this.filterservice.pastSurvey(),
+      this.filterservice.activeSurvey(),
+    );
   }
 
   categorylist = [
