@@ -3,13 +3,13 @@
     <div class="survey-badge">
       <a
         class="survey-badge survey-badge__design"
-        (click)="filterservice.activeSurvey.set(!filterservice.activeSurvey()); setActivityFilter()"
+        (click)="filterservice.activeSurvey.set(!filterservice.activeSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),activeStatCategory)"
         [class.isActive]="filterservice.activeSurvey()"
         >Active survey</a
       >
       <a
         class="survey-badge survey-badge__design"
-        (click)="filterservice.pastSurvey.set(!filterservice.pastSurvey()); setActivityFilter()"
+        (click)="filterservice.pastSurvey.set(!filterservice.pastSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),activeStatCategory)"
         [class.isActive]="filterservice.pastSurvey()"
         >Past survey</a
       >
@@ -34,7 +34,7 @@
 
       <ul class="category-select__list" [class.isActive]="categoryIsActive()">
         @for (categorie of categorylist; track categorie) {
-          <li (click)="selectCategory(categorie)">{{ categorie }}</li>
+          <li (click)="filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),categorie)">{{ categorie }}</li>
         }
       </ul>
     </div>

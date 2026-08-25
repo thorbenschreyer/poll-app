@@ -7,26 +7,27 @@ import { Survey } from '../interfaces/survey';
 export class FilterService {
   pastSurvey = signal(false);
   activeSurvey = signal(true);
+  
 
-  filterByCategory(category: string) {
+  filterByCategory(category: string, newList: Survey[]) {
     if (category == 'All Surveys') {
-      return this.surveyList();
+      return newList;
     } else {
-      return this.surveyList().filter((survey) => survey.category == category);
+      return newList.filter((survey) => survey.category == category);
     }
   }
 
   filterByActivity(pastSurvey: boolean, activeSurvey: boolean) {
-    if (this.activeSurvey() == true && this.pastSurvey() == true) {
+    if (activeSurvey == true && pastSurvey == true) {
       return this.surveyList();
-    } else if (this.activeSurvey() == false && this.pastSurvey() == false) {
+    } else if (activeSurvey == false && pastSurvey == false) {
       return [];
-    } else if (this.activeSurvey() == true) {
+    } else if (activeSurvey == true) {
       return this.surveyList().filter((survey) => survey.isActive == true);
-    } else if (this.pastSurvey() == true) {
+    } else if (pastSurvey == true) {
       return this.surveyList().filter((survey) => survey.isActive == false);
     }
-    return [];
+    return this.surveyList();
   }
 
   surveyList = signal<Survey[]>([

@@ -14,9 +14,18 @@ export class AllSurveys {
   categoryIsActive = signal(false);
   usedCategory = signal('');
   day = 1;
+  activeStatCategory = "All Surveys"
 
   filterservice = inject(FilterService);
   sortedSurveylist = signal<Survey[]>(this.filterservice.surveyList());
+
+
+  
+  filterSurveyList(pastSurvey: boolean, activeSurvey: boolean, category: string) {
+    const newList:Survey[] = this.filterservice.filterByActivity(pastSurvey, activeSurvey)
+    this.sortedSurveylist.set(this.filterservice.filterByCategory(category, newList));
+  }
+
 
   filterActivePastSurvey() {
     console.log(this.sortedSurveylist());
@@ -26,18 +35,21 @@ export class AllSurveys {
   selectCategory(category: string) {
     this.usedCategory.set(category);
     this.categoryIsActive.set(!this.categoryIsActive());
-    this.sortedSurveylist.set(this.filterservice.filterByCategory(category));
-    
+    this.filterSurveyList(this.filterservice.pastSurvey(), this.filterservice.activeSurvey(), category)
 
     if (this.usedCategory() == 'All Surveys') {
       this.sortedSurveylist.set(this.filterservice.surveyList());
       this.usedCategory.set('');
-      
     }
   }
 
   setActivityFilter() {
-    this.sortedSurveylist.set(this.filterservice.filterByActivity(this.filterservice.pastSurvey(), this.filterservice.activeSurvey()));
+    this.sortedSurveylist.set(
+      this.filterservice.filterByActivity(
+        this.filterservice.pastSurvey(),
+        this.filterservice.activeSurvey(),
+      ),
+    );
   }
 
   categorylist = [
