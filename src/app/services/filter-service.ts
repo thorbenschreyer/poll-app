@@ -17,18 +17,16 @@ export class FilterService {
   }
 
   filterByActivity(pastSurvey: boolean, activeSurvey: boolean) {
-     if (this.activeSurvey() == true && this.pastSurvey() == true) {
-      console.log("Zeige Beide");
+    if (this.activeSurvey() == true && this.pastSurvey() == true) {
+      return this.surveyList();
     } else if (this.activeSurvey() == false && this.pastSurvey() == false) {
-      console.log("Zeige KEINE");
+      return [];
     } else if (this.activeSurvey() == true) {
-      console.log("Zeige nur Aktive");
+      return this.surveyList().filter((survey) => survey.isActive == true);
     } else if (this.pastSurvey() == true) {
-      console.log("Zeige nur Vergangene");
-    
-    };
-    console.log("Active: " + this.activeSurvey());
-      console.log("Past: " + this.pastSurvey());
+      return this.surveyList().filter((survey) => survey.isActive == false);
+    }
+    return [];
   }
 
   surveyList = signal<Survey[]>([
