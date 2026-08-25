@@ -18,11 +18,8 @@ export class AllSurveys {
   day = 1;
 
   ngOnInit() {
-    let today = new Date()
-    console.log(today);
+    this.getDaysUntilSurveyExpires();
   }
-
-
 
   categorylist = [
     'All Surveys',
@@ -34,8 +31,19 @@ export class AllSurveys {
     'Technology & Innovation',
   ];
 
-  filterDays() {
-    
+  getDaysUntilSurveyExpires() {
+    const today: Date = new Date();
+    const msPerDay = 1000 * 60 * 60 * 24;
+    this.sortedSurveylist().forEach((element) => {
+      let ExpDayInList: Date = element.endDate;
+      let diffInMs = ExpDayInList.getTime() - today.getTime();
+      let daysUntilExpires = Math.ceil(diffInMs / msPerDay);
+      if (daysUntilExpires <= 0) {
+        element.surveyEnds = 0;
+      } else {
+        element.surveyEnds = daysUntilExpires;
+      }
+    });
   }
 
   /**

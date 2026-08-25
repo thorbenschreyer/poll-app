@@ -40,14 +40,14 @@
     </div>
   </nav>
   <div class="all-surveys">
-    @for (survey of sortedSurveylist(); track survey.surveyHeadline) {
+    @for (survey of sortedSurveylist(); track survey.id) {
       <article class="survey">
         <div class="survey-detail">
           <p class="category">{{ survey.category }}</p>
           <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
           <span class="ending-batch"
-            >Ends in {{ survey.endDate | date }}
-            @if (day == 1) {
+            >Ends in {{ survey.surveyEnds }}
+            @if (survey.surveyEnds == 1) {
               Day
             } @else {
               Days

@@ -171,7 +171,7 @@ export class FilterService {
       id: 18,
       category: 'Technology & Innovation',
       surveyHeadline: 'Wie offen bist du für neue Technologien?',
-      endDate: new Date('2026-10-18'),
+      endDate: new Date('2026-07-18'),
       isActive: false,
       surveyEnds: 0
     },
