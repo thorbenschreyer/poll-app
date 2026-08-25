@@ -4,6 +4,7 @@ import { FilterService } from '../../services/filter-service';
 import { DatePipe } from '@angular/common';
 import { Survey } from '../../interfaces/survey';
 
+
 @Component({
   selector: 'app-all-surveys',
   imports: [SurveyOverview, DatePipe],
@@ -15,7 +16,7 @@ export class AllSurveys {
   categoryIsActive = signal(false);
   usedCategory = signal('All Surveys');
   sortedSurveylist = signal<Survey[]>(this.filterservice.surveyList());
-  day = 1;
+  nextExpire = [];
 
   ngOnInit() {
     this.getDaysUntilSurveyExpires();
@@ -31,6 +32,9 @@ export class AllSurveys {
     'Technology & Innovation',
   ];
 
+  /**
+   * berechnet wieviele tage noch bis zum ende der umfrage bleiben
+   */
   getDaysUntilSurveyExpires() {
     const today: Date = new Date();
     const msPerDay = 1000 * 60 * 60 * 24;
@@ -40,11 +44,14 @@ export class AllSurveys {
       let daysUntilExpires = Math.ceil(diffInMs / msPerDay);
       if (daysUntilExpires <= 0) {
         element.surveyEnds = 0;
+        element.isActive = false;
       } else {
         element.surveyEnds = daysUntilExpires;
       }
     });
   }
+
+
 
   /**
    * Als erstes setzt diese funktion die verwendete Category.

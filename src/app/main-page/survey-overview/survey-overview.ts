@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AllSurveys } from '../all-surveys/all-surveys';
+import { FilterService } from '../../services/filter-service';
 
 @Component({
   selector: 'app-survey-overview',
@@ -7,11 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './survey-overview.scss',
 })
 export class SurveyOverview {
-
-  day:number = 2;
-
-
-
+  
+  filterservice = inject(FilterService)
+  day =2 
 
 
 }

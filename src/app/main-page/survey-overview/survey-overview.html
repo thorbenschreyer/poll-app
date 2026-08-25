@@ -3,48 +3,22 @@
   <section class="ending-surveys-section">
     <p class="sub-headline">Ending soon surveys</p>
     <div class="ending-surveys">
-      <div class="survey">
-        <div class="survey-detail">
-          <p class="category">Team activities</p>
-          <h3 class="survey-header">Let’s Plan the Next Team Event Together</h3>
-          <span class="ending-batch"
-            >Ends in {{ day }}
-            @if (day == 1) {
-              Day
-            } @else {
-              Days
-            }
-          </span>
+      @for (survey of this.filterservice.sortNextThreeExpDay(); track survey.id) {
+        <div class="survey">
+          <div class="survey-detail">
+            <p class="category">{{ survey.category }}</p>
+            <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
+            <span class="ending-batch"
+              >Ends in {{ survey.surveyEnds }}
+              @if (survey.surveyEnds == 1) {
+                Day
+              } @else {
+                Days
+              }
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="survey">
-        <div class="survey-detail">
-          <p class="category">Health & Wellness</p>
-          <h3 class="survey-header">Fit & wellness survey!</h3>
-          <span class="ending-batch"
-            >Ends in {{ day }}
-            @if (day == 1) {
-              Day
-            } @else {
-              Days
-            }
-          </span>
-        </div>
-      </div>
-      <div class="survey">
-        <div class="survey-detail">
-          <p class="category">Gaming & Entertainment</p>
-          <h3 class="survey-header">Gaming habits and favorite games!</h3>
-          <span class="ending-batch"
-            >Ends in {{ day }}
-            @if (day == 1) {
-              Day
-            } @else {
-              Days
-            }
-          </span>
-        </div>
-      </div>
+      }
     </div>
   </section>
   <section class="all-surveys"></section>
