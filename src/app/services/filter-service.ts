@@ -5,7 +5,20 @@ import { Survey } from '../interfaces/survey';
   providedIn: 'root',
 })
 export class FilterService {
+  pastSurvey = signal(false);
+  activeSurvey = signal(true);
+
+
+filterByCategory(category:string) {
+  if (category == "All Surveys") {
+    return this.surveyList();
+  } else {
+    return this.surveyList().filter(survey => survey.category == category)
+  }
+}
+ 
     
+
 surveyList = signal<Survey[]>([
   {
     category: 'Team Activities',
