@@ -1,9 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, Pipe, signal } from '@angular/core';
 import { SurveyOverview } from '../survey-overview/survey-overview';
+import { FilterService } from '../../services/filter-service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-all-surveys',
-  imports: [SurveyOverview],
+  imports: [SurveyOverview, DatePipe
+  ],
   templateUrl: './all-surveys.html',
   styleUrl: './all-surveys.scss',
 })
@@ -14,8 +17,11 @@ export class AllSurveys {
   activeSurvey = signal(false);
   day = 1
 
+  filterservice = inject(FilterService)
+  sortedSurveylist = this.filterservice.surveyList
+
   filterActivePastSurvey() {
-    console.log("Past: " + this.pastSurvey)
+    console.log(this.sortedSurveylist())
     console.log("Active" + this.activeSurvey)
   }
 
