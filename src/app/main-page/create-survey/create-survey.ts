@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 
@@ -9,6 +9,8 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
   styleUrl: './create-survey.scss',
 })
 export class CreateSurvey {
+
+  closeCreateSurvey = output<void>();
 
   surveyForm = new FormGroup ({
 

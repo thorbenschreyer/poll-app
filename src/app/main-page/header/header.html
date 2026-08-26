@@ -8,10 +8,12 @@
         Create and share surveys in minutes – from team events to workplace culture. Collect
         opinions, engage your audience, and turn feedback into action.
       </p>
-      <a routerLink='new-survey' class="btn">New survey <img class="btn-img" src="/assets/add_black.svg" alt=""></a>
+      <a (click)="createSurvey.emit()" class="btn">New survey <img class="btn-img" src="/assets/add_black.svg" alt=""></a>
     </div>
     <div class="header-img">
       <img class="header-img__nohover" src="/assets/backgound_noAnimate.png" alt="" />
       <img class="header-img__hover" src="/assets/backgound_Animate.png" alt="" />
     </div>
   </section>
+
+

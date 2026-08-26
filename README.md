@@ -60,8 +60,3 @@ For more information on using the Angular CLI, including detailed command refere
 
 
 
-
-
-Fragen: 
-- Animation, es fehlt die "Große" Grafik
-- Liste auf Startseite Im dummy kann ich aussen klicken und die liste bleibt offen. Soll diese zugehen wenn ich aussen klicke oder soll ich wirklich was auswählen müssen?

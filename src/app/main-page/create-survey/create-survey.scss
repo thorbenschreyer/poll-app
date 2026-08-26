@@ -1,13 +1,19 @@
 .new-survey-body {
+  position: fixed;
+  inset: 0;
+
+  width: 100vw;
   height: 100vh;
-  width: 100wh;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: white;
 }
 
 .content-container {
-  width: 1052;
+  width: 1052px;
   height: 668px;
 }
 

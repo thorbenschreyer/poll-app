@@ -7,7 +7,7 @@
           <h1 class="new-survey-h1">Create new survey</h1>
         </div>
         <div class="button-area">
-        <a routerLink="" (click)="this.surveyForm.reset()" class="cancel-button"> <span>Cancel</span>  <img src="/assets/close.svg" alt="" /></a>
+        <a (click)="surveyForm.reset(); closeCreateSurvey.emit()" class="cancel-button"> <span>Cancel</span>  <img src="/assets/close.svg" alt="" /></a>
         </div>
       </header>
 

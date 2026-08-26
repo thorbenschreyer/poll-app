@@ -1,13 +1,13 @@
 <div class="background-color--primary">
   <div class="content-container">
-    <app-header></app-header>
+    <app-header (createSurvey)="openCreateSurvey()"></app-header>
     <app-survey-overview></app-survey-overview>
     <app-all-surveys></app-all-surveys>
   </div>
 
-  <!-- 
+  
   #TODO - Use it as Dialog
-  @if (createSurveyIsActive()) {
-    <app-create-survey></app-create-survey>
-  }-->
+  @if (createSurveyisActive()) {
+    <app-create-survey (closeCreateSurvey)="closeCreateSurvey()"></app-create-survey>
+  }
 </div>
