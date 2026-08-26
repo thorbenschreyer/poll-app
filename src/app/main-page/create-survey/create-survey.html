@@ -7,40 +7,56 @@
           <h1 class="new-survey-h1">Create new survey</h1>
         </div>
         <div class="button-area">
-        <a (click)="surveyForm.reset(); closeCreateSurvey.emit()" class="cancel-button"> <span>Cancel</span>  <img src="/assets/close.svg" alt="" /></a>
+          <a (click)="surveyForm.reset(); closeCreateSurvey.emit()" class="cancel-button">
+            <span>Cancel</span> <img src="/assets/close.svg" alt=""
+          /></a>
         </div>
       </header>
 
       <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" action="">
         <div class="form-content">
-        <section class="describing-section">
+          <section class="describing-section">
+            <div class="name-date-form">
+              <label class="" for="name">Survey name</label>
+              <p class="input">
+                <input class="input__field" id="name" type="text" /><img
+                  class="input__img"
+                  src="/assets/delete_white.svg"
+                  alt=""
+                />
+              </p>
 
-          <div class="name-date-form">
-
-            <label class="" for="name">Survey name</label>
-            <p><input id="name" type="text"><img src="/assets/delete_white.svg" alt=""></p>
-
-            <div>
-              <label for="">Set end date (optional)</label>
-              <p><input type="date"><img src="/assets/delete_white.svg" alt=""></p>
+              <div class="date-category-form">
+                <div>
+                <label for="">Set end date (optional)</label>
+                <p class="input">
+                  <input class="input__field" type="date" /><img
+                    class="input__img"
+                    src="/assets/delete_white.svg"
+                    alt=""
+                  />
+                </p>
+                </div>
+                <label>Unorderd list</label>
+              </div>
+              
             </div>
 
-          </div>
-
-          <div class="description-form">
-
-          </div>
-        </section>
-        <section class="question-section">
-
-        </section>
+            <div class="description-form">
+              <label for="">Describing text (optional)</label>
+              <p class="input input--description">
+                <textarea class="input__field input__field--description" type="text"></textarea
+                ><img class="input__img" src="/assets/delete_white.svg" alt="" />
+              </p>
+            </div>
+          </section>
+          <section class="question-section"></section>
         </div>
       </form>
 
       <footer>
-        <a class="btn">Publish <img class="btn-img" src="/assets/check.svg" alt=""></a>
+        <a class="btn">Publish <img class="btn-img" src="/assets/check.svg" alt="" /></a>
       </footer>
     </div>
   </section>
 </div>
-

@@ -101,16 +101,68 @@ form {
 }
 
 .form-content {
-  border: 1px solid red;
   max-width: 976px;
   width: 100%;
   max-height: 420px;
   height: 100%;
 }
 
-.describing-section{
+.describing-section {
+  display: flex;
+  gap: 48px;
+}
+
+.name-date-form {
   display: flex;
   flex-direction: column;
+  width: 470px;
+}
+
+.description-form {
+  flex: 1;
+  height: 100%;
+}
+
+label {
+  color: rgba(254, 253, 255, 1);
+  font-family: 'Mulish-Bold';
+  font-size: 16px;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &--description {
+    align-items: unset;
+  }
+
+  &__field {
+    height: 27px;
+    margin: 4px 0px 12px 0px;
+    border-radius: 5px 20px 5px 5px;
+    border: none;
+    width: 100%;
+
+    &--description {
+      height: 92px;
+      align-items: none;
+    }
+  }
+
+  &__img {
+    width: 21px;
+    height: 23px;
+    margin-bottom: 4px;
+    margin-left: 4px;
+  }
+}
+
+.date-category-form {
+  display: flex;
+  justify-content: space-between;
+  
 }
 
 footer {
@@ -118,7 +170,6 @@ footer {
   width: 100%;
   display: flex;
   justify-content: end;
-
 }
 
 .btn-img {
