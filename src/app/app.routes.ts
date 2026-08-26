@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { MainPage } from './main-page/main-page';
 import { SurveyView } from './surveys/survey-view/survey-view';
-import { CreateSurvey } from './surveys/create-survey/create-survey';
 import { ErrorPage } from './error-page/error-page';
+import { CreateSurvey } from './main-page/create-survey/create-survey';
 
 export const routes: Routes = [
     { path: "", component:MainPage},

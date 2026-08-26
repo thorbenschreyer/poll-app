@@ -1,0 +1,21 @@
+<div class="new-survey-body">
+  <section class="new-survey-section">
+    <div class="content-container">
+      <header class="survey-header">
+        <div>
+          <p class="batch">Draft</p>
+          <h1 class="new-survey-h1">Create new survey</h1>
+        </div>
+        <div class="button-area">
+        <a routerLink="" (click)="this.surveyForm.reset()" class="cancel-button"> <span>Cancel</span>  <img src="/assets/close.svg" alt="" /></a>
+        </div>
+      </header>
+
+      <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" action=""></form>
+
+      <footer>
+        <a></a>
+      </footer>
+    </div>
+  </section>
+</div>
