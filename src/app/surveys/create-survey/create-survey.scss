@@ -1,0 +1,14 @@
+.new-survey-body {
+    height: 100vh;
+    width: 100wh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-survey-section {
+    width: 1166px;
+    height: 844px;
+    background-color: var(--primary-color-purple);
+    border-radius: 5px 100px 5px 5px;
+}
