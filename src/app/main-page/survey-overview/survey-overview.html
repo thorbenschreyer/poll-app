@@ -3,23 +3,27 @@
   <section class="ending-surveys-section">
     <p class="sub-headline">Ending soon surveys</p>
     <div class="ending-surveys">
-      @for (survey of this.filterservice.sortNextThreeExpDay(); track survey.id) {
-        <div class="survey">
-          <div class="survey-detail">
-            <p class="category">{{ survey.category }}</p>
-            <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
-            <span class="ending-batch"
-              >Ends in {{ survey.surveyEnds }}
-              @if (survey.surveyEnds == 1) {
-                Day
-              } @else {
-                Days
-              }
-            </span>
+      @if (this.filterservice.sortNextThreeExpDay().length == 0) {
+        <p>No surveys avilable</p>
+        <!-- #TODO Style -->
+      } @else {
+        @for (survey of this.filterservice.sortNextThreeExpDay(); track survey.id) {
+          <div class="survey">
+            <div class="survey-detail">
+              <p class="category">{{ survey.category }}</p>
+              <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
+              <span class="ending-batch"
+                >Ends in {{ survey.surveyEnds }}
+                @if (survey.surveyEnds == 1) {
+                  Day
+                } @else {
+                  Days
+                }
+              </span>
+            </div>
           </div>
-        </div>
+        }
       }
     </div>
   </section>
-  <section class="all-surveys"></section>
 </section>

@@ -3,13 +3,27 @@
     <div class="survey-badge">
       <a
         class="survey-badge survey-badge__design"
-        (click)="filterservice.activeSurvey.set(!filterservice.activeSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),this.usedCategory())"
+        (click)="
+          filterservice.activeSurvey.set(!filterservice.activeSurvey());
+          filterSurveyList(
+            filterservice.pastSurvey(),
+            filterservice.activeSurvey(),
+            this.usedCategory()
+          )
+        "
         [class.isActive]="filterservice.activeSurvey()"
         >Active survey</a
       >
       <a
         class="survey-badge survey-badge__design"
-        (click)="filterservice.pastSurvey.set(!filterservice.pastSurvey()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),this.usedCategory())"
+        (click)="
+          filterservice.pastSurvey.set(!filterservice.pastSurvey());
+          filterSurveyList(
+            filterservice.pastSurvey(),
+            filterservice.activeSurvey(),
+            this.usedCategory()
+          )
+        "
         [class.isActive]="filterservice.pastSurvey()"
         >Past survey</a
       >
@@ -34,27 +48,38 @@
 
       <ul class="category-select__list" [class.isActive]="categoryIsActive()">
         @for (categorie of categorylist; track categorie) {
-          <li (click)="categoryIsActive.set(!categoryIsActive()); filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(),categorie)">{{ categorie }}</li>
+          <li
+            (click)="
+              categoryIsActive.set(!categoryIsActive());
+              filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(), categorie)
+            "
+          >
+            {{ categorie }}
+          </li>
         }
       </ul>
     </div>
   </nav>
   <div class="all-surveys">
-    @for (survey of sortedSurveylist(); track survey.id) {
-      <article class="survey">
-        <div class="survey-detail">
-          <p class="category">{{ survey.category }}</p>
-          <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
-          <span class="ending-batch"
-            >Ends in {{ survey.surveyEnds }}
-            @if (survey.surveyEnds == 1) {
-              Day
-            } @else {
-              Days
-            }
-          </span>
-        </div>
-      </article>
+    @if (sortedSurveylist().length == 0) {
+      <p>No surveys avilable</p> <!-- #TODO Style -->
+    } @else {
+      @for (survey of sortedSurveylist(); track survey.id) {
+        <article class="survey">
+          <div class="survey-detail">
+            <p class="category">{{ survey.category }}</p>
+            <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
+            <span class="ending-batch"
+              >Ends in {{ survey.surveyEnds }}
+              @if (survey.surveyEnds == 1) {
+                Day
+              } @else {
+                Days
+              }
+            </span>
+          </div>
+        </article>
+      }
     }
   </div>
 </section>
