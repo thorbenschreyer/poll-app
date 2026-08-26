@@ -152,13 +152,13 @@ nav {
 }
 
 .all-surveys {
-  //#TODO Width wenn keine surveys mehr da sind
   margin: 32px 0px 0px 16px;
   display: flex;
   max-height: 422px;
   overflow-y: auto;
   gap: 16px;
   flex-wrap: wrap;
+  width: 1042px;
 }
 
 .survey {
