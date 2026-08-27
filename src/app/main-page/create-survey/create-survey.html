@@ -1,235 +1,101 @@
 <div class="new-survey-body">
   <section class="new-survey-section">
     <div class="content-container">
-
       <header class="survey-header">
         <div>
           <p class="batch">Draft</p>
           <h1 class="new-survey-h1">Create new survey</h1>
         </div>
-
         <div class="button-area">
-          <button
-            type="button"
-            (click)="surveyForm.reset(); closeCreateSurvey.emit()"
-            class="cancel-button"
-          >
-            <span>Cancel</span>
-            <img src="/assets/close.svg" alt="" />
-          </button>
+          <a (click)="surveyForm.reset(); closeCreateSurvey.emit()" class="cancel-button">
+            <span>Cancel</span> <img src="/assets/close.svg" alt=""
+          /></a>
         </div>
       </header>
 
-      <main>
-        <form
-          [formGroup]="surveyForm"
-          (ngSubmit)="onSubmit()"
-        >
-
-          <section class="form-content">
-
-            <!-- Survey information -->
-            <section class="describing-section" aria-labelledby="survey-information-heading">
-
-              <h2 id="survey-information-heading" class="sr-only">
-                Survey information
-              </h2>
-
-              <fieldset class="name-date-form">
-
-                <legend class="sr-only">
-                  Basic survey information
-                </legend>
-
-                <!-- Survey name -->
-                <div class="form-field">
-                  <label for="name">Survey name</label>
-
-                  <div class="input">
-                    <input
-                      class="input__field"
-                      id="name"
-                      type="text"
-                    />
-
-                    <button type="button" class="input__img" aria-label="Clear survey name">
-                      <img
-                        src="/assets/delete_white.svg"
-                        alt=""
-                      />
-                      <img
-                        class="input__img--hover"
-                        src="/assets/delete_orange.svg"
-                        alt=""
-                      />
-                    </button>
-                  </div>
-                </div>
-
-                <div class="date-category-form">
-
-                  <!-- End date -->
-                  <div class="form-field">
-                    <label for="enddate">
-                      Set end date (optional)
-                    </label>
-
-                    <div class="input input--enddate">
-                      <input
-                        id="enddate"
-                        class="input__field"
-                        type="date"
-                      />
-
-                      <button
-                        type="button"
-                        class="input__img"
-                        aria-label="Clear end date"
-                      >
-                        <img
-                          src="/assets/delete_white.svg"
-                          alt=""
-                        />
-                        <img
-                          class="input__img--hover"
-                          src="/assets/delete_orange.svg"
-                          alt=""
-                        />
-                      </button>
-                    </div>
-                  </div>
-
-                  <!-- Category -->
-                  <div class="form-field category-select">
-                    <label id="category-label">
-                      Category
-                    </label>
-
-                    <div class="category-select__control">
-                      <button
-                        type="button"
-                        class="category-select__button"
-                        (click)="categoryIsShown.set(!categoryIsShown())"
-                        [class.isActive]="categoryIsShown()"
-                        aria-haspopup="listbox"
-                        [attr.aria-expanded]="categoryIsShown()"
-                        aria-labelledby="category-label"
-                      >
-                        <span>
-                          Sort by categories
-
-                          <span
-                            class="category-select__button--state"
-                            [class.isActive]="categoryIsShown()"
-                            aria-hidden="true"
-                          >
-                            <img
-                              class="img-white"
-                              src="/assets/arrow_drop_down-down-white.svg"
-                              alt=""
-                            />
-
-                            <img
-                              class="img-hover"
-                              src="/assets/arrow_drop_down-down-orange.svg"
-                              alt=""
-                            />
-
-                            <img
-                              class="img-open"
-                              src="/assets/arrow_drop_down-up-orange.svg"
-                              alt=""
-                            />
-                          </span>
-                        </span>
-                      </button>
-
-                      <ul
-                        class="category-select__list"
-                        [class.isActive]="categoryIsShown()"
-                        role="listbox"
-                        aria-labelledby="category-label"
-                      >
-                        @for (categorie of categorylist; track categorie) {
-                          <li
-                            role="option"
-                            (click)="categoryIsShown.set(false); setCategory(categorie)"
-                          >
-                            {{ categorie }}
-                          </li>
-                        }
-                      </ul>
-                    </div>
-                  </div>
-
-                </div>
-
-              </fieldset>
-
-              <!-- Survey description -->
-              <div class="description-form form-field">
-                <label for="describing">
-                  Describing text (optional)
-                </label>
-
-                <div class="input input--description">
-                  <textarea
-                    id="describing"
-                    class="input__field input__field--description"
-                  ></textarea>
-
-                  <button
-                    type="button"
-                    class="input__img"
-                    aria-label="Clear description"
-                  >
-                    <img
-                      src="/assets/delete_white.svg"
-                      alt=""
-                    />
-
-                    <img
-                      class="input__img--hover"
-                      src="/assets/delete_orange.svg"
-                      alt=""
-                    />
-                  </button>
+      <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" action="">
+        <div class="form-content">
+          <section class="describing-section">
+            <div class="name-date-form">
+              <!-- Input name -->
+              <label for="name">Survey name</label>
+              <div class="input">
+                <input class="input__field" id="name" type="text" />
+                <div class="input__img">
+                  <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                  <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                 </div>
               </div>
 
-            </section>
+              <!-- Input date -->
+              <div class="date-category-form">
+                <div>
+                  <label for="enddate">Set end date (optional)</label>
+                  <div class="input input--enddate">
+                    <input id="enddate" class="input__field" type="date" />
+                    <div class="input__img">
+                      <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                      <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                    </div>
+                  </div>
+                </div>
 
+                <!-- select category -->
+                <div class="category-select">
+                  <button
+                    class="category-select__button"
+                    (click)="categoryIsShown.set(!categoryIsShown())"
+                    [class.isActive]="categoryIsShown()"
+                  >
+                    <span
+                      >Sort by categories
+                      <div
+                        class="category-select__button--state"
+                        [class.isActive]="categoryIsShown()"
+                      >
+                        <img
+                          class="img-white"
+                          src="/assets/arrow_drop_down-down-white.svg"
+                          alt=""
+                        />
+                        <img
+                          class="img-hover"
+                          src="/assets/arrow_drop_down-down-orange.svg"
+                          alt=""
+                        />
+                        <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
+                      </div>
+                    </span>
+                  </button>
 
-            <!-- Survey questions -->
-            <section
-              class="question-section"
-              aria-labelledby="questions-heading"
-            >
+                  <ul class="category-select__list" [class.isActive]="categoryIsShown()">
+                    @for (categorie of categorylist; track categorie;) {
+                      <li (click)="categoryIsShown.set(!categoryIsShown()); setCategory(categorie)">
+                        {{ categorie }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-              <h2 id="questions-heading">
-                Questions
-              </h2>
-
-              <!-- Questions will be added here -->
-
-            </section>
-
+            <div class="description-form">
+              <label for="describing">Describing text (optional)</label>
+              <div class="input input--description">
+                <textarea id="describing" class="input__field input__field--description" type="text"></textarea>
+                <div class="input__img">
+                  <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                  <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                </div>
+              </div>
+            </div>
           </section>
-
-          <footer>
-            <button type="submit" class="btn">
-              Publish
-              <img
-                class="btn-img"
-                src="/assets/check.svg"
-                alt=""
-              />
-            </button>
-          </footer>
-
-        </form>
-      </main>
-
+          <section class="question-section"></section>
+        </div>
+      </form>
+      <footer>
+        <a class="btn">Publish <img class="btn-img" src="/assets/check.svg" alt="" /></a>
+      </footer>
     </div>
   </section>
 </div>
