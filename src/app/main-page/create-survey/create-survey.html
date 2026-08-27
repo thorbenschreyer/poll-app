@@ -6,14 +6,20 @@
           <p class="batch">Draft</p>
           <h1 class="new-survey-h1">Create new survey</h1>
         </div>
+
         <div class="button-area">
-          <a (click)="surveyForm.reset(); closeCreateSurvey.emit()" class="cancel-button">
-            <span>Cancel</span> <img src="/assets/close.svg" alt=""
-          /></a>
+          <a
+            type="button"
+            (click)="surveyForm.reset(); closeCreateSurvey.emit()"
+            class="cancel-button"
+          >
+            <span>Cancel</span>
+            <img src="/assets/close.svg" alt="" />
+          </a>
         </div>
       </header>
 
-      <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" action="">
+      <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
         <div class="form-content">
           <section class="describing-section">
             <div class="name-date-form">
@@ -43,13 +49,14 @@
                 <!-- select category -->
                 <div class="category-select">
                   <button
+                    type="button"
                     class="category-select__button"
                     (click)="categoryIsShown.set(!categoryIsShown())"
                     [class.isActive]="categoryIsShown()"
                   >
-                    <span
-                      >Sort by categories
-                      <div
+                    <span>
+                      Sort by categories
+                      <span
                         class="category-select__button--state"
                         [class.isActive]="categoryIsShown()"
                       >
@@ -63,13 +70,17 @@
                           src="/assets/arrow_drop_down-down-orange.svg"
                           alt=""
                         />
-                        <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
-                      </div>
+                        <img
+                          class="img-open"
+                          src="/assets/arrow_drop_down-up-orange.svg"
+                          alt=""
+                        />
+                      </span>
                     </span>
                   </button>
 
                   <ul class="category-select__list" [class.isActive]="categoryIsShown()">
-                    @for (categorie of categorylist; track categorie;) {
+                    @for (categorie of categorylist; track categorie) {
                       <li (click)="categoryIsShown.set(!categoryIsShown()); setCategory(categorie)">
                         {{ categorie }}
                       </li>
@@ -82,7 +93,10 @@
             <div class="description-form">
               <label for="describing">Describing text (optional)</label>
               <div class="input input--description">
-                <textarea id="describing" class="input__field input__field--description" type="text"></textarea>
+                <textarea
+                  id="describing"
+                  class="input__field input__field--description"
+                ></textarea>
                 <div class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -90,11 +104,16 @@
               </div>
             </div>
           </section>
+
           <section class="question-section"></section>
         </div>
       </form>
+
       <footer>
-        <a class="btn">Publish <img class="btn-img" src="/assets/check.svg" alt="" /></a>
+        <a type="submit" class="btn">
+          Publish
+          <img class="btn-img" src="/assets/check.svg" alt="" />
+        </a>
       </footer>
     </div>
   </section>
