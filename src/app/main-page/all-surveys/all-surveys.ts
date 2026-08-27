@@ -1,9 +1,8 @@
-import { Component, inject, Pipe, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Pipe, signal } from '@angular/core';
 import { SurveyOverview } from '../survey-overview/survey-overview';
 import { FilterService } from '../../services/filter-service';
 import { DatePipe } from '@angular/common';
 import { Survey } from '../../interfaces/survey';
-
 
 @Component({
   selector: 'app-all-surveys',
@@ -12,6 +11,8 @@ import { Survey } from '../../interfaces/survey';
   styleUrl: './all-surveys.scss',
 })
 export class AllSurveys {
+  constructor(private elementRef: ElementRef) {}
+
   filterservice = inject(FilterService);
   categoryIsActive = signal(false);
   usedCategory = signal('All Surveys');
@@ -20,6 +21,13 @@ export class AllSurveys {
 
   ngOnInit() {
     this.getDaysUntilSurveyExpires();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.categoryIsActive.set(false);
+    }
   }
 
   categorylist = [
@@ -50,8 +58,6 @@ export class AllSurveys {
       }
     });
   }
-
-
 
   /**
    * Als erstes setzt diese funktion die verwendete Category.

@@ -28,41 +28,47 @@
         >Past survey</a
       >
     </div>
+    <div class="select-container">
+      <div class="category-select">
+        <button
+          class="category-select__button"
+          (click)="categoryIsActive.set(!categoryIsActive())"
+          [class.isActive]="categoryIsActive()"
+        >
+          <span
+            >Sort by categories
+            <div class="category-select__button--state" [class.isActive]="categoryIsActive()">
+              <img class="img-white" src="/assets/arrow_drop_down-down-white.svg" alt="" />
+              <img class="img-hover" src="/assets/arrow_drop_down-down-orange.svg" alt="" />
+              <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
+            </div>
+          </span>
+        </button>
+        <p class="used-category">{{ usedCategory() }}</p>
 
-    <div class="category-select">
-      <button
-        class="category-select__button"
-        (click)="categoryIsActive.set(!categoryIsActive())"
-        [class.isActive]="categoryIsActive()"
-      >
-        <span
-          >Sort by categories
-          <div class="category-select__button--state" [class.isActive]="categoryIsActive()">
-            <img class="img-white" src="/assets/arrow_drop_down-down-white.svg" alt="" />
-            <img class="img-hover" src="/assets/arrow_drop_down-down-orange.svg" alt="" />
-            <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
-          </div>
-        </span>
-      </button>
-      <p class="used-category">{{ usedCategory() }}</p>
-
-      <ul class="category-select__list" [class.isActive]="categoryIsActive()">
-        @for (categorie of categorylist; track categorie) {
-          <li
-            (click)="
-              categoryIsActive.set(!categoryIsActive());
-              filterSurveyList(filterservice.pastSurvey(), filterservice.activeSurvey(), categorie)
-            "
-          >
-            {{ categorie }}
-          </li>
-        }
-      </ul>
+        <ul class="category-select__list" [class.isActive]="categoryIsActive()">
+          @for (categorie of categorylist; track categorie) {
+            <li
+              (click)="
+                categoryIsActive.set(!categoryIsActive());
+                filterSurveyList(
+                  filterservice.pastSurvey(),
+                  filterservice.activeSurvey(),
+                  categorie
+                )
+              "
+            >
+              {{ categorie }}
+            </li>
+          }
+        </ul>
+      </div>
     </div>
   </nav>
   <div class="all-surveys">
     @if (sortedSurveylist().length == 0) {
-      <p>No surveys avilable</p> <!-- #TODO Style -->
+      <p>No surveys avilable</p>
+      <!-- #TODO Style -->
     } @else {
       @for (survey of sortedSurveylist(); track survey.id) {
         <article class="survey">

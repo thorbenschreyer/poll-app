@@ -17,43 +17,82 @@
         <div class="form-content">
           <section class="describing-section">
             <div class="name-date-form">
-              <label class="" for="name">Survey name</label>
-              <p class="input">
-                <input class="input__field" id="name" type="text" /><img
-                  class="input__img"
-                  src="/assets/delete_white.svg"
-                  alt=""
-                />
-              </p>
+              <!-- Input name -->
+              <label for="name">Survey name</label>
+              <div class="input">
+                <input class="input__field" id="name" type="text" />
+                <div class="input__img">
+                  <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                  <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                </div>
+              </div>
 
+              <!-- Input date -->
               <div class="date-category-form">
                 <div>
-                <label for="">Set end date (optional)</label>
-                <p class="input">
-                  <input class="input__field" type="date" /><img
-                    class="input__img"
-                    src="/assets/delete_white.svg"
-                    alt=""
-                  />
-                </p>
+                  <label for="enddate">Set end date (optional)</label>
+                  <div class="input input--enddate">
+                    <input id="enddate" class="input__field" type="date" />
+                    <div class="input__img">
+                      <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                      <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                    </div>
+                  </div>
                 </div>
-                <label>Unorderd list</label>
+
+                <!-- select category -->
+                <div class="category-select">
+                  <button
+                    class="category-select__button"
+                    (click)="categoryIsShown.set(!categoryIsShown())"
+                    [class.isActive]="categoryIsShown()"
+                  >
+                    <span
+                      >Sort by categories
+                      <div
+                        class="category-select__button--state"
+                        [class.isActive]="categoryIsShown()"
+                      >
+                        <img
+                          class="img-white"
+                          src="/assets/arrow_drop_down-down-white.svg"
+                          alt=""
+                        />
+                        <img
+                          class="img-hover"
+                          src="/assets/arrow_drop_down-down-orange.svg"
+                          alt=""
+                        />
+                        <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
+                      </div>
+                    </span>
+                  </button>
+
+                  <ul class="category-select__list" [class.isActive]="categoryIsShown()">
+                    @for (categorie of categorylist; track categorie;) {
+                      <li (click)="categoryIsShown.set(!categoryIsShown()); setCategory(categorie)">
+                        {{ categorie }}
+                      </li>
+                    }
+                  </ul>
+                </div>
               </div>
-              
             </div>
 
             <div class="description-form">
-              <label for="">Describing text (optional)</label>
-              <p class="input input--description">
-                <textarea class="input__field input__field--description" type="text"></textarea
-                ><img class="input__img" src="/assets/delete_white.svg" alt="" />
-              </p>
+              <label for="describing">Describing text (optional)</label>
+              <div class="input input--description">
+                <textarea id="describing" class="input__field input__field--description" type="text"></textarea>
+                <div class="input__img">
+                  <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                  <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                </div>
+              </div>
             </div>
           </section>
           <section class="question-section"></section>
         </div>
       </form>
-
       <footer>
         <a class="btn">Publish <img class="btn-img" src="/assets/check.svg" alt="" /></a>
       </footer>
