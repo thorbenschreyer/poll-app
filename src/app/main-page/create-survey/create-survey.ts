@@ -14,18 +14,12 @@ export class CreateSurvey {
   categoryIsShown = signal(false);
   closeCreateSurvey = output<void>();
   questions = inject(Questions)
-  
-
-  arrayAnswers = signal(this.questions.arrayAnswers)
-  arrayQuestions = signal(this.questions.arrayQuestions)
-  numberOfQuestions = signal(this.questions.numberOfQuestions)
-  numberOfAnswers = signal(this.questions.numberOfAnswers)
   surveyForm = new FormGroup({});
 
   setCategory(category: string) {
     console.log(category);
   }
-
+/*
   addElement(questionOrAnswer: string) {
     if (questionOrAnswer == 'question') {
       this.arrayQuestions.update((questions) => [...questions, '']);
@@ -46,7 +40,7 @@ export class CreateSurvey {
       this.arrayAnswers.update((answers) => answers.filter((_, i) => i !== id));
     }
   }
-
+*/
   onSubmit() {
     console.log(this.surveyForm.value); // Zeigt die eingegebenen Daten an
   }
