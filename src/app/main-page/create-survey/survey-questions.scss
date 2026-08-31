@@ -127,3 +127,30 @@
   border-bottom: 1px solid currentColor;
   margin-left: 30px;
 }
+
+.add-question-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: rgba(255, 183, 112, 0.3);
+  width: 195px;
+  height: 40px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  transition: all ease-in-out 250ms;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(174, 126, 90);
+  }
+  > span {
+    color: rgba(254, 253, 255, 1);
+    font-family: 'Nokora-bold';
+    font-size: 16px;
+  }
+
+  > img {
+    width: 16px;
+    height: 16px;
+  }
+}

@@ -105,7 +105,7 @@
               <!-- Question -->
               <section class="question-head">
                 <div class="question-head--asked-question">
-                  <label for="question">{{ numberOfQuestions }}. Question</label>
+                  <label for="question">{{ $index + 1 }}. Question</label>
                   <div class="input__img">
                     <img class="input__img" src="/assets/delete_white.svg" alt="" />
                     <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -140,6 +140,9 @@
               </section>
             </div>
             }
+           
+            <a  class="add-question-button" href=""><span>Add next question</span><img src="/assets/add_white.svg" alt="" /></a>
+          
           </section>
         </div>
       </form>

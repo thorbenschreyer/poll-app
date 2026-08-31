@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./create-survey.scss', './survey-questions.scss'],
 })
 export class CreateSurvey {
-  numberOfQuestions = 3;
+  numberOfQuestions = 2;
   numberOfAnswers = 3;
 
   get questionIndexes() {
