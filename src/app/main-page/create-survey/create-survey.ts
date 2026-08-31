@@ -1,32 +1,50 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, Inject, inject, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { Questions } from '../../services/questions';
 
 @Component({
   selector: 'app-create-survey',
   imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './create-survey.html',
   styleUrls: ['./create-survey.scss', './survey-questions.scss'],
+  providers: [Questions],
 })
 export class CreateSurvey {
-  numberOfQuestions = 2;
-  numberOfAnswers = 3;
-
-  get questionIndexes() {
-    return Array.from({ length: this.numberOfQuestions });
-  }
-
-  get answerIndexes() {
-    return Array.from({ length: this.numberOfAnswers });
-  }
-
   categoryIsShown = signal(false);
   closeCreateSurvey = output<void>();
+  questions = inject(Questions)
+  
 
+  arrayAnswers = signal(this.questions.arrayAnswers)
+  arrayQuestions = signal(this.questions.arrayQuestions)
+  numberOfQuestions = signal(this.questions.numberOfQuestions)
+  numberOfAnswers = signal(this.questions.numberOfAnswers)
   surveyForm = new FormGroup({});
 
   setCategory(category: string) {
     console.log(category);
+  }
+
+  addElement(questionOrAnswer: string) {
+    if (questionOrAnswer == 'question') {
+      this.arrayQuestions.update((questions) => [...questions, '']);
+    }
+    if (questionOrAnswer == 'answer') {
+      if (this.numberOfAnswers() == 6) {
+        return;
+      }
+      this.arrayAnswers.update((answers) => [...answers, '']);
+    }
+  }
+
+  removeElement(questionOrAnswer: string, id: number) {
+    if (questionOrAnswer == 'question' && this.numberOfQuestions() > 1) {
+      this.arrayQuestions.update((questions) => questions.filter((_, i) => i !== id));
+    }
+    if (questionOrAnswer == 'answer' && this.numberOfAnswers() > 1) {
+      this.arrayAnswers.update((answers) => answers.filter((_, i) => i !== id));
+    }
   }
 
   onSubmit() {
