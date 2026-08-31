@@ -1,0 +1,129 @@
+.question-section {
+  display: flex;
+  max-width: 986px;
+  width: 100%;
+  column-gap: 88px;
+  row-gap: 16px;
+  flex-wrap: wrap;
+  max-height: 315px;
+  height: 100%;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 64px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-color-orange);
+    box-shadow: 3px 3px 3.2px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color-orange);
+  }
+}
+
+.question-head {
+  display: flex;
+  flex-direction: column;
+
+  &--asked-question {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.question {
+  max-width: 429px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.answer {
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0px 8px 0px;
+    width: 100%;
+  }
+
+  &__checkbox {
+    &--text {
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 1);
+      font-size: 14px;
+      font-family: 'Mulish-Regular';
+    }
+
+    &--checkbox {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      margin-right: 4px;
+
+      background-image: url('/assets/checkbox_unchecked_white.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      cursor: pointer;
+
+      &:hover {
+        background-image: url('/assets/checkbox_hover.svg');
+      }
+
+      &:checked {
+        background-image: url('/assets/checkbox_checked.svg');
+      }
+    }
+  }
+}
+
+.answers {
+  ol {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+    counter-reset: answer;
+  }
+
+  .answer-list {
+    counter-increment: answer;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    &--margin {
+      margin-bottom: 4px;
+    }
+
+    &::before {
+      content: counter(answer, upper-alpha) '.';
+
+      color: rgba(254, 253, 255, 1);
+      font-size: 18px;
+      font-family: 'Mulish-Regular';
+      line-height: 1;
+
+      width: 20px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.add-more-questions-btn {
+  color: rgba(254, 253, 255, 1);
+  font-family: 'Nokora-bold';
+  font-size: 16px;
+  border-bottom: 1px solid currentColor;
+  margin-left: 30px;
+}

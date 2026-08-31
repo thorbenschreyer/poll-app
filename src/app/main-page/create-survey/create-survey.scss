@@ -14,7 +14,7 @@
 
 .content-container {
   width: 1052px;
-  height: 668px;
+  height: 775px;
 }
 
 .new-survey-section {
@@ -95,7 +95,7 @@ form {
   align-items: center;
   max-width: 1052px;
   width: 100%;
-  height: 549px;
+  height: 100%;
   margin: 32px 0px;
   border-radius: 5px 100px 5px 5px;
   background-color: rgba(142, 112, 153, 0.16);
@@ -111,6 +111,7 @@ form {
 .describing-section {
   display: flex;
   gap: 48px;
+  margin-bottom: 40px;
 }
 
 .name-date-form {
@@ -127,7 +128,7 @@ form {
 label {
   color: rgba(254, 253, 255, 1);
   font-family: 'Mulish-Bold';
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .input {
@@ -136,7 +137,7 @@ label {
   justify-content: space-between;
 
   &--enddate {
-    width:250px
+    width: 250px;
   }
 
   &--description {
@@ -144,11 +145,22 @@ label {
   }
 
   &__field {
-    height: 27px;
     margin: 4px 0px 12px 0px;
+    padding: 8px 8px;
     border-radius: 5px 20px 5px 5px;
     border: none;
     width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      background-color: rgba(254, 233, 212, 1);
+      border: none;
+    }
+
+    &[type='text'] {
+      color: var(--primary-color-purple);
+      font-family: 'Mulish-Regular';
+    }
 
     &--description {
       height: 92px;
@@ -185,7 +197,6 @@ label {
 .date-category-form {
   display: flex;
   justify-content: space-between;
-  
 }
 
 footer {

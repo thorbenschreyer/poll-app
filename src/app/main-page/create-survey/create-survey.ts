@@ -6,22 +6,26 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
   selector: 'app-create-survey',
   imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './create-survey.html',
-  styleUrls: [ 
-    './create-survey.scss',
-    './survey-questions.scss'
-  ]
+  styleUrls: ['./create-survey.scss', './survey-questions.scss'],
 })
 export class CreateSurvey {
+  numberOfQuestions = 3;
+  numberOfAnswers = 3;
+
+  get questionIndexes() {
+    return Array.from({ length: this.numberOfQuestions });
+  }
+
+  get answerIndexes() {
+    return Array.from({ length: this.numberOfAnswers });
+  }
 
   categoryIsShown = signal(false);
   closeCreateSurvey = output<void>();
 
-  surveyForm = new FormGroup ({
+  surveyForm = new FormGroup({});
 
-  })
-
-
-  setCategory(category:string) {
+  setCategory(category: string) {
     console.log(category);
   }
 
@@ -29,7 +33,7 @@ export class CreateSurvey {
     console.log(this.surveyForm.value); // Zeigt die eingegebenen Daten an
   }
 
-    categorylist = [
+  categorylist = [
     'All Surveys',
     'Team Activities',
     'Health & Wellness',

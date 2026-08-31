@@ -21,7 +21,7 @@
 
       <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
         <div class="form-content">
-          <section class="describing-section">
+          <article class="describing-section">
             <div class="name-date-form">
               <!-- Input name -->
               <label for="name">Survey name</label>
@@ -70,11 +70,7 @@
                           src="/assets/arrow_drop_down-down-orange.svg"
                           alt=""
                         />
-                        <img
-                          class="img-open"
-                          src="/assets/arrow_drop_down-up-orange.svg"
-                          alt=""
-                        />
+                        <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
                       </span>
                     </span>
                   </button>
@@ -90,22 +86,61 @@
               </div>
             </div>
 
+            <!-- Description -->
             <div class="description-form">
               <label for="describing">Describing text (optional)</label>
               <div class="input input--description">
-                <textarea
-                  id="describing"
-                  class="input__field input__field--description"
-                ></textarea>
+                <textarea id="describing" class="input__field input__field--description"></textarea>
                 <div class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                 </div>
               </div>
             </div>
-          </section>
+          </article>
 
-          <section class="question-section"></section>
+          <section class="question-section">
+            @for (question of questionIndexes; track $index) {
+            <div class="question">
+              <!-- Question -->
+              <section class="question-head">
+                <div class="question-head--asked-question">
+                  <label for="question">{{ numberOfQuestions }}. Question</label>
+                  <div class="input__img">
+                    <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                    <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                  </div>
+                </div>
+                <input class="input__field" type="text" name="" id="question" />
+              </section>
+              <!-- Answers -->
+              <section class="answers-sectiom">
+                <div class="answer__head">
+                  <label>Answers</label>
+                  <span class="answer__checkbox--text"
+                    ><input class="answer__checkbox--checkbox" type="checkbox" /> Allow multiple
+                    answers.</span
+                  >
+                </div>
+
+                <div class="answers">
+                  <ol type="A">
+                    @for (question of answerIndexes; track $index) {
+                      <li class="answer-list">
+                        <input class="input__field answer-list--margin" type="text" />
+                        <div class="input__img">
+                          <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                          <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                        </div>
+                      </li>
+                    }
+                  </ol>
+                  <a class="add-more-questions-btn" href="">Add answer <img src="/assets/add_white.svg" alt=""></a>
+                </div>
+              </section>
+            </div>
+            }
+          </section>
         </div>
       </form>
 
