@@ -129,7 +129,7 @@
                     <ol type="A">
                       @for (
                         answer of questions.questions()[$index].answers;
-                        track answer;
+                        track $index;
                         let answerIndex = $index
                       ) {
                         <li class="answer-list">
