@@ -129,13 +129,13 @@
                     <ol type="A">
                       @for (
                         answer of questions.questions()[$index].answers;
-                        track $index;
+                        track answer;
                         let answerIndex = $index
                       ) {
                         <li class="answer-list">
                           <input class="input__field answer-list--margin" type="text" />
                           @if (questions.getNumberofAnswers(question.id)! > 1) {
-                            <div class="input__img">
+                            <div (click)=" questions.removeAnswer(question.id, answerIndex)" class="input__img">
                               <img class="input__img" src="/assets/delete_white.svg" alt="" />
                               <img
                                 class="input__img--hover"
@@ -149,7 +149,7 @@
                     </ol>
                     <div class="answer__add">
                       @if (questions.getNumberofAnswers(question.id)! != 6) {
-                        <a class="add-more-questions-btn"
+                        <a (click)="questions.addAnswer(question.id)" class="add-more-questions-btn"
                           >Add answer <img src="/assets/add_white.svg" alt=""
                         /></a>
 

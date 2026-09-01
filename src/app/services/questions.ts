@@ -7,10 +7,10 @@ export class Questions {
     {
       id: crypto.randomUUID(),
       question: '',
-      answers: ['', '', '', '', '', ''],
+      answers: ['1', '2', '3', '4', '5', '6'],
     },
     {
-      id: crypto.randomUUID(),
+      id: "eins",
       question: '',
       answers: [''],
     },
@@ -31,14 +31,30 @@ export class Questions {
     this.questions.update((questions) => questions.filter((questions) => questions.id !== id));
   }
 
-  numberOfQuestions = this.questions().length;
-
   getNumberofAnswers(id: string) {
-    let result = this.questions().find( question => question.id === id);
+    let result = this.questions().find( question => question.id === id); 
     return result?.answers.length
   }
 
-  constructor() {
-    console.log('Questions: ' + this.numberOfQuestions);
+  addAnswer(id: string) {
+    this.questions.update(questions => questions.map(question => question.id == id
+      ? {...question, answers: [...question.answers, '']}
+      : question
+    )
+  )};
+
+  removeAnswer(id:string, answerIndex:number) {
+    this.questions.update(questions => 
+      questions.map(question => question.id == id
+        ? {
+          ...question,
+          answers: question.answers.filter((_, index) => index !== answerIndex)
+
+        }
+        : question
+
+    ))
   }
+
+  
 }
