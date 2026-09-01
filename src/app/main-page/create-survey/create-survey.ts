@@ -19,6 +19,8 @@ export class CreateSurvey {
   setCategory(category: string) {
     console.log(category);
   }
+
+  
 /*
   addElement(questionOrAnswer: string) {
     if (questionOrAnswer == 'question') {

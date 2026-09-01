@@ -100,56 +100,69 @@
           </article>
 
           <section class="question-section">
-            @for (question of questions.questions(); track $index) {
-           <div class="question">
-              <!-- Question -->
-              <section class="question-head">
-                <div class="question-head--asked-question">
-                  <label for="question">{{$index + 1}}. Question</label>
-                  <div class="input__img">
-                    <img class="input__img" src="/assets/delete_white.svg" alt="" />
-                    <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
-                  </div>
-                </div>
-                <input class="input__field" type="text" name="" id="question" />
-              </section>
-              <!-- Answers -->
-              <section class="answers-sectiom">
-                <div class="answer__head">
-                  <label>Answers</label>
-                  <span class="answer__checkbox--text"
-                    ><input class="answer__checkbox--checkbox" type="checkbox" /> Allow multiple
-                    answers.</span
-                  >
-                </div>
-
-                <div class="answers">
-                  <ol type="A">
-                    @for (answer of questions.questions()[$index].answers; track $index) {
-                      <li class="answer-list">
-                        <input class="input__field answer-list--margin" type="text" />
-                    
-                        <div  class="input__img">
-                          <img class="input__img" src="/assets/delete_white.svg" alt="" />
-                          <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
-                        </div>
-                        
-                      </li>
+            @for (question of questions.questions(); track question.id) {
+              <div class="question">
+                <!-- Question -->
+                <section class="question-head">
+                  <div class="question-head--asked-question">
+                    <label for="question">{{ $index + 1 }}. Question</label>
+                    @if (questions.questions().length != 1) {
+                    <div (click)="questions.removeQuestion(question.id)" class="input__img">
+                      <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                      <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                    </div>
                     }
-                  </ol>
-                  <div class="answer__add">
-                  <a class="add-more-questions-btn">Add answer <img src="/assets/add_white.svg" alt=""></a>
-                  <p>You can add up to 6 answer fields.</p>
-                   </div>
-                </div>
-              </section>
-            </div>
+                  </div>
+                  <input class="input__field" type="text" name="" id="question" />
+                </section>
+                <!-- Answers -->
+                <section class="answers-sectiom">
+                  <div class="answer__head">
+                    <label>Answers</label>
+                    <span class="answer__checkbox--text"
+                      ><input class="answer__checkbox--checkbox" type="checkbox" /> Allow multiple
+                      answers.</span
+                    >
+                  </div>
+
+                  <div class="answers">
+                    <ol type="A">
+                      @for (
+                        answer of questions.questions()[$index].answers;
+                        track $index;
+                        let answerIndex = $index
+                      ) {
+                        <li class="answer-list">
+                          <input class="input__field answer-list--margin" type="text" />
+                          @if (questions.getNumberofAnswers(question.id)! > 1) {
+                            <div class="input__img">
+                              <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                              <img
+                                class="input__img--hover"
+                                src="/assets/delete_orange.svg"
+                                alt=""
+                              />
+                            </div>
+                          }
+                        </li>
+                      }
+                    </ol>
+                    <div class="answer__add">
+                      @if (questions.getNumberofAnswers(question.id)! != 6) {
+                        <a class="add-more-questions-btn"
+                          >Add answer <img src="/assets/add_white.svg" alt=""
+                        /></a>
+                        <p>You can add up to 6 answer fields.</p>
+                      }
+                    </div>
+                  </div>
+                </section>
+              </div>
             }
-            
-           
-            <a  class="add-question-button" href=""><span>Add next question</span><img src="/assets/add_white.svg" alt="" /></a>
-           
-            
+
+            <a class="add-question-button" (click)="questions.addQuestion()"
+              ><span>Add next question</span><img src="/assets/add_white.svg" alt=""
+            /></a>
           </section>
         </div>
       </form>

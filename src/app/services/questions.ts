@@ -3,31 +3,42 @@ import { Question } from '../interfaces/question';
 
 @Injectable()
 export class Questions {
-
-   questions = signal<Question[]>([
+  questions = signal<Question[]>([
     {
+      id: crypto.randomUUID(),
       question: '',
-      answers: ['', '']
+      answers: ['', '', '', '', '', ''],
     },
     {
+      id: crypto.randomUUID(),
       question: '',
-      answers: ['', '', '']
+      answers: [''],
     },
-    {
-      question: '',
-      answers: ['', '', '']
-    }
   ]);
 
-  numberOfQuestions = this.questions().length;
-  
+  addQuestion() {
+    this.questions.update((questions) => [
+      ...questions,
+      {
+        id: crypto.randomUUID(),
+        question: '',
+        answers: ['', ''],
+      },
+    ]);
+  }
 
-  getNumberofQuestions (index:number) {
-    return this.questions()[index].answers.length
+  removeQuestion(id: string) {
+    this.questions.update((questions) => questions.filter((questions) => questions.id !== id));
+  }
+
+  numberOfQuestions = this.questions().length;
+
+  getNumberofAnswers(id: string) {
+    let result = this.questions().find( question => question.id === id);
+    return result?.answers.length
   }
 
   constructor() {
-    console.log("Questions: " + this.numberOfQuestions);
-  } 
-
+    console.log('Questions: ' + this.numberOfQuestions);
+  }
 }
