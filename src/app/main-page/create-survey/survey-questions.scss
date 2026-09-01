@@ -129,12 +129,30 @@
 }
 
 .add-more-questions-btn {
+  position: relative;
   color: rgba(254, 253, 255, 1);
   font-family: 'Nokora-bold';
   font-size: 16px;
   border-bottom: 1px solid currentColor;
   margin-left: 30px;
   cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    bottom: -6px;
+    left: -8px;
+    background-color: rgba(250, 245, 254, 0.2);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
 }
 
 .add-question-button {

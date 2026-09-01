@@ -107,10 +107,10 @@
                   <div class="question-head--asked-question">
                     <label for="question">{{ $index + 1 }}. Question</label>
                     @if (questions.questions().length != 1) {
-                    <div (click)="questions.removeQuestion(question.id)" class="input__img">
-                      <img class="input__img" src="/assets/delete_white.svg" alt="" />
-                      <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
-                    </div>
+                      <div (click)="questions.removeQuestion(question.id)" class="input__img">
+                        <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                        <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                      </div>
                     }
                   </div>
                   <input class="input__field" type="text" name="" id="question" />
@@ -152,6 +152,7 @@
                         <a class="add-more-questions-btn"
                           >Add answer <img src="/assets/add_white.svg" alt=""
                         /></a>
+
                         <p>You can add up to 6 answer fields.</p>
                       }
                     </div>
