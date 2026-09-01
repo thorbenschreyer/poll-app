@@ -105,7 +105,7 @@
                 <!-- Question -->
                 <section class="question-head">
                   <div class="question-head--asked-question">
-                    <label for="question">{{ $index + 1 }}. Question</label>
+                    <label [for]="question.id">{{ $index + 1 }}. Question</label>
                     @if (questions.questions().length != 1) {
                       <div (click)="questions.removeQuestion(question.id)" class="input__img">
                         <img class="input__img" src="/assets/delete_white.svg" alt="" />
@@ -113,7 +113,7 @@
                       </div>
                     }
                   </div>
-                  <input class="input__field" type="text" name="" id="question" />
+                  <input class="input__field" type="text" name="" [id]='question.id' />
                 </section>
                 <!-- Answers -->
                 <section class="answers-sectiom">
