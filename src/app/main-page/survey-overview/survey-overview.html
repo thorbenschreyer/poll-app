@@ -13,8 +13,8 @@
               <p class="category">{{ survey.category }}</p>
               <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
               <span class="ending-batch"
-                >Ends in {{ survey.surveyEnds }}
-                @if (survey.surveyEnds == 1) {
+                >Ends in {{ filterservice.getSurveyEnds(survey) }}
+                @if (filterservice.getSurveyEnds(survey) == 1) {
                   Day
                 } @else {
                   Days
