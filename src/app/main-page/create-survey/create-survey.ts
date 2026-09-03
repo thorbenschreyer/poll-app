@@ -2,6 +2,7 @@ import { Component, Inject, inject, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Questions } from '../../services/questions';
+import { Question } from '../../interfaces/question';
 
 @Component({
   selector: 'app-create-survey',
@@ -16,33 +17,15 @@ export class CreateSurvey {
   questions = inject(Questions)
   surveyForm = new FormGroup({});
 
+  ngOnInit() {
+
+  }
+
   setCategory(category: string) {
     console.log(category);
   }
 
   
-/*
-  addElement(questionOrAnswer: string) {
-    if (questionOrAnswer == 'question') {
-      this.arrayQuestions.update((questions) => [...questions, '']);
-    }
-    if (questionOrAnswer == 'answer') {
-      if (this.numberOfAnswers() == 6) {
-        return;
-      }
-      this.arrayAnswers.update((answers) => [...answers, '']);
-    }
-  }
-
-  removeElement(questionOrAnswer: string, id: number) {
-    if (questionOrAnswer == 'question' && this.numberOfQuestions() > 1) {
-      this.arrayQuestions.update((questions) => questions.filter((_, i) => i !== id));
-    }
-    if (questionOrAnswer == 'answer' && this.numberOfAnswers() > 1) {
-      this.arrayAnswers.update((answers) => answers.filter((_, i) => i !== id));
-    }
-  }
-*/
   onSubmit() {
     console.log(this.surveyForm.value); // Zeigt die eingegebenen Daten an
   }

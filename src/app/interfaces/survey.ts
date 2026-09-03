@@ -1,8 +1,12 @@
+import { Question } from "./question"
+
 export interface Survey {
-    id: number,
-    category:string,
+    id: string,
     surveyHeadline:string,
     endDate:Date,
+    category:string,
+    description: string,
     isActive:boolean,
-    surveyEnds: number
+    
+    questions: Question[]
 }
