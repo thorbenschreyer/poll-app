@@ -100,22 +100,22 @@
           </article>
 
           <section class="question-section">
-         <!--   @for (question of questions.questions(); track question.id) {
+            @for (question of survey.survey.questions; track question.id) {
               <div class="question">
-                 Question
+                Question
                 <section class="question-head">
                   <div class="question-head--asked-question">
                     <label [for]="question.id">{{ $index + 1 }}. Question</label>
-                    @if (questions.questions().length != 1) {
-                      <div (click)="questions.removeQuestion(question.id)" class="input__img">
+                    @if (survey.survey.questions.length != 1) {
+                      <div (click)="survey.removeQuestion(question.id)" class="input__img">
                         <img class="input__img" src="/assets/delete_white.svg" alt="" />
                         <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                       </div>
                     }
                   </div>
-                  <input class="input__field" type="text" name="" [id]='question.id' />
-                </section> -->
-                <!-- Answers 
+                  <input class="input__field" type="text" name="" [id]="question.id" />
+                </section>
+                <!-- Answers -->
                 <section class="answers-sectiom">
                   <div class="answer__head">
                     <label>Answers</label>
@@ -124,18 +124,21 @@
                       answers.</span
                     >
                   </div>
-
+                  .questions()[$index].answers
                   <div class="answers">
                     <ol type="A">
                       @for (
-                        answer of questions.questions()[$index].answers;
+                        answer of survey.survey.questions[$index].answers;
                         track $index;
                         let answerIndex = $index
                       ) {
                         <li class="answer-list">
                           <input class="input__field answer-list--margin" type="text" />
-                          @if (questions.getNumberofAnswers(question.id)! > 1) {
-                            <div (click)=" questions.removeAnswer(question.id, answerIndex)" class="input__img">
+                          @if (survey.getNumberofAnswers(question.id)! > 1) {
+                            <div
+                              (click)="survey.removeAnswer(question.id, answerIndex)"
+                              class="input__img"
+                            >
                               <img class="input__img" src="/assets/delete_white.svg" alt="" />
                               <img
                                 class="input__img--hover"
@@ -148,8 +151,8 @@
                       }
                     </ol>
                     <div class="answer__add">
-                      @if (questions.getNumberofAnswers(question.id)! != 6) {
-                        <a (click)="questions.addAnswer(question.id)" class="add-more-questions-btn"
+                      @if (survey.getNumberofAnswers(question.id)! != 6) {
+                        <a (click)="survey.addAnswer(question.id)" class="add-more-questions-btn"
                           >Add answer <img src="/assets/add_white.svg" alt=""
                         /></a>
 
@@ -161,7 +164,7 @@
               </div>
             }
 
-            <a class="add-question-button" (click)="questions.addQuestion()"
+            <a class="add-question-button" (click)="survey.addQuestion()"
               ><span>Add next question</span><img src="/assets/add_white.svg" alt=""
             /></a>
           </section>
@@ -175,6 +178,5 @@
         </a>
       </footer>
     </div>
-    -->
-  </section> 
+  </section>
 </div>

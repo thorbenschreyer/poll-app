@@ -14,7 +14,7 @@ import { Question } from '../../interfaces/question';
 export class CreateSurvey {
   categoryIsShown = signal(false);
   closeCreateSurvey = output<void>();
-  questions = inject(Questions)
+  survey = inject(Questions)
   surveyForm = new FormGroup({});
 
   ngOnInit() {
