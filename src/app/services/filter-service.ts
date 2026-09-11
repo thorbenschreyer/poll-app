@@ -8,6 +8,8 @@ export class FilterService {
   pastSurvey = signal(false);
   activeSurvey = signal(true);
   currentDay = signal(new Date());
+  timeToFullHour!: ReturnType<typeof setTimeout>;
+  hourIntervall!: ReturnType<typeof setInterval>;
 
   filterByCategory(category: string, newList: Survey[]) {
     if (category == 'All Surveys') {
@@ -17,20 +19,38 @@ export class FilterService {
     }
   }
 
+  secondsToNextHour(): number {
+    const minutes = this.currentDay().getMinutes();
+    const seconds = this.currentDay().getSeconds();
+    const timeToNextHour = (60 * 60 - (minutes * 60 + seconds)) * 1000;
+    return timeToNextHour;
+  }
+
+  startHourTimer(): void {
+    this.currentDay.set(new Date());
+    const ms = 60 * 60 * 1000;
+    this.timeToFullHour = setTimeout(() => {
+      this.currentDay.set(new Date());
+      this.hourIntervall = setInterval(() => {
+        this.currentDay.set(new Date());
+      }, ms);
+    }, this.secondsToNextHour());
+  }
+
   /**
    * berechnet wieviele tage noch bis zum ende der umfrage bleiben
    */
-  getSurveyEnds(survey:Survey) {
+  getSurveyEnds(survey: Survey) {
     const msPerDay = 1000 * 60 * 60 * 24;
     let ExpDayInList = survey.endDate;
-      let diffInMs = ExpDayInList.getTime() - this.currentDay().getTime();
-      let daysUntilExpires = Math.ceil(diffInMs / msPerDay);
-      if (daysUntilExpires <= 0) {
-        survey.isActive = false;
-        return 0
-      } 
-        return daysUntilExpires
-    };
+    let diffInMs = ExpDayInList.getTime() - this.currentDay().getTime();
+    let daysUntilExpires = Math.ceil(diffInMs / msPerDay);
+    if (daysUntilExpires <= 0) {
+      survey.isActive = false;
+      return 0;
+    }
+    return daysUntilExpires;
+  }
 
   sortNextThreeExpDay() {
     const endingSurveys = this.surveyList()
