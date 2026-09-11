@@ -4,44 +4,41 @@ import { Survey } from '../interfaces/survey';
 @Injectable()
 export class Questions {
   addQuestion() {
-    this.survey.questions.push(
-      {
-        id: crypto.randomUUID(),
-        allowMultipleAnswers: false,
-        question: '',
-        answers: ['', '',],
-      }
-    )
+    this.survey.questions.push({
+      id: crypto.randomUUID(),
+      allowMultipleAnswers: false,
+      question: '',
+      answers: [
+        {
+          id: crypto.randomUUID(),
+          answer: '',
+        },
+        {
+          id: crypto.randomUUID(),
+          answer: '',
+        },
+      ],
+    });
   }
 
-  removeQuestion(id: string) {
-     this.survey.questions.find(question => question.id === id) 
+  removeQuestion(index: number) {
+    this.survey.questions.splice(index, 1);
   }
 
-  getNumberofAnswers(id: string) {
-    /* let result = this.questions().find((question) => question.id === id);
-    return result?.answers.length; */
+  getNumberofAnswers(index: number) {
+    let result = this.survey.questions[index].answers.length;
+    return result;
   }
 
-  addAnswer(id: string) {
-  /*  this.questions.update((questions) =>
-      questions.map((question) =>
-        question.id == id ? { ...question, answers: [...question.answers, ''] } : question,
-      ),
-    ); */
+  addAnswer(questionIndex: number) {
+    this.survey.questions[questionIndex].answers.push({
+      id: crypto.randomUUID(),
+      answer: '',
+    });
   }
 
-  removeAnswer(id: string, answerIndex: number) {
-   /* this.questions.update((questions) =>
-      questions.map((question) =>
-        question.id == id
-          ? {
-              ...question,
-              answers: question.answers.filter((_, index) => index !== answerIndex),
-            }
-          : question,
-      ),
-    ); */
+  removeAnswer(answerIndex: number, questionIndex: number) {
+    this.survey.questions[questionIndex].answers.splice(answerIndex, 1);
   }
 
   survey: Survey = {
@@ -56,7 +53,16 @@ export class Questions {
         id: crypto.randomUUID(),
         allowMultipleAnswers: false,
         question: 'What is your favorite programming language?',
-        answers: ['TypeScript', 'JavaScript', 'Python', 'Java', 'C#', 'C++'],
+        answers: [
+          {
+            id: crypto.randomUUID(),
+            answer: 'Java',
+          },
+          {
+            id: crypto.randomUUID(),
+            answer: 'Lala',
+          },
+        ],
       },
     ],
   };

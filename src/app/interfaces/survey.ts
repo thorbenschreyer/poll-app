@@ -7,6 +7,5 @@ export interface Survey {
     category:string,
     description: string,
     isActive:boolean,
-    
     questions: Question[]
 }
