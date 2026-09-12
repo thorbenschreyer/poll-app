@@ -127,8 +127,8 @@
                   <div class="answers">
                     <ol type="A">
                       @for (
-                        answer of question.answers;
-                        track answer.id;
+                        answer of getAnswers(question).controls;
+                        track $index;
                         let answerIndex = $index
                       ) {
                         <li class="answer-list">

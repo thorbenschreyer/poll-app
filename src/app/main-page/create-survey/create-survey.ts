@@ -1,6 +1,6 @@
 import { Component, Inject, inject, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormControl, FormArray} from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Questions } from '../../services/questions';
 import { Question } from '../../interfaces/question';
 
@@ -15,7 +15,7 @@ export class CreateSurvey {
   categoryIsShown = signal(false);
   closeCreateSurvey = output<void>();
   survey = inject(Questions);
-  shownCategory!: string 
+  shownCategory!: string;
 
   ngOnInit() {}
 
@@ -23,7 +23,7 @@ export class CreateSurvey {
     this.surveyForm.patchValue({
       category: category,
     });
-    this.shownCategory = category
+    this.shownCategory = category;
   }
 
   onSubmit() {
@@ -32,20 +32,24 @@ export class CreateSurvey {
 
   addquestion() {
     const question = new FormGroup({
-      question: new FormControl,
+      question: new FormControl(),
       allowMultipleAnswers: new FormControl(false),
-      answers: new FormArray([])
-    }) 
-    this.questions.push(question)
+      answers: new FormArray([new FormControl(''), new FormControl('')]),
+    });
+    this.questions.push(question);
   }
 
   get questions(): FormArray {
-  return this.surveyForm.get('questions') as FormArray;
-}
+    return this.surveyForm.get('questions') as FormArray;
+  }
 
-get questionForms(): FormGroup[] {
-  return this.questions.controls as FormGroup[];
-}
+  get questionForms(): FormGroup[] {
+    return this.questions.controls as FormGroup[];
+  }
+
+  getAnswers(question: FormGroup): FormArray {
+    return question.get('answers') as FormArray;
+  }
 
   surveyForm = new FormGroup({
     name: new FormControl(''),
@@ -53,7 +57,13 @@ get questionForms(): FormGroup[] {
     category: new FormControl(''),
     description: new FormControl(''),
 
-    questions: new FormArray([])
+    questions: new FormArray([
+      new FormGroup({
+        question: new FormControl(),
+        allowMultipleAnswers: new FormControl(false),
+        answers: new FormArray([new FormControl(''), new FormControl('')]),
+      }),
+    ]),
   });
 
   categorylist = [
