@@ -59,12 +59,12 @@ export class CreateSurvey {
     return this.questions.controls as FormGroup[];
   }
 
-  getAnswers(question: FormGroup): FormArray {
-    return question.get('answers') as FormArray;
+  getAnswers(question: FormGroup): FormArray<FormControl<string>> {
+    return question.get('answers') as FormArray<FormControl<string>>;
   }
 
   getNumberofAnswers(index: number) {
-    let result = (this.questions.at(index).get('answers') as FormArray ).length;
+    let result = (this.questions.at(index).get('answers') as FormArray).length;
     return result;
   }
 

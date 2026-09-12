@@ -120,7 +120,7 @@
                   <div class="answer__head">
                     <label for="answers">Answers</label>
                     <span class="answer__checkbox--text"
-                      ><input class="answer__checkbox--checkbox" type="checkbox" /> Allow multiple
+                      ><input formControlName="allowMultipleAnswers" class="answer__checkbox--checkbox" type="checkbox" /> Allow multiple
                       answers.</span
                     >
                   </div>
@@ -132,7 +132,7 @@
                         let answerIndex = $index
                       ) {
                         <li class="answer-list">
-                          <input class="input__field answer-list--margin" type="text" />
+                          <input [formControl]="answer" class="input__field answer-list--margin" type="text" />
                           @if (getNumberofAnswers(questionIndex) > 1) {
                             <div
                               (click)="removeAnswer(answerIndex, questionIndex)"
