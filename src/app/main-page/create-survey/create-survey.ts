@@ -2,7 +2,8 @@ import { Component, Inject, inject, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Questions } from '../../services/questions';
-import { Question } from '../../interfaces/question';
+import { Survey } from '../../interfaces/survey';
+import { Answer } from '../../interfaces/answer';
 
 @Component({
   selector: 'app-create-survey',
@@ -26,14 +27,34 @@ export class CreateSurvey {
     this.shownCategory = category;
   }
 
-  onSubmit() {
-    console.log(this.surveyForm.value); // Zeigt die eingegebenen Daten an
-  }
+onSubmit() {
+  const formValue = this.surveyForm.getRawValue();
+
+  const newSurvey: Survey = {
+    id: crypto.randomUUID(),
+    name: formValue.name ?? '',
+    endDate: new Date(formValue.endDate ?? ''),
+    category: formValue.category ?? '',
+    description: formValue.description ?? '',
+    isActive: true,
+    isPublished: formValue.isPublished ?? false,
+
+    questions: formValue.questions.map(question => ({
+      question: question.question ?? '',
+      allowMultipleAnswers: question.allowMultipleAnswers,
+      answers: question.answers.map(answer => ({
+        answer: answer ?? ''
+      }))
+    })),
+  };
+
+  console.log('Neuer Survey:', newSurvey);
+}
 
   addQuestion() {
     const question = new FormGroup({
       question: new FormControl(),
-      allowMultipleAnswers: new FormControl(false),
+      allowMultipleAnswers: new FormControl<boolean>(false),
       answers: new FormArray([new FormControl(''), new FormControl('')]),
     });
     this.questions.push(question);
@@ -73,12 +94,12 @@ export class CreateSurvey {
     endDate: new FormControl(''),
     category: new FormControl(''),
     description: new FormControl(''),
-
+    isPublished: new FormControl(false),
     questions: new FormArray([
       new FormGroup({
         question: new FormControl(),
-        allowMultipleAnswers: new FormControl(false),
-        answers: new FormArray([new FormControl(''), new FormControl('')]),
+        allowMultipleAnswers: new FormControl(false, { nonNullable: true }),
+        answers: new FormArray([new FormControl<string>(''), new FormControl<string>('')]),
       }),
     ]),
   });

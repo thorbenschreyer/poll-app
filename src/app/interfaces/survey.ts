@@ -2,10 +2,11 @@ import { Question } from "./question"
 
 export interface Survey {
     id: string,
-    surveyHeadline:string,
+    name:string,
     endDate:Date,
     category:string,
     description: string,
     isActive:boolean,
+    isPublished: boolean,
     questions: Question[]
 }
