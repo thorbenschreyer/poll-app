@@ -26,7 +26,7 @@
               <!-- Input name -->
               <label for="name">Survey name</label>
               <div class="input">
-                <input class="input__field" id="name" type="text" />
+                <input class="input__field" id="name" formControlName="name" type="text" />
                 <div class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -38,7 +38,7 @@
                 <div>
                   <label for="enddate">Set end date (optional)</label>
                   <div class="input input--enddate">
-                    <input id="enddate" class="input__field" type="date" />
+                    <input id="endDate" class="input__field" formControlName="endDate" type="date" />
                     <div class="input__img">
                       <img class="input__img" src="/assets/delete_white.svg" alt="" />
                       <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -90,7 +90,7 @@
             <div class="description-form">
               <label for="describing">Describing text (optional)</label>
               <div class="input input--description">
-                <textarea id="describing" class="input__field input__field--description"></textarea>
+                <textarea id="describing" formControlName="description" class="input__field input__field--description"></textarea>
                 <div class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -100,12 +100,12 @@
           </article>
 
           <section class="question-section">
-            @for (question of survey.survey.questions; track question.id; let questionIndex = $index) {
-              <div class="question">
+            @for (question of questionForms; track $index; let questionIndex = $index) {
+              <div [formGroup]="question" class="question">
                 <!-- Question -->
                 <section class="question-head">
                   <div class="question-head--asked-question">
-                    <label [for]="question.id">{{ $index + 1 }}. Question</label>
+                    <label [for]="'question-' + questionIndex">{{ $index + 1 }}. Question</label>
                     @if (survey.survey.questions.length != 1) {
                       <div (click)="survey.removeQuestion(questionIndex)" class="input__img">
                         <img class="input__img" src="/assets/delete_white.svg" alt="" />
@@ -113,12 +113,12 @@
                       </div>
                     }
                   </div>
-                  <input class="input__field" type="text" name="" [id]="question.id" />
+                  <input class="input__field" type="text" name="" [id]="'question-' + questionIndex" />
                 </section>
                 <!-- Answers -->
                 <section class="answers-sectiom">
                   <div class="answer__head">
-                    <label>Answers</label>
+                    <label for="answers">Answers</label>
                     <span class="answer__checkbox--text"
                       ><input class="answer__checkbox--checkbox" type="checkbox" /> Allow multiple
                       answers.</span
@@ -171,7 +171,7 @@
       </form>
 
       <footer>
-        <a type="submit" class="btn">
+        <a type="submit" class="btn" (click)="onSubmit()">
           Publish
           <img class="btn-img" src="/assets/check.svg" alt="" />
         </a>

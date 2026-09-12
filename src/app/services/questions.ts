@@ -42,25 +42,25 @@ export class Questions {
   }
 
   survey: Survey = {
-    id: '550e8400-e29b-41d4-a716-446655440001',
-    category: 'Team Activities',
-    surveyHeadline: 'Wie zufrieden bist du mit unseren Teamevents?',
-    endDate: new Date('2026-09-05'),
-    description: 'Wir möchten wissen, wie zufrieden du mit unseren bisherigen Teamevents bist.',
+    id: crypto.randomUUID(),
+    category: '',
+    surveyHeadline: '',
+    endDate: new Date(),
+    description: '',
     isActive: true,
     questions: [
       {
         id: crypto.randomUUID(),
         allowMultipleAnswers: false,
-        question: 'What is your favorite programming language?',
+        question: '',
         answers: [
           {
             id: crypto.randomUUID(),
-            answer: 'Java',
+            answer: '',
           },
           {
             id: crypto.randomUUID(),
-            answer: 'Lala',
+            answer: '',
           },
         ],
       },
