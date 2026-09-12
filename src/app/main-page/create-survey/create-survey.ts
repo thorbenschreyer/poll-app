@@ -40,7 +40,15 @@ export class CreateSurvey {
   }
 
   addAnswer(index: number) {
-    (this.questions.at(index).get('answers') as FormArray).push(new FormControl(''))
+    (this.questions.at(index).get('answers') as FormArray).push(new FormControl(''));
+  }
+
+  removeQuestion(index: number) {
+    this.questions.removeAt(index);
+  }
+
+  removeAnswer(answerIndex: number, questionIndex: number) {
+    (this.questions.at(questionIndex).get('answers') as FormArray).removeAt(answerIndex);
   }
 
   get questions(): FormArray {
@@ -53,6 +61,11 @@ export class CreateSurvey {
 
   getAnswers(question: FormGroup): FormArray {
     return question.get('answers') as FormArray;
+  }
+
+  getNumberofAnswers(index: number) {
+    let result = (this.questions.at(index).get('answers') as FormArray ).length;
+    return result;
   }
 
   surveyForm = new FormGroup({

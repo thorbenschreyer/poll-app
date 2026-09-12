@@ -106,14 +106,14 @@
                 <section class="question-head">
                   <div class="question-head--asked-question">
                     <label [for]="'question-' + questionIndex">{{ $index + 1 }}. Question</label>
-                    @if (survey.survey.questions.length != 1) {
-                      <div (click)="survey.removeQuestion(questionIndex)" class="input__img">
+                    @if (questions.length != 1) {
+                      <div (click)="removeQuestion(questionIndex)" class="input__img">
                         <img class="input__img" src="/assets/delete_white.svg" alt="" />
                         <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                       </div>
                     }
                   </div>
-                  <input class="input__field" type="text" name="" [id]="'question-' + questionIndex" />
+                  <input  formControlName="question" class="input__field" type="text" name="" [id]="'question-' + questionIndex" />
                 </section>
                 <!-- Answers -->
                 <section class="answers-sectiom">
@@ -133,9 +133,9 @@
                       ) {
                         <li class="answer-list">
                           <input class="input__field answer-list--margin" type="text" />
-                          @if (survey.getNumberofAnswers(questionIndex)! > 1) {
+                          @if (getNumberofAnswers(questionIndex) > 1) {
                             <div
-                              (click)="survey.removeAnswer(answerIndex, questionIndex)"
+                              (click)="removeAnswer(answerIndex, questionIndex)"
                               class="input__img"
                             >
                               <img class="input__img" src="/assets/delete_white.svg" alt="" />
@@ -150,7 +150,7 @@
                       }
                     </ol>
                     <div class="answer__add">
-                      @if (survey.getNumberofAnswers(questionIndex)! != 6) {
+                      @if (getNumberofAnswers(questionIndex) != 6) {
                         <a (click)="addAnswer(questionIndex)" class="add-more-questions-btn"
                           >Add answer <img src="/assets/add_white.svg" alt=""
                         /></a>
