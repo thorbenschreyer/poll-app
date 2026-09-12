@@ -3,23 +3,6 @@ import { Survey } from '../interfaces/survey';
 
 @Injectable()
 export class Questions {
-  addQuestion() {
-    this.survey.questions.push({
-      id: crypto.randomUUID(),
-      allowMultipleAnswers: false,
-      question: '',
-      answers: [
-        {
-          id: crypto.randomUUID(),
-          answer: '',
-        },
-        {
-          id: crypto.randomUUID(),
-          answer: '',
-        },
-      ],
-    });
-  }
 
   removeQuestion(index: number) {
     this.survey.questions.splice(index, 1);
@@ -28,13 +11,6 @@ export class Questions {
   getNumberofAnswers(index: number) {
     let result = this.survey.questions[index].answers.length;
     return result;
-  }
-
-  addAnswer(questionIndex: number) {
-    this.survey.questions[questionIndex].answers.push({
-      id: crypto.randomUUID(),
-      answer: '',
-    });
   }
 
   removeAnswer(answerIndex: number, questionIndex: number) {

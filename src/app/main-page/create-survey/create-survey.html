@@ -151,7 +151,7 @@
                     </ol>
                     <div class="answer__add">
                       @if (survey.getNumberofAnswers(questionIndex)! != 6) {
-                        <a (click)="survey.addAnswer(questionIndex)" class="add-more-questions-btn"
+                        <a (click)="addAnswer(questionIndex)" class="add-more-questions-btn"
                           >Add answer <img src="/assets/add_white.svg" alt=""
                         /></a>
 
@@ -163,7 +163,7 @@
               </div>
             }
 
-            <a class="add-question-button" (click)="survey.addQuestion()"
+            <a class="add-question-button" (click)="addQuestion()"
               ><span>Add next question</span><img src="/assets/add_white.svg" alt=""
             /></a>
           </section>

@@ -30,13 +30,17 @@ export class CreateSurvey {
     console.log(this.surveyForm.value); // Zeigt die eingegebenen Daten an
   }
 
-  addquestion() {
+  addQuestion() {
     const question = new FormGroup({
       question: new FormControl(),
       allowMultipleAnswers: new FormControl(false),
       answers: new FormArray([new FormControl(''), new FormControl('')]),
     });
     this.questions.push(question);
+  }
+
+  addAnswer(index: number) {
+    (this.questions.at(index).get('answers') as FormArray).push(new FormControl(''))
   }
 
   get questions(): FormArray {
