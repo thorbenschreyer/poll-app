@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, FormArray } from '@angular/forms';
 import { Questions } from '../../services/questions';
 import { Survey } from '../../interfaces/survey';
-import { Answer } from '../../interfaces/answer';
+import { FilterService } from '../../services/filter-service';
 
 @Component({
   selector: 'app-create-survey',
@@ -17,8 +17,7 @@ export class CreateSurvey {
   closeCreateSurvey = output<void>();
   survey = inject(Questions);
   shownCategory!: string;
-
-  ngOnInit() {}
+  filterService = inject(FilterService);
 
   setCategory(category: string) {
     this.surveyForm.patchValue({
@@ -27,29 +26,28 @@ export class CreateSurvey {
     this.shownCategory = category;
   }
 
-onSubmit() {
-  const formValue = this.surveyForm.getRawValue();
+  onSubmit() {
+    const formValue = this.surveyForm.getRawValue();
 
-  const newSurvey: Survey = {
-    id: crypto.randomUUID(),
-    name: formValue.name ?? '',
-    endDate: new Date(formValue.endDate ?? ''),
-    category: formValue.category ?? '',
-    description: formValue.description ?? '',
-    isActive: true,
-    isPublished: formValue.isPublished ?? false,
+    const newSurvey: Survey = {
+      id: crypto.randomUUID(),
+      name: formValue.name ?? '',
+      endDate: new Date(formValue.endDate ?? ''),
+      category: formValue.category ?? '',
+      description: formValue.description ?? '',
+      isActive: true,
+      isPublished: formValue.isPublished ?? true,
 
-    questions: formValue.questions.map(question => ({
-      question: question.question ?? '',
-      allowMultipleAnswers: question.allowMultipleAnswers,
-      answers: question.answers.map(answer => ({
-        answer: answer ?? ''
-      }))
-    })),
-  };
-
-  console.log('Neuer Survey:', newSurvey);
-}
+      questions: formValue.questions.map((question) => ({
+        question: question.question ?? '',
+        allowMultipleAnswers: question.allowMultipleAnswers,
+        answers: question.answers.map((answer) => ({
+          answer: answer ?? '',
+        })),
+      })),
+    };
+    this.filterService.addSurvey(newSurvey);
+  }
 
   addQuestion() {
     const question = new FormGroup({

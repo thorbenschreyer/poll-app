@@ -74,7 +74,7 @@
         <article class="survey">
           <div class="survey-detail">
             <p class="category">{{ survey.category }}</p>
-            <h3 class="survey-header">{{ survey.surveyHeadline }}</h3>
+            <h3 class="survey-header">{{ survey.name }}</h3>
             <span class="ending-batch"
               >Ends in {{ filterservice.getSurveyEnds(survey) }}
               @if (filterservice.getSurveyEnds(survey) == 1) {

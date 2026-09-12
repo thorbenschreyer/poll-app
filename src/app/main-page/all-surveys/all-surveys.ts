@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, Pipe, signal } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, Pipe, signal } from '@angular/core';
 import { SurveyOverview } from '../survey-overview/survey-overview';
 import { FilterService } from '../../services/filter-service';
 import { DatePipe } from '@angular/common';
@@ -16,9 +16,16 @@ export class AllSurveys {
   filterservice = inject(FilterService);
   categoryIsActive = signal(false);
   usedCategory = signal('All Surveys');
-  sortedSurveylist = signal<Survey[]>(this.filterservice.surveyList());
+  sortedSurveylist = computed(() => {
+    return this.filterservice.filterByCategory(
+      this.usedCategory(),
+      this.filterservice.filterByActivity(
+        this.filterservice.pastSurvey(),
+        this.filterservice.activeSurvey(),
+      ),
+    );
+  });
   nextExpire = [];
-
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -48,7 +55,6 @@ export class AllSurveys {
   filterSurveyList(pastSurvey: boolean, activeSurvey: boolean, category: string) {
     this.usedCategory.set(category);
     const newList: Survey[] = this.filterservice.filterByActivity(pastSurvey, activeSurvey);
-    this.sortedSurveylist.set(this.filterservice.filterByCategory(this.usedCategory(), newList));
   }
 
   /**
@@ -63,10 +69,5 @@ export class AllSurveys {
       this.filterservice.activeSurvey(),
       category,
     );
-
-    if (this.usedCategory() == 'All Surveys') {
-      this.sortedSurveylist.set(this.filterservice.surveyList());
-      this.usedCategory.set('');
-    }
   }
 }
