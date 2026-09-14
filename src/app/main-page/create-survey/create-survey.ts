@@ -61,6 +61,7 @@ export class CreateSurvey {
     if (success) {
       await this.filterService.loadSurveys();
     }
+    this.showDialog()
   }
 
   deleteText(toDelete: 'name' | 'endDate' | 'description') {
