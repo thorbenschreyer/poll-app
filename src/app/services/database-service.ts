@@ -9,7 +9,7 @@ import { Survey } from '../interfaces/survey';
 export class DatabaseService {
   private supabase: SupabaseClient = createClient(environment.supabaseUrl, environment.supabaseKey);
 
-  async createSurvey(survey: Survey) {
+  async createSurvey(survey: Survey): Promise<boolean> {
     const { data, error } = await this.supabase
       .from('surveys')
       .insert({
@@ -23,12 +23,9 @@ export class DatabaseService {
       .select()
       .single();
 
-    console.log('Survey data:', data);
-    console.log('Survey error:', error);
-
     if (error || !data) {
       console.error('Survey konnte nicht gespeichert werden:', error);
-      return;
+      return false;
     }
 
     const questionsForDatabase = survey.questions.map((question) => ({
@@ -44,7 +41,7 @@ export class DatabaseService {
 
     if (questionError || !savedQuestions) {
       console.error('Fragen konnten nicht gespeichert werden:', questionError);
-      return;
+      return false;
     }
 
     const orignalQuestion = survey.questions[0];
@@ -67,7 +64,12 @@ export class DatabaseService {
       .insert(answersForDatabase)
       .select();
 
-    console.log('Answers der Fragen:', savedAnswers, 'Error der answers: ', answersError);
+    if (answersError || !savedAnswers) {
+      console.error('Antworten konnten nicht gespeichert werden:', answersError);
+      return false;
+    }
+
+    return true;
   }
 
   async getSurveys() {
@@ -97,6 +99,6 @@ export class DatabaseService {
         })),
       })),
     }));
-    return surveys;
+    return true;
   }
 }

@@ -29,7 +29,7 @@ export class CreateSurvey {
     this.shownCategory = category;
   }
 
-  onSubmit() {
+ async onSubmit() {
     const formValue = this.surveyForm.getRawValue();
 
     const newSurvey: Survey = {
@@ -50,8 +50,9 @@ export class CreateSurvey {
       })),
     };
     
-    this.databaseService.createSurvey(newSurvey)
-    this.filterService.loadSurveys();
+   await this.databaseService.createSurvey(newSurvey)
+   await this.filterService.loadSurveys();
+
   }
 
   addQuestion() {
