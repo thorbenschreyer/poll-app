@@ -1,4 +1,4 @@
-import { Component, Inject, inject, output, signal } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild, inject, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Questions } from '../../services/questions';
@@ -18,9 +18,18 @@ export class CreateSurvey {
   closeCreateSurvey = output<void>();
   survey = inject(Questions);
   shownCategory!: string;
-  empty = ""
+  empty = '';
   filterService = inject(FilterService);
   databaseService = inject(DatabaseService);
+
+  @ViewChild('dialog')
+  dialog!: ElementRef<HTMLDialogElement>;
+
+  closeDialogOnOutsideClick(event: MouseEvent) {
+    if (event.target === this.dialog.nativeElement) {
+      this.dialog.nativeElement.close();
+    }
+  }
 
   setCategory(category: string) {
     this.surveyForm.patchValue({
@@ -122,6 +131,14 @@ export class CreateSurvey {
       }),
     ]),
   });
+
+  showDialog() {
+    this.dialog.nativeElement.showModal()
+  }
+
+  closeDialog() {
+    this.dialog.nativeElement.close()
+  }
 
   categorylist = [
     'All Surveys',

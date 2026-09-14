@@ -3,7 +3,13 @@
     <div class="content-container">
       <header class="survey-header">
         <div>
-          <p class="batch">Draft</p>
+          <p class="batch">
+            @if (surveyForm.controls.isPublished.value === false) {
+              Draft
+            } @else {
+              Published
+            }
+          </p>
           <h1 class="new-survey-h1">Create new survey</h1>
         </div>
 
@@ -26,7 +32,7 @@
               <!-- Input name -->
               <label for="name">Survey name</label>
               <div class="input">
-                <input class="input__field" id="name" formControlName="name" type="text" />
+                <input  class="input__field" id="name" formControlName="name" type="text" />
                 <div (click)='deleteText("name")' class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -43,6 +49,7 @@
                       class="input__field"
                       formControlName="endDate"
                       type="date"
+                      
                     />
                     <div (click)='deleteText("endDate")' class="input__img">
                       <img class="input__img" src="/assets/delete_white.svg" alt="" />
@@ -82,7 +89,7 @@
                   </button>
                 <p class="used-category">
                   @if (shownCategory == "All Surveys") {
-                    {{empty}}
+                    ""
                   } @else {
                     {{shownCategory}}
                   }
@@ -207,4 +214,10 @@
       </footer>
     </div>
   </section>
+  <button (click)="showDialog()">DIALOG</button>
 </div>
+
+<dialog #dialog (click)="closeDialogOnOutsideClick($event)"> 
+  <section>DAS IST EIN TESET</section>
+  
+</dialog>
