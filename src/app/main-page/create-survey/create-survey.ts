@@ -4,6 +4,8 @@ import { ReactiveFormsModule, FormGroup, FormControl, FormArray } from '@angular
 import { Questions } from '../../services/questions';
 import { Survey } from '../../interfaces/survey';
 import { FilterService } from '../../services/filter-service';
+import { DatabaseService } from '../../services/database-service';
+
 
 @Component({
   selector: 'app-create-survey',
@@ -18,6 +20,7 @@ export class CreateSurvey {
   survey = inject(Questions);
   shownCategory!: string;
   filterService = inject(FilterService);
+  databaseService = inject(DatabaseService)
 
   setCategory(category: string) {
     this.surveyForm.patchValue({
@@ -47,6 +50,7 @@ export class CreateSurvey {
       })),
     };
     this.filterService.addSurvey(newSurvey);
+    this.databaseService.createSurvey(newSurvey)
   }
 
   addQuestion() {
