@@ -1,6 +1,6 @@
 import { Component, Inject, inject, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Questions } from '../../services/questions';
 import { Survey } from '../../interfaces/survey';
 import { FilterService } from '../../services/filter-service';
@@ -18,6 +18,7 @@ export class CreateSurvey {
   closeCreateSurvey = output<void>();
   survey = inject(Questions);
   shownCategory!: string;
+  empty = ""
   filterService = inject(FilterService);
   databaseService = inject(DatabaseService);
 
@@ -108,7 +109,7 @@ export class CreateSurvey {
   }
 
   surveyForm = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', Validators.required),
     endDate: new FormControl(''),
     category: new FormControl(''),
     description: new FormControl(''),

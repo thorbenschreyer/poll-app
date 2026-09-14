@@ -78,8 +78,17 @@
                         <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
                       </span>
                     </span>
+                    
                   </button>
-
+                <p class="used-category">
+                  @if (shownCategory == "All Surveys") {
+                    {{empty}}
+                  } @else {
+                    {{shownCategory}}
+                  }
+                
+                </p>
+   
                   <ul class="category-select__list" [class.isActive]="categoryIsShown()">
                     @for (categorie of categorylist; track categorie) {
                       <li (click)="categoryIsShown.set(!categoryIsShown()); setCategory(categorie)">
