@@ -8,7 +8,7 @@
         <!-- #TODO Style -->
       } @else {
         @for (survey of this.filterservice.sortNextThreeExpDay(); track survey.id) {
-          <div class="survey">
+          <div [routerLink]="['/survey', survey.id]" class="survey">
             <div class="survey-detail">
               <p class="category">{{ survey.category }}</p>
               <h3 class="survey-header">{{ survey.name }}</h3>

@@ -5,10 +5,11 @@ import { Questions } from '../../services/questions';
 import { Survey } from '../../interfaces/survey';
 import { FilterService } from '../../services/filter-service';
 import { DatabaseService } from '../../services/database-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-survey',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, ],
   templateUrl: './create-survey.html',
   styleUrls: ['./create-survey.scss', './survey-questions.scss'],
   providers: [Questions],
@@ -17,6 +18,7 @@ export class CreateSurvey {
   categoryIsShown = signal(false);
   closeCreateSurvey = output<void>();
   survey = inject(Questions);
+  router = inject(Router);
   shownCategory!: string;
   empty = '';
   filterService = inject(FilterService);
@@ -35,34 +37,39 @@ export class CreateSurvey {
     this.shownCategory = category;
   }
 
-  async onSubmit() {
-    const formValue = this.surveyForm.getRawValue();
+async onSubmit() {
+  const formValue = this.surveyForm.getRawValue();
 
-    const newSurvey: Survey = {
-      id: crypto.randomUUID(),
-      name: formValue.name ?? '',
-      endDate: new Date(formValue.endDate ?? ''),
-      category: formValue.category ?? '',
-      description: formValue.description ?? '',
-      isActive: true,
-      isPublished: formValue.isPublished ?? true,
+  const newSurvey: Survey = {
+    id: '',
+    name: formValue.name ?? '',
+    endDate: new Date(formValue.endDate ?? ''),
+    category: formValue.category ?? '',
+    description: formValue.description ?? '',
+    isActive: true,
+    isPublished: formValue.isPublished ?? true,
 
-      questions: formValue.questions.map((question) => ({
-        question: question.question ?? '',
-        allowMultipleAnswers: question.allowMultipleAnswers,
-        answers: question.answers.map((answer) => ({
-          answer: answer ?? '',
-        })),
+    questions: formValue.questions.map((question) => ({
+      question: question.question ?? '',
+      allowMultipleAnswers: question.allowMultipleAnswers,
+      answers: question.answers.map((answer) => ({
+        answer: answer ?? '',
       })),
-    };
+    })),
+  };
 
-    const success = await this.databaseService.createSurvey(newSurvey);
+  const result = await this.databaseService.createSurvey(newSurvey);
 
-    if (success) {
-      await this.filterService.loadSurveys();
-    }
-    this.showDialog()
+  if (result.success) {
+    await this.filterService.loadSurveys();
+
+    this.showDialog();
+
+    setTimeout(() => {
+      this.router.navigate(['/survey', result.id]);
+    }, 3000);
   }
+}
 
   deleteText(toDelete: 'name' | 'endDate' | 'description') {
     this.surveyForm.controls[toDelete].setValue('');
@@ -139,11 +146,6 @@ export class CreateSurvey {
     dialog.style.bottom = `${distanceFromBottom}px`;
     dialog.style.right = `${distanceFromRight}px`;
     dialog.showModal();
-
-    setTimeout(() => {
-      // #TODO : Weiterleitung zur umfragenantwortseite
-      this.dialog.nativeElement.close();
-    }, 3000);
   }
 
   closeDialogOnOutsideClick(event: MouseEvent) {
@@ -153,7 +155,6 @@ export class CreateSurvey {
   }
 
   closeDialog() {
-      // #TODO : Weiterleitung zur umfragenantwortseite
       this.dialog.nativeElement.close();
   }
 

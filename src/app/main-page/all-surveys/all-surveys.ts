@@ -3,10 +3,11 @@ import { SurveyOverview } from '../survey-overview/survey-overview';
 import { FilterService } from '../../services/filter-service';
 import { DatePipe } from '@angular/common';
 import { Survey } from '../../interfaces/survey';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-all-surveys',
-  imports: [SurveyOverview, DatePipe],
+  imports: [SurveyOverview, DatePipe, RouterLink],
   templateUrl: './all-surveys.html',
   styleUrl: './all-surveys.scss',
 })

@@ -71,7 +71,7 @@
       <!-- #TODO Style -->
     } @else {
       @for (survey of sortedSurveylist(); track survey.id) {
-        <article class="survey">
+        <article [routerLink]="['/survey', survey.id]" class="survey">
           <div class="survey-detail">
             <p class="category">{{ survey.category }}</p>
             <h3 class="survey-header">{{ survey.name }}</h3>

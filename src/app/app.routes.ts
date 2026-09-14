@@ -5,7 +5,7 @@ import { ErrorPage } from './error-page/error-page';
 
 export const routes: Routes = [
     { path: "", component:MainPage},
-    { path: "view-survey", component:SurveyView},
+    { path: "survey/:id", component:SurveyView},
 
     { path: "**", component:ErrorPage}
 ];
