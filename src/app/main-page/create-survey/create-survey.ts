@@ -118,14 +118,14 @@ export class CreateSurvey {
   surveyForm = new FormGroup({
     name: new FormControl('', Validators.required),
     endDate: new FormControl(''),
-    category: new FormControl(''),
+    category: new FormControl('', Validators.required),
     description: new FormControl(''),
     isPublished: new FormControl(false),
     questions: new FormArray([
       new FormGroup({
-        question: new FormControl(),
+        question: new FormControl('', Validators.required),
         allowMultipleAnswers: new FormControl(false, { nonNullable: true }),
-        answers: new FormArray([new FormControl<string>(''), new FormControl<string>('')]),
+        answers: new FormArray([new FormControl<string>('', Validators.required), new FormControl<string>('', Validators.required)]),
       }),
     ]),
   });
