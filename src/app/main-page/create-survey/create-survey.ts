@@ -29,31 +29,33 @@ export class CreateSurvey {
     this.shownCategory = category;
   }
 
- async onSubmit() {
-    const formValue = this.surveyForm.getRawValue();
+async onSubmit() {
+  const formValue = this.surveyForm.getRawValue();
 
-    const newSurvey: Survey = {
-      id: crypto.randomUUID(),
-      name: formValue.name ?? '',
-      endDate: new Date(formValue.endDate ?? ''),
-      category: formValue.category ?? '',
-      description: formValue.description ?? '',
-      isActive: true,
-      isPublished: formValue.isPublished ?? true,
+  const newSurvey: Survey = {
+    id: crypto.randomUUID(),
+    name: formValue.name ?? '',
+    endDate: new Date(formValue.endDate ?? ''),
+    category: formValue.category ?? '',
+    description: formValue.description ?? '',
+    isActive: true,
+    isPublished: formValue.isPublished ?? true,
 
-      questions: formValue.questions.map((question) => ({
-        question: question.question ?? '',
-        allowMultipleAnswers: question.allowMultipleAnswers,
-        answers: question.answers.map((answer) => ({
-          answer: answer ?? '',
-        })),
+    questions: formValue.questions.map((question) => ({
+      question: question.question ?? '',
+      allowMultipleAnswers: question.allowMultipleAnswers,
+      answers: question.answers.map((answer) => ({
+        answer: answer ?? '',
       })),
-    };
-    
-   await this.databaseService.createSurvey(newSurvey)
-   await this.filterService.loadSurveys();
+    })),
+  };
 
+  const success = await this.databaseService.createSurvey(newSurvey);
+
+  if (success) {
+    await this.filterService.loadSurveys();
   }
+}
 
   addQuestion() {
     const question = new FormGroup({

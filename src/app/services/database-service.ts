@@ -44,14 +44,6 @@ export class DatabaseService {
       return false;
     }
 
-    const orignalQuestion = survey.questions[0];
-    const savedQuestion = savedQuestions[0];
-
-    const answersOfFirstQuestion = orignalQuestion.answers.map((answer) => ({
-      question_id: savedQuestion.id,
-      answer: answer.answer,
-    }));
-
     const answersForDatabase = survey.questions.flatMap((question, index) =>
       question.answers.map((answer) => ({
         question_id: savedQuestions[index].id,
@@ -99,6 +91,6 @@ export class DatabaseService {
         })),
       })),
     }));
-    return true;
+    return surveys;
   }
 }
