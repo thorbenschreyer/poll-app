@@ -27,7 +27,7 @@
               <label for="name">Survey name</label>
               <div class="input">
                 <input class="input__field" id="name" formControlName="name" type="text" />
-                <div class="input__img">
+                <div (click)='deleteText("name")' class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                 </div>
@@ -44,7 +44,7 @@
                       formControlName="endDate"
                       type="date"
                     />
-                    <div class="input__img">
+                    <div (click)='deleteText("endDate")' class="input__img">
                       <img class="input__img" src="/assets/delete_white.svg" alt="" />
                       <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                     </div>
@@ -100,7 +100,7 @@
                   formControlName="description"
                   class="input__field input__field--description"
                 ></textarea>
-                <div class="input__img">
+                <div (click)='deleteText("description")' class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                 </div>

@@ -56,6 +56,10 @@ export class CreateSurvey {
     }
   }
 
+  deleteText(toDelete: 'name' | 'endDate' | 'description') {
+    this.surveyForm.controls[toDelete].setValue('');
+  }
+
   addQuestion() {
     const question = new FormGroup({
       question: new FormControl(),
