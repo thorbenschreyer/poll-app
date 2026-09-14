@@ -55,7 +55,6 @@ export class DatabaseService {
       answer: answer.answer,
     }));
 
-
     const answersForDatabase = survey.questions.flatMap((question, index) =>
       question.answers.map((answer) => ({
         question_id: savedQuestions[index].id,
@@ -63,18 +62,47 @@ export class DatabaseService {
       })),
     );
 
-    const { data: savedAnswers, error: answersError } = await this.supabase 
-    .from('answers')
-    .insert(answersForDatabase)
-    .select();
+    const { data: savedAnswers, error: answersError } = await this.supabase
+      .from('answers')
+      .insert(answersForDatabase)
+      .select();
 
     console.log('Answers der Fragen:', savedAnswers, 'Error der answers: ', answersError);
   }
 
-  async testConnection() {
-    const { data, error } = await this.supabase.from('surveys').select('*');
+  async getSurveys() {
+    const { data, error } = await this.supabase
+      .from('surveys')
+      .select('*, questions(*,  answers(*))');
 
-    console.log('Supabase Daten:', data);
-    console.log('Supabase Fehler:', error);
+    console.log('Geladene Surveys:', data);
+    console.log('Fehler beim Laden:', error);
+
+    if (error || !data) {
+      console.error('Surveys konnten nicht geladen werden:', error);
+      return;
+    }
+
+    const surveys: Survey[] = data.map((survey) => ({
+      id: survey.id,
+      name: survey.name,
+      endDate: new Date(survey.end_date),
+      category: survey.category,
+      description: survey.description,
+      isActive: survey.is_active,
+      isPublished: survey.is_published,
+
+      questions: survey.questions.map((question: any) => ({
+        question: question.question,
+        allowMultipleAnswers: question.allow_multiple_answers,
+        answers: question.answers.map((answer: any) => ({
+          answer: answer.answer,
+        })),
+      })),
+    }));
+
+    console.log('Supabase mit Questions:', data);
+    console.log(surveys)
+    return surveys;
   }
 }

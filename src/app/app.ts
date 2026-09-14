@@ -11,4 +11,8 @@ import { DatabaseService } from './services/database-service';
 export class App {
   protected readonly title = signal('poll_app');
   dataBase = inject(DatabaseService)
+
+  constructor() {
+    this.dataBase.getSurveys()
+  }
 }
