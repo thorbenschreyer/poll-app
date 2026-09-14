@@ -25,11 +25,8 @@ export class CreateSurvey {
   @ViewChild('dialog')
   dialog!: ElementRef<HTMLDialogElement>;
 
-  closeDialogOnOutsideClick(event: MouseEvent) {
-    if (event.target === this.dialog.nativeElement) {
-      this.dialog.nativeElement.close();
-    }
-  }
+  @ViewChild('publishButton')
+  publishButton!: ElementRef<HTMLElement>;
 
   setCategory(category: string) {
     this.surveyForm.patchValue({
@@ -133,11 +130,30 @@ export class CreateSurvey {
   });
 
   showDialog() {
-    this.dialog.nativeElement.showModal()
+    const button = this.publishButton.nativeElement;
+    const dialog = this.dialog.nativeElement;
+    const buttonPosition = button.getBoundingClientRect();
+    const distanceFromBottom = window.innerHeight - buttonPosition.bottom;
+    const distanceFromRight = window.innerWidth - buttonPosition.right;
+    dialog.style.bottom = `${distanceFromBottom}px`;
+    dialog.style.right = `${distanceFromRight}px`;
+    dialog.showModal();
+
+    setTimeout(() => {
+      // #TODO : Weiterleitung zur umfragenantwortseite
+      this.dialog.nativeElement.close();
+    }, 3000);
+  }
+
+  closeDialogOnOutsideClick(event: MouseEvent) {
+    if (event.target === this.dialog.nativeElement) {
+      this.dialog.nativeElement.close();
+    }
   }
 
   closeDialog() {
-    this.dialog.nativeElement.close()
+      // #TODO : Weiterleitung zur umfragenantwortseite
+      this.dialog.nativeElement.close();
   }
 
   categorylist = [

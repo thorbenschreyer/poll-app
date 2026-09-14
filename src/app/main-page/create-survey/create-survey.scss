@@ -200,6 +200,7 @@ label {
 }
 
 footer {
+  position: relative;
   max-width: 1052px;
   width: 100%;
   display: flex;
@@ -358,4 +359,59 @@ footer {
   font-style: 'Mulish-Regular';
   font-size: 16px;
   color: var(--primary-color-orange);
+}
+
+dialog {
+  position: fixed;
+
+  width: 357px;
+  min-height: 86px;
+
+  margin: 0;
+  padding: 0;
+
+  top: auto;
+  left: auto;
+
+  border: none;
+  border-radius: 5px 50px 5px 5px;
+  background-color: rgba(254, 233, 212, 1);
+  animation: slideInFromRight 0.4s ease-out;
+
+  section {
+    padding: 24px;
+  }
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.dialog-section {
+  display: flex;
+  justify-content: space-between;
+
+  > p {
+    font-family:'Nerko-One';
+    color: rgba(53, 39, 58, 1);
+    font-size: 24px;
+  }
+
+  > img {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+  }
 }

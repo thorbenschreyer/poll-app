@@ -32,8 +32,8 @@
               <!-- Input name -->
               <label for="name">Survey name</label>
               <div class="input">
-                <input  class="input__field" id="name" formControlName="name" type="text" />
-                <div (click)='deleteText("name")' class="input__img">
+                <input class="input__field" id="name" formControlName="name" type="text" />
+                <div (click)="deleteText('name')" class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                 </div>
@@ -49,9 +49,8 @@
                       class="input__field"
                       formControlName="endDate"
                       type="date"
-                      
                     />
-                    <div (click)='deleteText("endDate")' class="input__img">
+                    <div (click)="deleteText('endDate')" class="input__img">
                       <img class="input__img" src="/assets/delete_white.svg" alt="" />
                       <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                     </div>
@@ -85,17 +84,15 @@
                         <img class="img-open" src="/assets/arrow_drop_down-up-orange.svg" alt="" />
                       </span>
                     </span>
-                    
                   </button>
-                <p class="used-category">
-                  @if (shownCategory == "All Surveys") {
-                    ""
-                  } @else {
-                    {{shownCategory}}
-                  }
-                
-                </p>
-   
+                  <p class="used-category">
+                    @if (shownCategory == 'All Surveys') {
+                      ""
+                    } @else {
+                      {{ shownCategory }}
+                    }
+                  </p>
+
                   <ul class="category-select__list" [class.isActive]="categoryIsShown()">
                     @for (categorie of categorylist; track categorie) {
                       <li (click)="categoryIsShown.set(!categoryIsShown()); setCategory(categorie)">
@@ -116,7 +113,7 @@
                   formControlName="description"
                   class="input__field input__field--description"
                 ></textarea>
-                <div (click)='deleteText("description")' class="input__img">
+                <div (click)="deleteText('description')" class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                 </div>
@@ -171,17 +168,13 @@
                             class="input__field answer-list--margin"
                             type="text"
                           />
-                            <div
-                              (click)="removeAnswer(answerIndex, questionIndex)"
-                              class="input__img"
-                            >
-                              <img class="input__img" src="/assets/delete_white.svg" alt="" />
-                              <img
-                                class="input__img--hover"
-                                src="/assets/delete_orange.svg"
-                                alt=""
-                              />
-                            </div>
+                          <div
+                            (click)="removeAnswer(answerIndex, questionIndex)"
+                            class="input__img"
+                          >
+                            <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                            <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                          </div>
                         </li>
                       }
                     </ol>
@@ -207,7 +200,7 @@
       </form>
 
       <footer>
-        <a type="submit" class="btn" (click)="onSubmit()">
+        <a type="submit" class="btn" (click)="onSubmit()" #publishButton>
           Publish
           <img class="btn-img" src="/assets/check.svg" alt="" />
         </a>
@@ -217,7 +210,9 @@
   <button (click)="showDialog()">DIALOG</button>
 </div>
 
-<dialog #dialog (click)="closeDialogOnOutsideClick($event)"> 
-  <section>DAS IST EIN TESET</section>
-  
+<dialog #dialog (click)="closeDialogOnOutsideClick($event)">
+  <section class="dialog-section">
+    <p>Your survey is now <br> published</p>
+    <img (click)="closeDialog()" src="/assets/close (black).png" alt="">
+  </section>
 </dialog>
