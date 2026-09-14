@@ -73,7 +73,7 @@ export class CreateSurvey {
     if (this.questions.length != 1) {
       this.questions.removeAt(index);
     } else {
-      console.log('Löschen von Fragentext');
+      this.questions.at(0).get('question')?.setValue('');
     }
   }
 
@@ -82,7 +82,7 @@ export class CreateSurvey {
     if (answers > 1) {
       (this.questions.at(questionIndex).get('answers') as FormArray).removeAt(answerIndex);
     } else {
-      console.log('Löschen von Antworttext');
+      (this.questions.at(questionIndex).get('answers') as FormArray).at(0).setValue('');
     }
   }
 
