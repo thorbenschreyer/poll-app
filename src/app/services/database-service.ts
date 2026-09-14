@@ -75,9 +75,6 @@ export class DatabaseService {
       .from('surveys')
       .select('*, questions(*,  answers(*))');
 
-    console.log('Geladene Surveys:', data);
-    console.log('Fehler beim Laden:', error);
-
     if (error || !data) {
       console.error('Surveys konnten nicht geladen werden:', error);
       return;
@@ -100,9 +97,6 @@ export class DatabaseService {
         })),
       })),
     }));
-
-    console.log('Supabase mit Questions:', data);
-    console.log(surveys)
     return surveys;
   }
 }

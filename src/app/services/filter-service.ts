@@ -1,15 +1,30 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Survey } from '../interfaces/survey';
+import { DatabaseService } from './database-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterService {
+  timeToFullHour!: ReturnType<typeof setTimeout>;
+  hourIntervall!: ReturnType<typeof setInterval>;
+  private databaseService = inject(DatabaseService);
+
   pastSurvey = signal(false);
   activeSurvey = signal(true);
   currentDay = signal(new Date());
-  timeToFullHour!: ReturnType<typeof setTimeout>;
-  hourIntervall!: ReturnType<typeof setInterval>;
+  surveyList = signal<Survey[]>([]);
+
+  constructor() {
+    this.loadSurveys();
+  }
+
+  async loadSurveys() {
+    const surveys = await this.databaseService.getSurveys();
+    if (surveys) {
+      this.surveyList.set(surveys);
+    }
+  }
 
   filterByCategory(category: string, newList: Survey[]) {
     if (category == 'All Surveys') {
@@ -74,22 +89,6 @@ export class FilterService {
   }
 
   addSurvey(survey: Survey) {
-  this.surveyList.update(currentSurveys => [
-    ...currentSurveys,
-    survey
-  ]);
-}
-
-surveyList = signal<Survey[]>([
-  {
-    id: '550e8400-e29b-41d4-a716-446655440001',
-    category: 'Team Activities',
-    name: 'Wie zufrieden bist du mit unseren Teamevents?',
-    endDate: new Date('2026-09-05'),
-    description: 'Wir möchten wissen, wie zufrieden du mit unseren bisherigen Teamevents bist.',
-    isActive: true,
-    isPublished: true,
-    questions: [],
-  },
-]);
+    this.surveyList.update((currentSurveys) => [...currentSurveys, survey]);
+  }
 }

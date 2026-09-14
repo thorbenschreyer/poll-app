@@ -49,8 +49,9 @@ export class CreateSurvey {
         })),
       })),
     };
-    this.filterService.addSurvey(newSurvey);
+    
     this.databaseService.createSurvey(newSurvey)
+    this.filterService.loadSurveys();
   }
 
   addQuestion() {
