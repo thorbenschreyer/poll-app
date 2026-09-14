@@ -38,7 +38,12 @@
                 <div>
                   <label for="enddate">Set end date (optional)</label>
                   <div class="input input--enddate">
-                    <input id="endDate" class="input__field" formControlName="endDate" type="date" />
+                    <input
+                      id="endDate"
+                      class="input__field"
+                      formControlName="endDate"
+                      type="date"
+                    />
                     <div class="input__img">
                       <img class="input__img" src="/assets/delete_white.svg" alt="" />
                       <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -90,7 +95,11 @@
             <div class="description-form">
               <label for="describing">Describing text (optional)</label>
               <div class="input input--description">
-                <textarea id="describing" formControlName="description" class="input__field input__field--description"></textarea>
+                <textarea
+                  id="describing"
+                  formControlName="description"
+                  class="input__field input__field--description"
+                ></textarea>
                 <div class="input__img">
                   <img class="input__img" src="/assets/delete_white.svg" alt="" />
                   <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
@@ -106,22 +115,31 @@
                 <section class="question-head">
                   <div class="question-head--asked-question">
                     <label [for]="'question-' + questionIndex">{{ $index + 1 }}. Question</label>
-                    @if (questions.length != 1) {
-                      <div (click)="removeQuestion(questionIndex)" class="input__img">
-                        <img class="input__img" src="/assets/delete_white.svg" alt="" />
-                        <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
-                      </div>
-                    }
+
+                    <div (click)="removeQuestion(questionIndex)" class="input__img">
+                      <img class="input__img" src="/assets/delete_white.svg" alt="" />
+                      <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
+                    </div>
                   </div>
-                  <input  formControlName="question" class="input__field" type="text" name="" [id]="'question-' + questionIndex" />
+                  <input
+                    formControlName="question"
+                    class="input__field"
+                    type="text"
+                    name=""
+                    [id]="'question-' + questionIndex"
+                  />
                 </section>
                 <!-- Answers -->
                 <section class="answers-sectiom">
                   <div class="answer__head">
                     <label for="answers">Answers</label>
                     <span class="answer__checkbox--text"
-                      ><input formControlName="allowMultipleAnswers" class="answer__checkbox--checkbox" type="checkbox" /> Allow multiple
-                      answers.</span
+                      ><input
+                        formControlName="allowMultipleAnswers"
+                        class="answer__checkbox--checkbox"
+                        type="checkbox"
+                      />
+                      Allow multiple answers.</span
                     >
                   </div>
                   <div class="answers">
@@ -132,8 +150,11 @@
                         let answerIndex = $index
                       ) {
                         <li class="answer-list">
-                          <input [formControl]="answer" class="input__field answer-list--margin" type="text" />
-                          @if (getNumberofAnswers(questionIndex) > 1) {
+                          <input
+                            [formControl]="answer"
+                            class="input__field answer-list--margin"
+                            type="text"
+                          />
                             <div
                               (click)="removeAnswer(answerIndex, questionIndex)"
                               class="input__img"
@@ -145,7 +166,6 @@
                                 alt=""
                               />
                             </div>
-                          }
                         </li>
                       }
                     </ol>

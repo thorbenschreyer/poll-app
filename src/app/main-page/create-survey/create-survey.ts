@@ -6,7 +6,6 @@ import { Survey } from '../../interfaces/survey';
 import { FilterService } from '../../services/filter-service';
 import { DatabaseService } from '../../services/database-service';
 
-
 @Component({
   selector: 'app-create-survey',
   imports: [RouterLink, ReactiveFormsModule],
@@ -20,7 +19,7 @@ export class CreateSurvey {
   survey = inject(Questions);
   shownCategory!: string;
   filterService = inject(FilterService);
-  databaseService = inject(DatabaseService)
+  databaseService = inject(DatabaseService);
 
   setCategory(category: string) {
     this.surveyForm.patchValue({
@@ -29,33 +28,33 @@ export class CreateSurvey {
     this.shownCategory = category;
   }
 
-async onSubmit() {
-  const formValue = this.surveyForm.getRawValue();
+  async onSubmit() {
+    const formValue = this.surveyForm.getRawValue();
 
-  const newSurvey: Survey = {
-    id: crypto.randomUUID(),
-    name: formValue.name ?? '',
-    endDate: new Date(formValue.endDate ?? ''),
-    category: formValue.category ?? '',
-    description: formValue.description ?? '',
-    isActive: true,
-    isPublished: formValue.isPublished ?? true,
+    const newSurvey: Survey = {
+      id: crypto.randomUUID(),
+      name: formValue.name ?? '',
+      endDate: new Date(formValue.endDate ?? ''),
+      category: formValue.category ?? '',
+      description: formValue.description ?? '',
+      isActive: true,
+      isPublished: formValue.isPublished ?? true,
 
-    questions: formValue.questions.map((question) => ({
-      question: question.question ?? '',
-      allowMultipleAnswers: question.allowMultipleAnswers,
-      answers: question.answers.map((answer) => ({
-        answer: answer ?? '',
+      questions: formValue.questions.map((question) => ({
+        question: question.question ?? '',
+        allowMultipleAnswers: question.allowMultipleAnswers,
+        answers: question.answers.map((answer) => ({
+          answer: answer ?? '',
+        })),
       })),
-    })),
-  };
+    };
 
-  const success = await this.databaseService.createSurvey(newSurvey);
+    const success = await this.databaseService.createSurvey(newSurvey);
 
-  if (success) {
-    await this.filterService.loadSurveys();
+    if (success) {
+      await this.filterService.loadSurveys();
+    }
   }
-}
 
   addQuestion() {
     const question = new FormGroup({
@@ -71,11 +70,20 @@ async onSubmit() {
   }
 
   removeQuestion(index: number) {
-    this.questions.removeAt(index);
+    if (this.questions.length != 1) {
+      this.questions.removeAt(index);
+    } else {
+      console.log('Löschen von Fragentext');
+    }
   }
 
   removeAnswer(answerIndex: number, questionIndex: number) {
-    (this.questions.at(questionIndex).get('answers') as FormArray).removeAt(answerIndex);
+    const answers = (this.questions.at(questionIndex).get('answers') as FormArray).length;
+    if (answers > 1) {
+      (this.questions.at(questionIndex).get('answers') as FormArray).removeAt(answerIndex);
+    } else {
+      console.log('Löschen von Antworttext');
+    }
   }
 
   get questions(): FormArray {
