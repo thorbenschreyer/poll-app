@@ -49,6 +49,7 @@
                       class="input__field"
                       formControlName="endDate"
                       type="date"
+                      [min]="minDate"
                     />
                     <div (click)="deleteText('endDate')" class="input__img">
                       <img class="input__img" src="/assets/delete_white.svg" alt="" />

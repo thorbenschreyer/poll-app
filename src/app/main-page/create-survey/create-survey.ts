@@ -24,6 +24,14 @@ export class CreateSurvey {
   filterService = inject(FilterService);
   databaseService = inject(DatabaseService);
   publishAttempted = signal(false);
+  today = new Date();
+
+  minDate =
+    this.today.getFullYear() +
+    '-' +
+    String(this.today.getMonth() + 1).padStart(2, '0') +
+    '-' +
+    String(this.today.getDate()).padStart(2, '0');
 
   @ViewChild('dialog')
   dialog!: ElementRef<HTMLDialogElement>;
