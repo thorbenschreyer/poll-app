@@ -1,2 +1,33 @@
-<p>survey-view works!</p>
-{{survey().name}}
+<section class="survey-view-section">
+  <!-- Header Section -->
+  <header class="survey-header">
+    <img class="header-img" src="/assets/poll_app_logo_dark.svg" alt="" />
+    <a (click)="createSurvey.emit()" class="btn"
+      >Create survey<img class="btn-img" src="/assets/add_black.svg" alt=""
+    /></a>
+  </header>
+
+  <!-- questions and answers Section -->
+  <section class="questions-and-answers-section">
+    <!-- Questions -->
+    <section class="questions-section">
+
+    </section>
+
+    <!-- Answers -->
+    <article class="answers-section">
+        <h2>Survey results <span>LIVE</span></h2>
+        <!-- Results -->
+        <div>
+            @if (noAnswers) {
+                <div class="no-answers-div">
+                    <p>Results will be shown here after participants complete the survey.</p>
+                    <p class="no-answers-div__no-answers-yet">There are no answears yet.</p>
+                </div>
+            } @else {
+
+            }
+        </div>
+    </article>
+  </section>
+</section>
