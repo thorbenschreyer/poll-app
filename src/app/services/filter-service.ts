@@ -56,21 +56,30 @@ export class FilterService {
    * berechnet wieviele tage noch bis zum ende der umfrage bleiben
    */
   getSurveyEnds(survey: Survey) {
-    const msPerDay = 1000 * 60 * 60 * 24;
-    let ExpDayInList = survey.endDate;
-    let diffInMs = ExpDayInList.getTime() - this.currentDay().getTime();
-    let daysUntilExpires = Math.ceil(diffInMs / msPerDay);
-    if (daysUntilExpires <= 0) {
-      survey.isActive = false;
-      return 0;
+    if (survey.endDate) {
+      const msPerDay = 1000 * 60 * 60 * 24;
+      let ExpDayInList = survey.endDate;
+      let diffInMs = ExpDayInList.getTime() - this.currentDay().getTime();
+      let daysUntilExpires = Math.ceil(diffInMs / msPerDay);
+      if (daysUntilExpires <= 0) {
+        survey.isActive = false;
+        return 0;
+      }
+      return daysUntilExpires;
+    } else {
+      survey.isActive = true;
     }
-    return daysUntilExpires;
+    return 0;
   }
 
   sortNextThreeExpDay() {
     const endingSurveys = this.surveyList()
-      .filter((survey) => survey.endDate.getTime() >= this.currentDay().getTime())
-      .sort((a, b) => a.endDate.getTime() - b.endDate.getTime())
+
+      .filter(
+        (survey) =>
+          survey.endDate !== null && survey.endDate.getTime() >= this.currentDay().getTime(),
+      )
+      .sort((a, b) => a.endDate!.getTime() - b.endDate!.getTime())
       .slice(0, 3);
     return endingSurveys;
   }

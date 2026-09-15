@@ -200,6 +200,11 @@
       </form>
 
       <footer>
+        <p class="error-message">
+          @if (surveyForm.invalid && surveyForm.touched) {
+            <p class="error">Please fill in all required fields.</p>
+          }
+        </p>
         <a type="submit" class="btn" (click)="onSubmit()" #publishButton>
           Publish
           <img class="btn-img" src="/assets/check.svg" alt="" />

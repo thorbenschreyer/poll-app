@@ -181,3 +181,14 @@
     height: 16px;
   }
 }
+
+footer {
+  display: flex;
+  align-items: center;
+}
+
+.error-message {
+  color: rgb(209, 8, 8);
+  font-family: 'Nokora-bold';
+  margin-right: 24px;
+}

@@ -89,7 +89,7 @@ export class DatabaseService {
     const surveys: Survey[] = data.map((survey) => ({
       id: survey.id,
       name: survey.name,
-      endDate: new Date(survey.end_date),
+      endDate: survey.end_date ? new Date(survey.end_date) : null,
       category: survey.category,
       description: survey.description,
       isActive: survey.is_active,

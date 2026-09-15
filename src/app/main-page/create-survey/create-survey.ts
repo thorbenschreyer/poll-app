@@ -6,10 +6,11 @@ import { Survey } from '../../interfaces/survey';
 import { FilterService } from '../../services/filter-service';
 import { DatabaseService } from '../../services/database-service';
 import { Router } from '@angular/router';
+import { validate } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-create-survey',
-  imports: [RouterLink, ReactiveFormsModule, ],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './create-survey.html',
   styleUrls: ['./create-survey.scss', './survey-questions.scss'],
   providers: [Questions],
@@ -37,39 +38,44 @@ export class CreateSurvey {
     this.shownCategory = category;
   }
 
-async onSubmit() {
-  const formValue = this.surveyForm.getRawValue();
+  async onSubmit() {
+    const formValue = this.surveyForm.getRawValue();
 
-  const newSurvey: Survey = {
-    id: '',
-    name: formValue.name ?? '',
-    endDate: new Date(formValue.endDate ?? ''),
-    category: formValue.category ?? '',
-    description: formValue.description ?? '',
-    isActive: true,
-    isPublished: formValue.isPublished ?? true,
+    if (this.surveyForm.invalid) {
+      this.surveyForm.markAllAsTouched();
+      return;
+    }
 
-    questions: formValue.questions.map((question) => ({
-      question: question.question ?? '',
-      allowMultipleAnswers: question.allowMultipleAnswers,
-      answers: question.answers.map((answer) => ({
-        answer: answer ?? '',
+    const newSurvey: Survey = {
+      id: '',
+      name: formValue.name ?? '',
+      endDate: formValue.endDate ? new Date(formValue.endDate) : null,
+      category: formValue.category ?? '',
+      description: formValue.description ?? '',
+      isActive: true,
+      isPublished: formValue.isPublished ?? true,
+
+      questions: formValue.questions.map((question) => ({
+        question: question.question ?? '',
+        allowMultipleAnswers: question.allowMultipleAnswers,
+        answers: question.answers.map((answer) => ({
+          answer: answer ?? '',
+        })),
       })),
-    })),
-  };
+    };
 
-  const result = await this.databaseService.createSurvey(newSurvey);
+    const result = await this.databaseService.createSurvey(newSurvey);
 
-  if (result.success) {
-    await this.filterService.loadSurveys();
+    if (result.success) {
+      await this.filterService.loadSurveys();
 
-    this.showDialog();
+      this.showDialog();
 
-    setTimeout(() => {
-      this.router.navigate(['/survey', result.id]);
-    }, 3000);
+      setTimeout(() => {
+        this.router.navigate(['/survey', result.id]);
+      }, 3000);
+    }
   }
-}
 
   deleteText(toDelete: 'name' | 'endDate' | 'description') {
     this.surveyForm.controls[toDelete].setValue('');
@@ -77,15 +83,20 @@ async onSubmit() {
 
   addQuestion() {
     const question = new FormGroup({
-      question: new FormControl(),
+      question: new FormControl('', Validators.required),
       allowMultipleAnswers: new FormControl<boolean>(false),
-      answers: new FormArray([new FormControl(''), new FormControl('')]),
+      answers: new FormArray([
+        new FormControl('', Validators.required),
+        new FormControl('', Validators.required),
+      ]),
     });
     this.questions.push(question);
   }
 
   addAnswer(index: number) {
-    (this.questions.at(index).get('answers') as FormArray).push(new FormControl(''));
+    (this.questions.at(index).get('answers') as FormArray).push(
+      new FormControl('', Validators.required),
+    );
   }
 
   removeQuestion(index: number) {
@@ -123,16 +134,19 @@ async onSubmit() {
   }
 
   surveyForm = new FormGroup({
-    name: new FormControl('', Validators.required),
+    name: new FormControl(''),
     endDate: new FormControl(''),
-    category: new FormControl('', Validators.required),
+    category: new FormControl(''),
     description: new FormControl(''),
     isPublished: new FormControl(false),
     questions: new FormArray([
       new FormGroup({
-        question: new FormControl('', Validators.required),
+        question: new FormControl(''),
         allowMultipleAnswers: new FormControl(false, { nonNullable: true }),
-        answers: new FormArray([new FormControl<string>('', Validators.required), new FormControl<string>('', Validators.required)]),
+        answers: new FormArray([
+          new FormControl<string>('', Validators.required),
+          new FormControl<string>('', Validators.required),
+        ]),
       }),
     ]),
   });
@@ -155,7 +169,7 @@ async onSubmit() {
   }
 
   closeDialog() {
-      this.dialog.nativeElement.close();
+    this.dialog.nativeElement.close();
   }
 
   categorylist = [
