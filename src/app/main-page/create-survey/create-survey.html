@@ -87,7 +87,6 @@
                   </button>
                   <p class="used-category">
                     @if (shownCategory == 'All Surveys') {
-                      ""
                     } @else {
                       {{ shownCategory }}
                     }
@@ -201,8 +200,10 @@
 
       <footer>
         <p class="error-message">
-          @if (surveyForm.invalid && surveyForm.touched) {
-            <p class="error">Please fill in all required fields.</p>
+          @if (publishAttempted() && !surveyForm.controls.category.valid) {
+            <p class="error-message">Please use a category.</p>
+          } @else if (publishAttempted() && surveyForm.invalid) {
+            <p class="error-message">Please fill in all required fields.</p>
           }
         </p>
         <a type="submit" class="btn" (click)="onSubmit()" #publishButton>

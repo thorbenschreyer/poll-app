@@ -21,9 +21,9 @@ export class CreateSurvey {
   survey = inject(Questions);
   router = inject(Router);
   shownCategory!: string;
-  empty = '';
   filterService = inject(FilterService);
   databaseService = inject(DatabaseService);
+  publishAttempted = signal(false);
 
   @ViewChild('dialog')
   dialog!: ElementRef<HTMLDialogElement>;
@@ -40,9 +40,9 @@ export class CreateSurvey {
 
   async onSubmit() {
     const formValue = this.surveyForm.getRawValue();
+    this.publishAttempted.set(true);
 
     if (this.surveyForm.invalid) {
-      this.surveyForm.markAllAsTouched();
       return;
     }
 
@@ -82,6 +82,7 @@ export class CreateSurvey {
   }
 
   addQuestion() {
+    this.publishAttempted.set(false);
     const question = new FormGroup({
       question: new FormControl('', Validators.required),
       allowMultipleAnswers: new FormControl<boolean>(false),
@@ -134,14 +135,14 @@ export class CreateSurvey {
   }
 
   surveyForm = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', Validators.required),
     endDate: new FormControl(''),
-    category: new FormControl(''),
+    category: new FormControl('', Validators.required),
     description: new FormControl(''),
     isPublished: new FormControl(false),
     questions: new FormArray([
       new FormGroup({
-        question: new FormControl(''),
+        question: new FormControl('', Validators.required),
         allowMultipleAnswers: new FormControl(false, { nonNullable: true }),
         answers: new FormArray([
           new FormControl<string>('', Validators.required),
