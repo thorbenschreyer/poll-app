@@ -4,6 +4,7 @@ import { SurveyOverview } from './survey-overview/survey-overview';
 import { AllSurveys } from './all-surveys/all-surveys';
 import { CreateSurvey } from './create-survey/create-survey';
 import { FilterService } from '../services/filter-service';
+import { CreateSurveyService } from '../services/create-survey-service';
 
 @Component({
   selector: 'app-main-page',
@@ -12,8 +13,8 @@ import { FilterService } from '../services/filter-service';
   styleUrl: './main-page.scss',
 })
 export class MainPage {
-  createSurveyisActive = signal(false);
   filterservice = inject(FilterService)
+  createSurveyService = inject(CreateSurveyService);
 
   ngOnInit():void {
     this.filterservice.startHourTimer()
@@ -24,15 +25,4 @@ export class MainPage {
     clearInterval(this.filterservice.hourIntervall)
   }
 
-
-
-  openCreateSurvey() {
-    this.createSurveyisActive.set(true);
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeCreateSurvey() {
-    this.createSurveyisActive.set(false);
-    document.body.style.overflow = '';
-  }
 }

@@ -1,1 +1,8 @@
-<router-outlet />
+<router-outlet></router-outlet>
+
+
+@if (createSurveyService.isOpen()) {
+  <app-create-survey
+    (closeCreateSurvey)="createSurveyService.close()">
+  </app-create-survey>
+}

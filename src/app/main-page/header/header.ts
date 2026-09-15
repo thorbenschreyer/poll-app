@@ -1,5 +1,6 @@
-import { Component, output, signal } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CreateSurveyService } from '../../services/create-survey-service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,6 @@ import { RouterLink } from "@angular/router";
 })
 export class Header {
 
-  createSurvey = output<void>();
-  
+  createSurveyService = inject(CreateSurveyService);
 
 }
