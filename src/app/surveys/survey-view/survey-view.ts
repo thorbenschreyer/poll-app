@@ -15,7 +15,7 @@ export class SurveyView {
   filterService = inject(FilterService)
   survey = this.filterService.SurveyDetail
   createSurveyService = inject(CreateSurveyService);
-  noAnswers = true
+  noAnswers = false
 
   ngOnInit() {
     let currentSurvey = this.route.snapshot.paramMap.get('id');
@@ -24,4 +24,5 @@ export class SurveyView {
     this.filterService.setSurveyDetailByID(currentSurvey);
   }
   }
+
 }

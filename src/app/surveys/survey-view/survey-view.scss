@@ -1,20 +1,20 @@
 .survey-view-section {
-    margin: auto;
-    max-width: 1440px;
-    width: 100%;
+  margin: auto;
+  max-width: 1440px;
+  width: 100%;
 }
 
 .survey-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin: 48px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 48px 0px;
 }
 
 .header-img {
-    width: 120px;
-    height: 44px;
+  width: 120px;
+  height: 44px;
 }
 
 .btn-img {
@@ -55,38 +55,53 @@
 }
 
 .questions-and-answers-section {
-    display: flex;
-    align-items: end;
-    border: 1px solid red;
-    gap: 48px;
-    max-width: 1300px;
-    width: 100%;
+  display: flex;
+  align-items: end;
+  border: 1px solid red;
+  gap: 48px;
+  max-width: 1300px;
+  width: 100%;
 }
 
 .questions-section {
-    max-width: 850px;
-    width: 100%;
-    height: 1100px;
-    background-color: rgba(142, 112, 153, 0.1);
-    border-top-right-radius: 160px;
+  max-width: 850px;
+  width: 100%;
+  height: 1100px;
+  background-color: rgba(142, 112, 153, 0.1);
+  border-top-right-radius: 160px;
 }
 
 .answers-section {
-    flex: 1;
-    height: 890px;
-    border: 1px solid green;
+  flex: 1;
+  height: 890px;
+  border: 1px solid green;
 }
 
 .no-answers-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 32px;
-    width: 100%;
-    height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 32px;
+  width: 100%;
+  height: 220px;
 
-    &__no-answers-yet {
-        width: 100%;
-        text-align: center;
+  &__header {
+    color: rgba(53, 39, 58, 1);
+    font-family: 'Mulish-Bold';
+
+    &--text {
+      width: 100%;
+      text-align: center;
     }
+  }
+}
+
+.answers-section-h2 {
+  color: rgba(34, 18, 39, 1);
+  font-size: 32px;
+  font-family: 'Nerko-One';
+
+  &--color {
+    color: rgba(255, 183, 112, 1);
+  }
 }

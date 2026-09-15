@@ -16,16 +16,23 @@
 
     <!-- Answers -->
     <article class="answers-section">
-        <h2>Survey results <span>LIVE</span></h2>
+        <h2 class="answers-section-h2">Survey results <span class="answers-section-h2 answers-section-h2--color">LIVE</span></h2>
         <!-- Results -->
         <div>
             @if (noAnswers) {
                 <div class="no-answers-div">
-                    <p>Results will be shown here after participants complete the survey.</p>
-                    <p class="no-answers-div__no-answers-yet">There are no answears yet.</p>
+                    <p class="no-answers-div__header">Results will be shown here after participants complete the survey.</p>
+                    <p class="no-answers-div__header no-answers-div__header--text">There are no answears yet.</p>
                 </div>
             } @else {
-
+                @for (question of survey().questions; track $index; let questionIndex = $index) {
+                    <p>{{$index + 1}}. {{question.question}}</p>
+                    <ol type="A">
+                    @for (answer of survey().questions[questionIndex].answers; track $index; let answerIndex = $index) {
+                      <li> Anwtort als balken  <span>37%</span></li>
+                    }
+                    </ol>
+                } 
             }
         </div>
     </article>
