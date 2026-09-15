@@ -26,10 +26,10 @@
                 </div>
             } @else {
                 @for (question of survey().questions; track $index; let questionIndex = $index) {
-                    <p>{{$index + 1}}. {{question.question}}</p>
+                    <p class="question">{{$index + 1}}. {{question.question}}</p>
                     <ol type="A">
                     @for (answer of survey().questions[questionIndex].answers; track $index; let answerIndex = $index) {
-                      <li> Anwtort als balken  <span>37%</span></li>
+                      <li class="answers"> <progress class="progress-bar" value="37" max="100"></progress>  <span class="answers--number">37%</span></li>
                     }
                     </ol>
                 } 

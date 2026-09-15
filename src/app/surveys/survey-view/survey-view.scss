@@ -74,7 +74,6 @@
 .answers-section {
   flex: 1;
   height: 890px;
-  border: 1px solid green;
 }
 
 .no-answers-div {
@@ -104,4 +103,48 @@
   &--color {
     color: rgba(255, 183, 112, 1);
   }
+}
+
+.question {
+  font-family: 'Mulish-Bold';
+  margin: 24px 0px 8px 0px;
+}
+
+.answers {
+    padding-left: 8px;
+
+    &--number {
+        color: rgba(215, 148, 81, 1);
+        font-family:'Mulish-Extrabold';
+        margin-left: 12px;
+    }
+}
+
+.progress-bar {
+    max-width: 235px;
+    width: 100%;
+      
+  height: 10px;
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress-bar::-webkit-progress-bar {
+  background-color: rgba(237, 237, 237, 1);
+  border-radius: 10px;
+}
+
+.progress-bar::-webkit-progress-value {
+  background-color: rgba(255, 183, 112, 1);
+  border-radius: 10px;
+}
+
+.progress-bar::-moz-progress-bar {
+  background-color: rgba(255, 183, 112, 1);
+  border-radius: 10px;
+}
+
+li {
+    margin: 8px 0px 4px 20px;
 }
