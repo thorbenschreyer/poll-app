@@ -19,6 +19,33 @@ export class FilterService {
     this.loadSurveys();
   }
 
+  SurveyDetail = signal<Survey>({
+    id: '',
+    name: '',
+    endDate: null,
+    category: '',
+    description: '',
+    isActive: true,
+    isPublished: false,
+
+    questions: [
+      {
+        allowMultipleAnswers: false,
+        question: '',
+        answers: [
+          {
+            answer: '',
+          },
+        ],
+      },
+    ],
+  });
+
+  setSurveyDetailByID(id: string) {
+    let tmpSurvey = this.surveyList().find((survey) => survey.id == id);
+    if (tmpSurvey) this.SurveyDetail.set(tmpSurvey);
+  }
+
   async loadSurveys() {
     const surveys = await this.databaseService.getSurveys();
     if (surveys) {

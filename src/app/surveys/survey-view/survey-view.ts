@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FilterService } from '../../services/filter-service';
 
 @Component({
   selector: 'app-survey-view',
@@ -6,4 +8,17 @@ import { Component } from '@angular/core';
   templateUrl: './survey-view.html',
   styleUrl: './survey-view.scss',
 })
-export class SurveyView {}
+export class SurveyView {
+  private route = inject(ActivatedRoute);
+  router = inject(Router);
+  filterService = inject(FilterService)
+  survey = this.filterService.SurveyDetail
+
+  ngOnInit() {
+    let currentSurvey = this.route.snapshot.paramMap.get('id');
+    console.log(currentSurvey);
+      if (currentSurvey) {
+    this.filterService.setSurveyDetailByID(currentSurvey);
+  }
+  }
+}
