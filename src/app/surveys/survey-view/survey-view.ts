@@ -20,16 +20,52 @@ export class SurveyView {
   noAnswers = false;
   databaseService = inject(DatabaseService);
   selectedAnswers = signal<Record<string, string[]>>({});
+  answerVotes = signal<Record<string, number>>({});
 
   getSelectedAnswers(questionId: string): string[] {
     return this.selectedAnswers()[questionId] ?? [];
   }
 
-  ngOnInit() {
-    let currentSurvey = this.route.snapshot.paramMap.get('id');
-    console.log(currentSurvey);
+  async ngOnInit() {
+
+    const currentSurvey =
+      this.route.snapshot.paramMap.get('id');
+
     if (currentSurvey) {
+
+     
       this.filterService.setSurveyDetailByID(currentSurvey);
+
+
+      
+      const results =
+        await this.databaseService
+          .getSurveyResponseAnswers(currentSurvey);
+
+      console.log('Survey Results:', results);
+
+
+      
+      const votes: Record<string, number> = {};
+
+      results.forEach((response) => {
+
+        response.response_answers.forEach((responseAnswer) => {
+
+          const answerId = responseAnswer.answer_id;
+
+          votes[answerId] =
+            (votes[answerId] ?? 0) + 1;
+
+        });
+
+      });
+
+
+      // Ergebnis in unser Signal schreiben
+      this.answerVotes.set(votes);
+
+      console.log('Stimmen:', this.answerVotes());
     }
   }
 

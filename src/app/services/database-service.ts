@@ -142,4 +142,27 @@ export class DatabaseService {
 
     return true;
   }
+
+  async getSurveyResponseAnswers(surveyId: string) {
+    const { data, error } = await this.supabase
+      .from('survey_responses')
+      .select(
+        `
+      id,
+      response_answers (
+        question_id,
+        answer_id
+      )
+    `,
+      )
+      .eq('survey_id', surveyId);
+
+    if (error) {
+      console.error('Survey Ergebnisse konnten nicht geladen werden:', error);
+
+      return [];
+    }
+
+    return data;
+  }
 }
