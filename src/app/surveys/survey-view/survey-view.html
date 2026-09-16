@@ -66,7 +66,13 @@
   )"
 />
 
-        {{ answer.answer }}
+        {{ answer.answer }} <strong>
+  {{ getAnswerVotes(answer.id) }} Stimmen
+</strong>
+
+<strong>
+  {{ getAnswerPercentage(question.id, answer.id) }} %
+</strong>
 
       </label>
 
@@ -88,40 +94,69 @@
       </section>
     </section>
 
-    <!-- Answers -->
-    <article class="answers-section">
-      <h2 class="answers-section-h2">
-        Survey results <span class="answers-section-h2 answers-section-h2--color">LIVE</span>
-      </h2>
-      <!-- Results -->
-      <div>
-        @if (noAnswers) {
-          <div class="no-answers-div">
-            <p class="no-answers-div__header">
-              Results will be shown here after participants complete the survey.
-            </p>
-            <p class="no-answers-div__header no-answers-div__header--text">
-              There are no answears yet.
-            </p>
-          </div>
-        } @else {
-          @for (question of survey().questions; track $index; let questionIndex = $index) {
-            <p class="question">{{ $index + 1 }}. {{ question.question }}</p>
-            <ol type="A">
-              @for (
-                answer of survey().questions[questionIndex].answers;
-                track $index;
-                let answerIndex = $index
-              ) {
-                <li class="answers">
-                  <progress class="progress-bar" value="37" max="100"></progress>
-                  <span class="answers--number">37%</span>
-                </li>
-              }
-            </ol>
-          }
-        }
+<!-- Answers -->
+<article class="answers-section">
+
+  <h2 class="answers-section-h2">
+    Survey results
+    <span class="answers-section-h2 answers-section-h2--color">
+      LIVE
+    </span>
+  </h2>
+
+  <!-- Results -->
+  <div>
+
+    @if (noAnswers) {
+
+      <div class="no-answers-div">
+
+        <p class="no-answers-div__header">
+          Results will be shown here after participants complete the survey.
+        </p>
+
+        <p class="no-answers-div__header no-answers-div__header--text">
+          There are no answers yet.
+        </p>
+
       </div>
-    </article>
+
+    } @else {
+
+      @for (question of survey().questions; track question.id) {
+
+        <p class="question">
+          {{ $index + 1 }}. {{ question.question }}
+        </p>
+
+        <ol type="A">
+
+          @for (answer of question.answers; track answer.id) {
+
+            <li class="answers">
+
+              <progress
+                class="progress-bar"
+                [value]="getAnswerPercentage(question.id, answer.id)"
+                max="100">
+              </progress>
+
+              <span class="answers--number">
+                {{ getAnswerPercentage(question.id, answer.id) }}%
+              </span>
+
+            </li>
+
+          }
+
+        </ol>
+
+      }
+
+    }
+
+  </div>
+
+</article>
   </section>
 </section>

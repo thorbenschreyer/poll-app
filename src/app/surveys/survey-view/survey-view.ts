@@ -17,56 +17,65 @@ export class SurveyView {
   filterService = inject(FilterService);
   survey = this.filterService.SurveyDetail;
   createSurveyService = inject(CreateSurveyService);
-  noAnswers = false;
+  noAnswers = true;
   databaseService = inject(DatabaseService);
   selectedAnswers = signal<Record<string, string[]>>({});
   answerVotes = signal<Record<string, number>>({});
+  questionResponses = signal<Record<string, number>>({});
 
   getSelectedAnswers(questionId: string): string[] {
     return this.selectedAnswers()[questionId] ?? [];
   }
 
   async ngOnInit() {
-
-    const currentSurvey =
-      this.route.snapshot.paramMap.get('id');
+    const currentSurvey = this.route.snapshot.paramMap.get('id');
 
     if (currentSurvey) {
-
-     
       this.filterService.setSurveyDetailByID(currentSurvey);
 
+      const results = await this.databaseService.getSurveyResponseAnswers(currentSurvey);
+      this.noAnswers = results.length === 0;
 
-      
-      const results =
-        await this.databaseService
-          .getSurveyResponseAnswers(currentSurvey);
-
-      console.log('Survey Results:', results);
-
-
-      
       const votes: Record<string, number> = {};
 
       results.forEach((response) => {
-
         response.response_answers.forEach((responseAnswer) => {
-
           const answerId = responseAnswer.answer_id;
 
-          votes[answerId] =
-            (votes[answerId] ?? 0) + 1;
-
+          votes[answerId] = (votes[answerId] ?? 0) + 1;
         });
-
       });
 
-
-      // Ergebnis in unser Signal schreiben
       this.answerVotes.set(votes);
+
+      const questionResponses: Record<string, number> = {};
+
+      results.forEach((response) => {
+        const answeredQuestions = new Set<string>();
+
+        response.response_answers.forEach((responseAnswer) => {
+          answeredQuestions.add(responseAnswer.question_id);
+        });
+
+        answeredQuestions.forEach((questionId) => {
+          questionResponses[questionId] = (questionResponses[questionId] ?? 0) + 1;
+        });
+      });
+
+      this.questionResponses.set(questionResponses);
+
+      console.log('Teilnehmer pro Frage:', this.questionResponses());
 
       console.log('Stimmen:', this.answerVotes());
     }
+  }
+
+  getAnswerVotes(answerId: string | undefined): number {
+    if (!answerId) {
+      return 0;
+    }
+
+    return this.answerVotes()[answerId] ?? 0;
   }
 
   selectAnswer(
@@ -128,5 +137,21 @@ export class SurveyView {
     const success = await this.databaseService.createResponseAnswers(responseAnswers);
 
     console.log('Antworten gespeichert:', success);
+  }
+
+  getAnswerPercentage(questionId: string | undefined, answerId: string | undefined): number {
+    if (!questionId || !answerId) {
+      return 0;
+    }
+
+    const votes = this.getAnswerVotes(answerId);
+
+    const responses = this.questionResponses()[questionId] ?? 0;
+
+    if (responses === 0) {
+      return 0;
+    }
+
+    return Math.round((votes / responses) * 100);
   }
 }
