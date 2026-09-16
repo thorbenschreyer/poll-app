@@ -2,10 +2,11 @@ import { Component, inject, output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterService } from '../../services/filter-service';
 import { CreateSurveyService } from '../../services/create-survey-service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-survey-view',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './survey-view.html',
   styleUrl: './survey-view.scss',
 })

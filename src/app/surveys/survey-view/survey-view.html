@@ -1,8 +1,10 @@
 <section class="survey-view-section">
   <!-- Header Section -->
   <header class="survey-header">
-    <img class="header-img" src="/assets/poll_app_logo_dark.svg" alt="" />
-    <a  (click)="createSurveyService.open()" class="btn"
+    <div (click)="createSurveyService.close()">
+      <img class="header-img" src="/assets/poll_app_logo_dark.svg" alt="" />
+    </div>
+    <a (click)="createSurveyService.open()" class="btn"
       >Create survey<img class="btn-img" src="/assets/add_black.svg" alt=""
     /></a>
   </header>
@@ -11,30 +13,72 @@
   <section class="questions-and-answers-section">
     <!-- Questions -->
     <section class="questions-section">
+      <section class="questions-section__content">
+        <header class="questions-header">
+          <section class="date-category-section">
+            <p class="batch">Published</p>
+            <div class="date-category-section__enddate">
+              <p class="date-category-section__enddate--design">
+                Ends on {{ survey().endDate | date: 'dd.MM.yyyy' }}
+              </p>
+              <p class="date-category-section__enddate--design">
+                Category: {{ survey().category }}
+              </p>
+            </div>
 
+            <div class="questions-header-content">
+              <h1 class="questions-header-content--h1">Let’s Plan the Next Team Event Together</h1>
+              <p class="date-category-section__enddate--design">
+                We want to create team activities that everyone will enjoy – share your preferences
+                and ideas in our survey to help us plan better experiences together.
+              </p>
+            </div>
+          </section>
+        </header>
+        <section class="questions"></section>
+        <div class="btn--area">
+        <a type="submit" class="btn btn--width">
+          Complete survey
+          <img class="btn-img" src="/assets/check.svg" alt="" />
+        </a>
+        </div>
+      </section>
     </section>
 
     <!-- Answers -->
     <article class="answers-section">
-        <h2 class="answers-section-h2">Survey results <span class="answers-section-h2 answers-section-h2--color">LIVE</span></h2>
-        <!-- Results -->
-        <div>
-            @if (noAnswers) {
-                <div class="no-answers-div">
-                    <p class="no-answers-div__header">Results will be shown here after participants complete the survey.</p>
-                    <p class="no-answers-div__header no-answers-div__header--text">There are no answears yet.</p>
-                </div>
-            } @else {
-                @for (question of survey().questions; track $index; let questionIndex = $index) {
-                    <p class="question">{{$index + 1}}. {{question.question}}</p>
-                    <ol type="A">
-                    @for (answer of survey().questions[questionIndex].answers; track $index; let answerIndex = $index) {
-                      <li class="answers"> <progress class="progress-bar" value="37" max="100"></progress>  <span class="answers--number">37%</span></li>
-                    }
-                    </ol>
-                } 
-            }
-        </div>
+      <h2 class="answers-section-h2">
+        Survey results <span class="answers-section-h2 answers-section-h2--color">LIVE</span>
+      </h2>
+      <!-- Results -->
+      <div>
+        @if (noAnswers) {
+          <div class="no-answers-div">
+            <p class="no-answers-div__header">
+              Results will be shown here after participants complete the survey.
+            </p>
+            <p class="no-answers-div__header no-answers-div__header--text">
+              There are no answears yet.
+            </p>
+          </div>
+        } @else {
+          @for (question of survey().questions; track $index; let questionIndex = $index) {
+            <p class="question">{{ $index + 1 }}. {{ question.question }}</p>
+            <ol type="A">
+              @for (
+                answer of survey().questions[questionIndex].answers;
+                track $index;
+                let answerIndex = $index
+              ) {
+                <li class="answers">
+                  <progress class="progress-bar" value="37" max="100"></progress>
+                  <span class="answers--number">37%</span>
+                </li>
+              }
+            </ol>
+          }
+        }
+      </div>
     </article>
   </section>
 </section>
