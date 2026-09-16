@@ -6,7 +6,6 @@ import { Survey } from '../../interfaces/survey';
 import { FilterService } from '../../services/filter-service';
 import { DatabaseService } from '../../services/database-service';
 import { Router } from '@angular/router';
-import { validate } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-create-survey',

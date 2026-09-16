@@ -96,9 +96,11 @@ export class DatabaseService {
       isPublished: survey.is_published,
 
       questions: survey.questions.map((question: any) => ({
+        id: question.id,
         question: question.question,
         allowMultipleAnswers: question.allow_multiple_answers,
         answers: question.answers.map((answer: any) => ({
+          id: answer.id,
           answer: answer.answer,
         })),
       })),

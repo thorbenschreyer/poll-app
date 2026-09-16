@@ -1,7 +1,8 @@
-import { Answer } from "./answer";
+import { Answer } from './answer';
 
 export interface Question {
-  allowMultipleAnswers: boolean
+  id?: string;
+  allowMultipleAnswers: boolean;
   question: string;
   answers: Answer[];
 }
