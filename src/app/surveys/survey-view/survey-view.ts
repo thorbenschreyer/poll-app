@@ -34,6 +34,7 @@ export class SurveyView {
 selectAnswer(
   questionId: string | undefined,
   answerId: string | undefined,
+  allowMultipleAnswers: boolean,
   event: Event
 ) {
 
@@ -49,10 +50,15 @@ selectAnswer(
 
       return {
         ...current,
-        [questionId]: [
-          ...(current[questionId] ?? []),
-          answerId
-        ]
+
+        [questionId]: allowMultipleAnswers
+          ? [
+              ...(current[questionId] ?? []),
+              answerId
+            ]
+          : [
+              answerId
+            ]
       };
 
     });
@@ -63,6 +69,7 @@ selectAnswer(
 
       return {
         ...current,
+
         [questionId]:
           (current[questionId] ?? [])
             .filter((id) => id !== answerId)

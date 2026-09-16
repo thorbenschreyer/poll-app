@@ -50,14 +50,21 @@
 
       <label class="answer">
 
-        <input
-          type="checkbox"
-          (change)="selectAnswer(
-            question.id,
-            answer.id,
-            $event
-          )"
-        >
+<input
+  type="checkbox"
+
+  [checked]="
+    getSelectedAnswers(question.id!)
+      .includes(answer.id!)
+  "
+
+  (change)="selectAnswer(
+    question.id,
+    answer.id,
+    question.allowMultipleAnswers,
+    $event
+  )"
+/>
 
         {{ answer.answer }}
 
