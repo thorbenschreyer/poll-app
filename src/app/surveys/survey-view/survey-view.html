@@ -40,16 +40,43 @@
 
 
 
+@for (question of survey().questions; track question.id) {
+
+  <div class="question">
+
+    <h3>{{ question.question }}</h3>
+
+    @for (answer of question.answers; track answer.id) {
+
+      <label class="answer">
+
+        <input
+          type="checkbox"
+          (change)="selectAnswer(
+            question.id,
+            answer.id,
+            $event
+          )"
+        >
+
+        {{ answer.answer }}
+
+      </label>
+
+    }
+
+  </div>
+}
 
 
 
-          
+
         </section>
         <div class="btn--area">
-        <a type="submit" class="btn btn--width">
-          Complete survey
-          <img class="btn-img" src="/assets/check.svg" alt="" />
-        </a>
+          <a type="submit" class="btn btn--width">
+            Complete survey
+            <img class="btn-img" src="/assets/check.svg" alt="" />
+          </a>
         </div>
       </section>
     </section>
