@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilterService } from '../../services/filter-service';
 import { CreateSurveyService } from '../../services/create-survey-service';
 import { DatePipe } from '@angular/common';
+import { DatabaseService } from '../../services/database-service';
 
 @Component({
   selector: 'app-survey-view',
@@ -17,11 +18,12 @@ export class SurveyView {
   survey = this.filterService.SurveyDetail;
   createSurveyService = inject(CreateSurveyService);
   noAnswers = false;
+  databaseService = inject(DatabaseService);
   selectedAnswers = signal<Record<string, string[]>>({});
 
   getSelectedAnswers(questionId: string): string[] {
-  return this.selectedAnswers()[questionId] ?? [];
-}
+    return this.selectedAnswers()[questionId] ?? [];
+  }
 
   ngOnInit() {
     let currentSurvey = this.route.snapshot.paramMap.get('id');
@@ -31,54 +33,64 @@ export class SurveyView {
     }
   }
 
-selectAnswer(
-  questionId: string | undefined,
-  answerId: string | undefined,
-  allowMultipleAnswers: boolean,
-  event: Event
-) {
+  selectAnswer(
+    questionId: string | undefined,
+    answerId: string | undefined,
+    allowMultipleAnswers: boolean,
+    event: Event,
+  ) {
+    if (!questionId || !answerId) {
+      return;
+    }
 
-  if (!questionId || !answerId) {
-    return;
+    const checkbox = event.target as HTMLInputElement;
+
+    if (checkbox.checked) {
+      this.selectedAnswers.update((current) => {
+        return {
+          ...current,
+
+          [questionId]: allowMultipleAnswers
+            ? [...(current[questionId] ?? []), answerId]
+            : [answerId],
+        };
+      });
+    } else {
+      this.selectedAnswers.update((current) => {
+        return {
+          ...current,
+
+          [questionId]: (current[questionId] ?? []).filter((id) => id !== answerId),
+        };
+      });
+    }
+
+    console.log(this.selectedAnswers());
   }
 
-  const checkbox = event.target as HTMLInputElement;
+  async submitSurvey() {
+    const answersForDatabase = Object.entries(this.selectedAnswers()).flatMap(
+      ([questionId, answerIds]) => {
+        return answerIds.map((answerId) => ({
+          question_id: questionId,
+          answer_id: answerId,
+        }));
+      },
+    );
 
-  if (checkbox.checked) {
+    const responseId = await this.databaseService.createSurveyResponse(this.survey().id);
 
-    this.selectedAnswers.update((current) => {
+    if (!responseId) {
+      return;
+    }
 
-      return {
-        ...current,
+    const responseAnswers = answersForDatabase.map((answer) => ({
+      ...answer,
+      response_id: responseId,
+    }));
 
-        [questionId]: allowMultipleAnswers
-          ? [
-              ...(current[questionId] ?? []),
-              answerId
-            ]
-          : [
-              answerId
-            ]
-      };
+    const success = await this.databaseService.createResponseAnswers(responseAnswers);
 
-    });
-
-  } else {
-
-    this.selectedAnswers.update((current) => {
-
-      return {
-        ...current,
-
-        [questionId]:
-          (current[questionId] ?? [])
-            .filter((id) => id !== answerId)
-      };
-
-    });
-
+    console.log('Antworten gespeichert:', success);
   }
-
-  console.log(this.selectedAnswers());
-}
 }

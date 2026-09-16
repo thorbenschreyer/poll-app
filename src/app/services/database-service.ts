@@ -107,4 +107,39 @@ export class DatabaseService {
     }));
     return surveys;
   }
+
+  async createSurveyResponse(surveyId: string): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('survey_responses')
+      .insert({
+        survey_id: surveyId,
+      })
+      .select('id')
+      .single();
+
+    if (error || !data) {
+      console.error('Survey Response konnte nicht gespeichert werden:', error);
+      return null;
+    }
+
+    return data.id;
+  }
+
+  async createResponseAnswers(
+    responseAnswers: {
+      response_id: string;
+      question_id: string;
+      answer_id: string;
+    }[],
+  ): Promise<boolean> {
+    const { error } = await this.supabase.from('response_answers').insert(responseAnswers);
+
+    if (error) {
+      console.error('Response Answers konnten nicht gespeichert werden:', error);
+
+      return false;
+    }
+
+    return true;
+  }
 }
