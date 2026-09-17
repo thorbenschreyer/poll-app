@@ -165,4 +165,33 @@ export class DatabaseService {
 
     return data;
   }
+
+  subscribeToResponseAnswers(onNewAnswer: () => void) {
+    const channel = this.supabase
+      .channel(`response-answers-changes-${crypto.randomUUID()}`)
+
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'response_answers',
+        },
+        (payload) => {
+          console.log('Neue Antwort über Realtime:', payload);
+
+          onNewAnswer();
+        },
+      )
+
+      .subscribe((status) => {
+        console.log('Realtime Status:', status);
+      });
+
+    return channel;
+  }
+
+  removeRealtimeChannel(channel: any) {
+    return this.supabase.removeChannel(channel);
+  }
 }

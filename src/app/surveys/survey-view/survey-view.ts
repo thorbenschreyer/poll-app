@@ -22,52 +22,73 @@ export class SurveyView {
   selectedAnswers = signal<Record<string, string[]>>({});
   answerVotes = signal<Record<string, number>>({});
   questionResponses = signal<Record<string, number>>({});
+  surveyId: string | null = null;
+  realtimeChannel: any;
 
   getSelectedAnswers(questionId: string): string[] {
     return this.selectedAnswers()[questionId] ?? [];
   }
 
   async ngOnInit() {
-    const currentSurvey = this.route.snapshot.paramMap.get('id');
+    this.surveyId = this.route.snapshot.paramMap.get('id');
 
-    if (currentSurvey) {
-      this.filterService.setSurveyDetailByID(currentSurvey);
-
-      const results = await this.databaseService.getSurveyResponseAnswers(currentSurvey);
-      this.noAnswers = results.length === 0;
-
-      const votes: Record<string, number> = {};
-
-      results.forEach((response) => {
-        response.response_answers.forEach((responseAnswer) => {
-          const answerId = responseAnswer.answer_id;
-
-          votes[answerId] = (votes[answerId] ?? 0) + 1;
-        });
-      });
-
-      this.answerVotes.set(votes);
-
-      const questionResponses: Record<string, number> = {};
-
-      results.forEach((response) => {
-        const answeredQuestions = new Set<string>();
-
-        response.response_answers.forEach((responseAnswer) => {
-          answeredQuestions.add(responseAnswer.question_id);
-        });
-
-        answeredQuestions.forEach((questionId) => {
-          questionResponses[questionId] = (questionResponses[questionId] ?? 0) + 1;
-        });
-      });
-
-      this.questionResponses.set(questionResponses);
-
-      console.log('Teilnehmer pro Frage:', this.questionResponses());
-
-      console.log('Stimmen:', this.answerVotes());
+    if (!this.surveyId) {
+      return;
     }
+
+    this.filterService.setSurveyDetailByID(this.surveyId);
+
+    await this.loadSurveyResults();
+
+    this.realtimeChannel = this.databaseService.subscribeToResponseAnswers(() => {
+      this.loadSurveyResults();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.realtimeChannel) {
+      this.databaseService.removeRealtimeChannel(this.realtimeChannel);
+    }
+  }
+
+  async loadSurveyResults() {
+    if (!this.surveyId) {
+      return;
+    }
+
+    const results = await this.databaseService.getSurveyResponseAnswers(this.surveyId);
+
+    this.noAnswers = results.length === 0;
+
+    // Stimmen pro Antwort zählen
+    const votes: Record<string, number> = {};
+
+    results.forEach((response) => {
+      response.response_answers.forEach((responseAnswer) => {
+        const answerId = responseAnswer.answer_id;
+
+        votes[answerId] = (votes[answerId] ?? 0) + 1;
+      });
+    });
+
+    this.answerVotes.set(votes);
+
+    // Teilnehmer pro Frage zählen
+    const questionResponses: Record<string, number> = {};
+
+    results.forEach((response) => {
+      const answeredQuestions = new Set<string>();
+
+      response.response_answers.forEach((responseAnswer) => {
+        answeredQuestions.add(responseAnswer.question_id);
+      });
+
+      answeredQuestions.forEach((questionId) => {
+        questionResponses[questionId] = (questionResponses[questionId] ?? 0) + 1;
+      });
+    });
+
+    this.questionResponses.set(questionResponses);
   }
 
   getAnswerVotes(answerId: string | undefined): number {
