@@ -17,11 +17,8 @@ export class CreateSurveyService {
    * on the document body while the overlay is visible.
    */
   open() {
-
     this.isOpen.set(true);
-
     document.body.style.overflow = 'hidden';
-
   }
 
   /**
@@ -31,11 +28,8 @@ export class CreateSurveyService {
    * on the document body.
    */
   close() {
-
     this.isOpen.set(false);
-
     document.body.style.overflow = '';
-
   }
 
 }

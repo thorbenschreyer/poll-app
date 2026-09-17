@@ -288,15 +288,10 @@ export class SurveyView {
     if (!questionId || !answerId) {
       return 0;
     }
-
     const votes = this.getAnswerVotes(answerId);
-
     const responses = this.questionResponses()[questionId] ?? 0;
-
     if (responses === 0) {
-      return 0;
-    }
-
+      return 0;}
     return Math.round((votes / responses) * 100);
   }
 
@@ -317,7 +312,6 @@ export class SurveyView {
     if (this.realtimeTimer) {
       clearTimeout(this.realtimeTimer);
     }
-
     this.realtimeTimer = setTimeout(() => {
       this.loadSurveyResults();
     }, 300);

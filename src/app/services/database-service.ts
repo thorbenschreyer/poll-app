@@ -271,25 +271,17 @@ export class DatabaseService {
   subscribeToResponseAnswers(onNewAnswer: () => void) {
     const channel = this.supabase
       .channel(`response-answers-changes-${crypto.randomUUID()}`)
-
-      .on(
-        'postgres_changes',
+      .on('postgres_changes',
         {
           event: 'INSERT',
           schema: 'public',
           table: 'response_answers',
-        },
-        (payload) => {
-          console.log('Neue Antwort über Realtime:', payload);
-
+        }, (payload) => {
           onNewAnswer();
         },
-      )
-
-      .subscribe((status) => {
+      ).subscribe((status) => {
         console.log('Realtime Status:', status);
       });
-
     return channel;
   }
 

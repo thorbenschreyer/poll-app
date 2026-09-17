@@ -1,8 +1,6 @@
 import {
   Component,
   inject,
-  Inject,
-  signal
 } from '@angular/core';
 
 import { Header } from './header/header';
@@ -15,12 +13,7 @@ import { CreateSurveyService } from '../services/create-survey-service';
 
 @Component({
   selector: 'app-main-page',
-  imports: [
-    Header,
-    SurveyOverview,
-    AllSurveys,
-    CreateSurvey,
-  ],
+  imports: [Header, SurveyOverview, AllSurveys],
   templateUrl: './main-page.html',
   styleUrl: './main-page.scss',
 })
@@ -46,9 +39,7 @@ export class MainPage {
    * survey information at the beginning of each full hour.
    */
   ngOnInit(): void {
-
     this.filterservice.startHourTimer();
-
   }
 
   /**
@@ -60,11 +51,8 @@ export class MainPage {
    * removed.
    */
   ngOnDestroy(): void {
-
     clearTimeout(this.filterservice.timeToFullHour);
-
     clearInterval(this.filterservice.hourIntervall);
-
   }
 
 }
