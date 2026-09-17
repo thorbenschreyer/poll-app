@@ -1,5 +1,5 @@
 import { Component, inject, output, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FilterService } from '../../services/filter-service';
 import { CreateSurveyService } from '../../services/create-survey-service';
 import { DatePipe } from '@angular/common';
@@ -7,13 +7,13 @@ import { DatabaseService } from '../../services/database-service';
 
 @Component({
   selector: 'app-survey-view',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   templateUrl: './survey-view.html',
   styleUrl: './survey-view.scss',
 })
 export class SurveyView {
   private route = inject(ActivatedRoute);
-  router = inject(Router);
+  private router = inject(Router);
   filterService = inject(FilterService);
   survey = this.filterService.SurveyDetail;
   createSurveyService = inject(CreateSurveyService);
@@ -25,7 +25,6 @@ export class SurveyView {
   surveyId: string | null = null;
   realtimeChannel: any;
   private realtimeTimer: ReturnType<typeof setTimeout> | null = null;
-
 
   getSelectedAnswers(questionId: string): string[] {
     return this.selectedAnswers()[questionId] ?? [];
@@ -42,40 +41,30 @@ export class SurveyView {
 
     await this.loadSurveyResults();
 
-this.realtimeChannel =
-  this.databaseService
-    .subscribeToResponseAnswers(() => {
-
+    this.realtimeChannel = this.databaseService.subscribeToResponseAnswers(() => {
       this.reloadResultsDebounced();
-
     });
   }
 
-ngOnDestroy() {
+  ngOnDestroy() {
+    if (this.realtimeChannel) {
+      this.databaseService.removeRealtimeChannel(this.realtimeChannel);
+    }
 
-  if (this.realtimeChannel) {
-    this.databaseService
-      .removeRealtimeChannel(this.realtimeChannel);
+    if (this.realtimeTimer) {
+      clearTimeout(this.realtimeTimer);
+    }
   }
-
-  if (this.realtimeTimer) {
-    clearTimeout(this.realtimeTimer);
-  }
-
-}
 
   reloadResultsDebounced() {
+    if (this.realtimeTimer) {
+      clearTimeout(this.realtimeTimer);
+    }
 
-  if (this.realtimeTimer) {
-    clearTimeout(this.realtimeTimer);
+    this.realtimeTimer = setTimeout(() => {
+      this.loadSurveyResults();
+    }, 300);
   }
-
-  this.realtimeTimer = setTimeout(() => {
-
-    this.loadSurveyResults();
-
-  }, 300);
-}
 
   async loadSurveyResults() {
     if (!this.surveyId) {
@@ -183,7 +172,9 @@ ngOnDestroy() {
 
     const success = await this.databaseService.createResponseAnswers(responseAnswers);
 
-    console.log('Antworten gespeichert:', success);
+    if (success) {
+      this.router.navigate(['/']);
+    }
   }
 
   getAnswerPercentage(questionId: string | undefined, answerId: string | undefined): number {
