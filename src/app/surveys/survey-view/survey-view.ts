@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { CreateSurveyService } from '../../services/create-survey-service';

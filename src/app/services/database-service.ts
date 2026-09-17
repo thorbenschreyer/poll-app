@@ -65,7 +65,6 @@ private async saveSurvey(survey: Survey) {
     })
     .select().single();
   if (error || !data) {
-    console.error('Survey konnte nicht gespeichert werden:', error);
     return null;}
   return data;
 }
@@ -86,7 +85,6 @@ private async saveQuestions(survey: Survey, surveyId: string) {
   const { data, error } = await this.supabase
     .from('questions').insert(questionsForDatabase).select();
   if (error || !data) {
-    console.error('Fragen konnten nicht gespeichert werden:', error);
     return null;
   }
   return data;
@@ -109,7 +107,6 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
   const { data, error } = await this.supabase
     .from('answers').insert(answersForDatabase).select();
   if (error || !data) {
-    console.error('Antworten konnten nicht gespeichert werden:', error);
     return false;
   }
   return true;
@@ -128,7 +125,6 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
     const { data, error } = await this.supabase
       .from('surveys').select('*, questions(*,  answers(*))');
     if (error || !data) {
-      console.error('Surveys konnten nicht geladen werden:', error);
       return;}
 
     const surveys: Survey[] = data.map((survey) => ({
@@ -172,7 +168,6 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
     const { data, error } = await this.supabase
       .from('survey_responses').insert({survey_id: surveyId,}).select('id').single();
     if (error || !data) {
-      console.error('Survey Response konnte nicht gespeichert werden:', error);
       return null;
     }
     return data.id;
@@ -198,7 +193,6 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
     const { error } = await this.supabase
       .from('response_answers').insert(responseAnswers);
     if (error) {
-      console.error('Response Answers konnten nicht gespeichert werden:', error);
       return false;
     }
     return true;
@@ -228,7 +222,6 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
         answer_id
       )`,).eq('survey_id', surveyId);
     if (error) {
-      console.error('Survey Ergebnisse konnten nicht geladen werden:', error);
       return [];
     }
     return data;
