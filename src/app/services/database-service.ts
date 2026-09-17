@@ -279,9 +279,7 @@ export class DatabaseService {
         }, (payload) => {
           onNewAnswer();
         },
-      ).subscribe((status) => {
-        console.log('Realtime Status:', status);
-      });
+      ).subscribe()
     return channel;
   }
 

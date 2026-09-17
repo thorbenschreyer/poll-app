@@ -20,22 +20,17 @@ export class SurveyView {
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-
   filterService = inject(FilterService);
   createSurveyService = inject(CreateSurveyService);
   databaseService = inject(DatabaseService);
-
 
   // ---------------------------------------------------------------------------
   // Survey State
   // ---------------------------------------------------------------------------
 
   survey = this.filterService.SurveyDetail;
-
   surveyId: string | null = null;
-
   noAnswers = true;
-
 
   // ---------------------------------------------------------------------------
   // Answer Selection State
@@ -43,24 +38,19 @@ export class SurveyView {
 
   selectedAnswers = signal<Record<string, string[]>>({});
 
-
   // ---------------------------------------------------------------------------
   // Survey Result State
   // ---------------------------------------------------------------------------
 
   answerVotes = signal<Record<string, number>>({});
-
   questionResponses = signal<Record<string, number>>({});
-
 
   // ---------------------------------------------------------------------------
   // Realtime State
   // ---------------------------------------------------------------------------
 
   realtimeChannel: any;
-
   private realtimeTimer: ReturnType<typeof setTimeout> | null = null;
-
 
   // ---------------------------------------------------------------------------
   // Lifecycle Hooks
@@ -74,15 +64,9 @@ export class SurveyView {
    */
   async ngOnInit() {
     this.surveyId = this.route.snapshot.paramMap.get('id');
-
-    if (!this.surveyId) {
-      return;
-    }
-
+    if (!this.surveyId) {return;}
     this.filterService.setSurveyDetailByID(this.surveyId);
-
     await this.loadSurveyResults();
-
     this.realtimeChannel = this.databaseService.subscribeToResponseAnswers(() => {
       this.reloadResultsDebounced();
     });
@@ -98,7 +82,6 @@ export class SurveyView {
     if (this.realtimeChannel) {
       this.databaseService.removeRealtimeChannel(this.realtimeChannel);
     }
-
     if (this.realtimeTimer) {
       clearTimeout(this.realtimeTimer);
     }
@@ -131,41 +114,23 @@ export class SurveyView {
    * @param allowMultipleAnswers - Indicates whether multiple answers are allowed.
    * @param event - The change event emitted by the checkbox input.
    */
-  selectAnswer(
-    questionId: string | undefined,
-    answerId: string | undefined,
-    allowMultipleAnswers: boolean,
-    event: Event,
-  ) {
-    if (!questionId || !answerId) {
-      return;
-    }
-
+  selectAnswer(questionId: string | undefined, answerId: string | undefined, allowMultipleAnswers: boolean, event: Event,) {
+    if (!questionId || !answerId) {return;}
     const checkbox = event.target as HTMLInputElement;
-
     if (checkbox.checked) {
       this.selectedAnswers.update((current) => {
-        return {
-          ...current,
-
+        return {...current,
           [questionId]: allowMultipleAnswers
             ? [...(current[questionId] ?? []), answerId]
-            : [answerId],
-        };
+            : [answerId],};
       });
     } else {
       this.selectedAnswers.update((current) => {
-        return {
-          ...current,
-
+        return {...current,
           [questionId]: (current[questionId] ?? []).filter((id) => id !== answerId),
-        };
-      });
+        };});
     }
-
-    console.log(this.selectedAnswers());
   }
-
 
   // ---------------------------------------------------------------------------
   // Survey Submission
@@ -182,28 +147,16 @@ export class SurveyView {
     const answersForDatabase = Object.entries(this.selectedAnswers()).flatMap(
       ([questionId, answerIds]) => {
         return answerIds.map((answerId) => ({
-          question_id: questionId,
-          answer_id: answerId,
-        }));
+          question_id: questionId, answer_id: answerId}));
       },
     );
-
     const responseId = await this.databaseService.createSurveyResponse(this.survey().id);
-
-    if (!responseId) {
-      return;
-    }
-
+    if (!responseId) {return;}
     const responseAnswers = answersForDatabase.map((answer) => ({
-      ...answer,
-      response_id: responseId,
+      ...answer, response_id: responseId,
     }));
-
     const success = await this.databaseService.createResponseAnswers(responseAnswers);
-
-    if (success) {
-      this.router.navigate(['/']);
-    }
+    if (success) {this.router.navigate(['/']);}
   }
 
 
@@ -218,42 +171,21 @@ export class SurveyView {
    * how many participants answered each individual question.
    */
   async loadSurveyResults() {
-    if (!this.surveyId) {
-      return;
-    }
-
+    if (!this.surveyId) {return;}
     const results = await this.databaseService.getSurveyResponseAnswers(this.surveyId);
-
     this.noAnswers = results.length === 0;
-
-    // Count votes for each answer.
     const votes: Record<string, number> = {};
-
     results.forEach((response) => {
       response.response_answers.forEach((responseAnswer) => {
         const answerId = responseAnswer.answer_id;
-
-        votes[answerId] = (votes[answerId] ?? 0) + 1;
-      });
+        votes[answerId] = (votes[answerId] ?? 0) + 1;});
     });
-
     this.answerVotes.set(votes);
-
-    // Count participants for each question.
     const questionResponses: Record<string, number> = {};
-
-    results.forEach((response) => {
-      const answeredQuestions = new Set<string>();
-
-      response.response_answers.forEach((responseAnswer) => {
-        answeredQuestions.add(responseAnswer.question_id);
-      });
-
-      answeredQuestions.forEach((questionId) => {
-        questionResponses[questionId] = (questionResponses[questionId] ?? 0) + 1;
-      });
+    results.forEach((response) => {const answeredQuestions = new Set<string>();
+      response.response_answers.forEach((responseAnswer) => {answeredQuestions.add(responseAnswer.question_id);});
+      answeredQuestions.forEach((questionId) => { questionResponses[questionId] = (questionResponses[questionId] ?? 0) + 1;});
     });
-
     this.questionResponses.set(questionResponses);
   }
 
@@ -264,10 +196,7 @@ export class SurveyView {
    * @returns The number of votes for the answer, or zero if no ID or votes exist.
    */
   getAnswerVotes(answerId: string | undefined): number {
-    if (!answerId) {
-      return 0;
-    }
-
+    if (!answerId) {return 0;}
     return this.answerVotes()[answerId] ?? 0;
   }
 
@@ -281,13 +210,8 @@ export class SurveyView {
    * @param answerId - The unique ID of the answer.
    * @returns The rounded answer percentage between 0 and 100.
    */
-  getAnswerPercentage(
-    questionId: string | undefined,
-    answerId: string | undefined
-  ): number {
-    if (!questionId || !answerId) {
-      return 0;
-    }
+  getAnswerPercentage(questionId: string | undefined, answerId: string | undefined): number {
+    if (!questionId || !answerId) {return 0;}
     const votes = this.getAnswerVotes(answerId);
     const responses = this.questionResponses()[questionId] ?? 0;
     if (responses === 0) {
