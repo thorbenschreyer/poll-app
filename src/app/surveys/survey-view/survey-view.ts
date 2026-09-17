@@ -24,6 +24,8 @@ export class SurveyView {
   questionResponses = signal<Record<string, number>>({});
   surveyId: string | null = null;
   realtimeChannel: any;
+  private realtimeTimer: ReturnType<typeof setTimeout> | null = null;
+
 
   getSelectedAnswers(questionId: string): string[] {
     return this.selectedAnswers()[questionId] ?? [];
@@ -40,16 +42,40 @@ export class SurveyView {
 
     await this.loadSurveyResults();
 
-    this.realtimeChannel = this.databaseService.subscribeToResponseAnswers(() => {
-      this.loadSurveyResults();
+this.realtimeChannel =
+  this.databaseService
+    .subscribeToResponseAnswers(() => {
+
+      this.reloadResultsDebounced();
+
     });
   }
 
-  ngOnDestroy() {
-    if (this.realtimeChannel) {
-      this.databaseService.removeRealtimeChannel(this.realtimeChannel);
-    }
+ngOnDestroy() {
+
+  if (this.realtimeChannel) {
+    this.databaseService
+      .removeRealtimeChannel(this.realtimeChannel);
   }
+
+  if (this.realtimeTimer) {
+    clearTimeout(this.realtimeTimer);
+  }
+
+}
+
+  reloadResultsDebounced() {
+
+  if (this.realtimeTimer) {
+    clearTimeout(this.realtimeTimer);
+  }
+
+  this.realtimeTimer = setTimeout(() => {
+
+    this.loadSurveyResults();
+
+  }, 300);
+}
 
   async loadSurveyResults() {
     if (!this.surveyId) {
