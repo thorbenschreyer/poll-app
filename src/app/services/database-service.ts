@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+
 import { environment } from '../../environments/environment';
 import { Survey } from '../interfaces/survey';
 
@@ -7,8 +8,38 @@ import { Survey } from '../interfaces/survey';
   providedIn: 'root',
 })
 export class DatabaseService {
-  private supabase: SupabaseClient = createClient(environment.supabaseUrl, environment.supabaseKey);
 
+  // ---------------------------------------------------------------------------
+  // Supabase Client
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Supabase client used for all database and realtime operations.
+   *
+   * The client is initialized with the Supabase URL and API key
+   * provided by the application environment configuration.
+   */
+  private supabase: SupabaseClient = createClient(
+    environment.supabaseUrl,
+    environment.supabaseKey
+  );
+
+
+  // ---------------------------------------------------------------------------
+  // Survey Management
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Creates a new survey and stores its questions and answers in the database.
+   *
+   * The survey is created first. Its generated ID is then used to associate
+   * the corresponding questions with the survey. Finally, the answers are
+   * associated with their respective saved questions.
+   *
+   * @param survey - The survey that should be stored in the database.
+   * @returns An object indicating whether the operation was successful.
+   * If successful, the generated survey ID is also returned.
+   */
   async createSurvey(survey: Survey): Promise<{ success: boolean; id?: string }> {
     const { data, error } = await this.supabase
       .from('surveys')
@@ -76,6 +107,15 @@ export class DatabaseService {
     };
   }
 
+  /**
+   * Loads all surveys including their related questions and answers.
+   *
+   * The database response is mapped to the application's Survey interface.
+   * Database field names are converted to the corresponding application
+   * property names and survey end dates are converted to Date objects.
+   *
+   * @returns The mapped list of surveys, or undefined if loading fails.
+   */
   async getSurveys() {
     const { data, error } = await this.supabase
       .from('surveys')
@@ -83,6 +123,7 @@ export class DatabaseService {
 
     if (error || !data) {
       console.error('Surveys konnten nicht geladen werden:', error);
+
       return;
     }
 
@@ -99,15 +140,31 @@ export class DatabaseService {
         id: question.id,
         question: question.question,
         allowMultipleAnswers: question.allow_multiple_answers,
+
         answers: question.answers.map((answer: any) => ({
           id: answer.id,
           answer: answer.answer,
         })),
       })),
     }));
+
     return surveys;
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Survey Responses
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Creates a new response entry for a specific survey.
+   *
+   * The generated response ID is later used to associate the selected
+   * answers with this individual survey participation.
+   *
+   * @param surveyId - The unique ID of the survey being answered.
+   * @returns The generated survey response ID, or null if the operation fails.
+   */
   async createSurveyResponse(surveyId: string): Promise<string | null> {
     const { data, error } = await this.supabase
       .from('survey_responses')
@@ -119,12 +176,23 @@ export class DatabaseService {
 
     if (error || !data) {
       console.error('Survey Response konnte nicht gespeichert werden:', error);
+
       return null;
     }
 
     return data.id;
   }
 
+  /**
+   * Stores the selected answers for a previously created survey response.
+   *
+   * Each entry connects a survey response with a question and the
+   * corresponding selected answer.
+   *
+   * @param responseAnswers - The answer records that should be stored.
+   * @returns True if all answer records were stored successfully;
+   * otherwise false.
+   */
   async createResponseAnswers(
     responseAnswers: {
       response_id: string;
@@ -132,7 +200,9 @@ export class DatabaseService {
       answer_id: string;
     }[],
   ): Promise<boolean> {
-    const { error } = await this.supabase.from('response_answers').insert(responseAnswers);
+    const { error } = await this.supabase
+      .from('response_answers')
+      .insert(responseAnswers);
 
     if (error) {
       console.error('Response Answers konnten nicht gespeichert werden:', error);
@@ -143,6 +213,21 @@ export class DatabaseService {
     return true;
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Survey Results
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Loads all submitted answers for a specific survey.
+   *
+   * Each survey response includes the question IDs and answer IDs
+   * associated with that participation.
+   *
+   * @param surveyId - The unique ID of the survey whose results should be loaded.
+   * @returns The survey responses and their associated answers,
+   * or an empty array if loading fails.
+   */
   async getSurveyResponseAnswers(surveyId: string) {
     const { data, error } = await this.supabase
       .from('survey_responses')
@@ -166,6 +251,23 @@ export class DatabaseService {
     return data;
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Realtime
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Subscribes to newly inserted response answers using Supabase Realtime.
+   *
+   * Whenever a new record is inserted into the response_answers table,
+   * the provided callback function is executed.
+   *
+   * A unique channel name is generated for every subscription to prevent
+   * conflicts between multiple realtime subscriptions.
+   *
+   * @param onNewAnswer - Callback executed whenever a new answer is inserted.
+   * @returns The created Supabase realtime channel.
+   */
   subscribeToResponseAnswers(onNewAnswer: () => void) {
     const channel = this.supabase
       .channel(`response-answers-changes-${crypto.randomUUID()}`)
@@ -191,7 +293,17 @@ export class DatabaseService {
     return channel;
   }
 
+  /**
+   * Removes an existing Supabase realtime channel.
+   *
+   * This is used when a component no longer requires realtime updates,
+   * preventing unused subscriptions from remaining active.
+   *
+   * @param channel - The Supabase realtime channel that should be removed.
+   * @returns The result of the Supabase channel removal operation.
+   */
   removeRealtimeChannel(channel: any) {
     return this.supabase.removeChannel(channel);
   }
+
 }
