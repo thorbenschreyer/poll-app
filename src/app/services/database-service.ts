@@ -29,83 +29,91 @@ export class DatabaseService {
   // Survey Management
   // ---------------------------------------------------------------------------
 
-  /**
-   * Creates a new survey and stores its questions and answers in the database.
-   *
-   * The survey is created first. Its generated ID is then used to associate
-   * the corresponding questions with the survey. Finally, the answers are
-   * associated with their respective saved questions.
-   *
-   * @param survey - The survey that should be stored in the database.
-   * @returns An object indicating whether the operation was successful.
-   * If successful, the generated survey ID is also returned.
-   */
-  async createSurvey(survey: Survey): Promise<{ success: boolean; id?: string }> {
-    const { data, error } = await this.supabase
-      .from('surveys')
-      .insert({
-        name: survey.name,
-        end_date: survey.endDate,
-        category: survey.category,
-        description: survey.description,
-        is_active: survey.isActive,
-        is_published: survey.isPublished,
-      })
-      .select()
-      .single();
+/**
+ * Creates a new survey and stores its questions and answers in the database.
+ *
+ * @param survey - The survey that should be stored in the database.
+ * @returns An object indicating whether the operation was successful.
+ * If successful, the generated survey ID is also returned.
+ */
+async createSurvey(survey: Survey): Promise<{ success: boolean; id?: string }> {
+  const savedSurvey = await this.saveSurvey(survey);
+  if (!savedSurvey) {return { success: false };}
+  const savedQuestions = await this.saveQuestions(survey, savedSurvey.id);
+  if (!savedQuestions) {return { success: false };}
+  const answersSaved = await this.saveAnswers(survey, savedQuestions);
+  if (!answersSaved) {return { success: false };}
+  return { success: true, id: savedSurvey.id };
+}
 
-    if (error || !data) {
-      console.error('Survey konnte nicht gespeichert werden:', error);
+/**
+ * Stores the general survey information in the database.
+ *
+ * @param survey - The survey that should be stored.
+ * @returns The saved survey record, or null if the operation fails.
+ */
+private async saveSurvey(survey: Survey) {
+  const { data, error } = await this.supabase
+    .from('surveys')
+    .insert({
+      name: survey.name,
+      end_date: survey.endDate,
+      category: survey.category,
+      description: survey.description,
+      is_active: survey.isActive,
+      is_published: survey.isPublished,
+    })
+    .select().single();
+  if (error || !data) {
+    console.error('Survey konnte nicht gespeichert werden:', error);
+    return null;}
+  return data;
+}
 
-      return {
-        success: false,
-      };
-    }
-
-    const questionsForDatabase = survey.questions.map((question) => ({
-      survey_id: data.id,
-      question: question.question,
-      allow_multiple_answers: question.allowMultipleAnswers,
-    }));
-
-    const { data: savedQuestions, error: questionError } = await this.supabase
-      .from('questions')
-      .insert(questionsForDatabase)
-      .select();
-
-    if (questionError || !savedQuestions) {
-      console.error('Fragen konnten nicht gespeichert werden:', questionError);
-
-      return {
-        success: false,
-      };
-    }
-
-    const answersForDatabase = survey.questions.flatMap((question, index) =>
-      question.answers.map((answer) => ({
-        question_id: savedQuestions[index].id,
-        answer: answer.answer,
-      })),
-    );
-
-    const { data: savedAnswers, error: answersError } = await this.supabase
-      .from('answers')
-      .insert(answersForDatabase)
-      .select();
-
-    if (answersError || !savedAnswers) {
-      console.error('Antworten konnten nicht gespeichert werden:', answersError);
-
-      return {
-        success: false,
-      };
-    }
-
-    return {
-      success: true,
-      id: data.id,
-    };
+/**
+ * Stores all questions belonging to a survey.
+ *
+ * @param survey - The survey containing the questions.
+ * @param surveyId - The ID of the previously saved survey.
+ * @returns The saved question records, or null if the operation fails.
+ */
+private async saveQuestions(survey: Survey, surveyId: string) {
+  const questionsForDatabase = survey.questions.map((question) => ({
+    survey_id: surveyId,
+    question: question.question,
+    allow_multiple_answers: question.allowMultipleAnswers,
+  }));
+  const { data, error } = await this.supabase
+    .from('questions').insert(questionsForDatabase).select();
+  if (error || !data) {
+    console.error('Fragen konnten nicht gespeichert werden:', error);
+    return null;
   }
+  return data;
+}
+
+/**
+ * Stores all answers belonging to the previously saved questions.
+ *
+ * @param survey - The survey containing the answers.
+ * @param savedQuestions - The previously saved question records.
+ * @returns True if the answers were stored successfully; otherwise false.
+ */
+private async saveAnswers(survey: Survey, savedQuestions: any[]) {
+  const answersForDatabase = survey.questions.flatMap((question, index) =>
+    question.answers.map((answer) => ({
+      question_id: savedQuestions[index].id,
+      answer: answer.answer,
+    })),
+  );
+  const { data, error } = await this.supabase
+    .from('answers').insert(answersForDatabase).select();
+  if (error || !data) {
+    console.error('Antworten konnten nicht gespeichert werden:', error);
+    return false;
+  }
+  return true;
+}
 
   /**
    * Loads all surveys including their related questions and answers.
@@ -118,14 +126,10 @@ export class DatabaseService {
    */
   async getSurveys() {
     const { data, error } = await this.supabase
-      .from('surveys')
-      .select('*, questions(*,  answers(*))');
-
+      .from('surveys').select('*, questions(*,  answers(*))');
     if (error || !data) {
       console.error('Surveys konnten nicht geladen werden:', error);
-
-      return;
-    }
+      return;}
 
     const surveys: Survey[] = data.map((survey) => ({
       id: survey.id,
@@ -147,7 +151,6 @@ export class DatabaseService {
         })),
       })),
     }));
-
     return surveys;
   }
 
@@ -167,19 +170,11 @@ export class DatabaseService {
    */
   async createSurveyResponse(surveyId: string): Promise<string | null> {
     const { data, error } = await this.supabase
-      .from('survey_responses')
-      .insert({
-        survey_id: surveyId,
-      })
-      .select('id')
-      .single();
-
+      .from('survey_responses').insert({survey_id: surveyId,}).select('id').single();
     if (error || !data) {
       console.error('Survey Response konnte nicht gespeichert werden:', error);
-
       return null;
     }
-
     return data.id;
   }
 
@@ -201,15 +196,11 @@ export class DatabaseService {
     }[],
   ): Promise<boolean> {
     const { error } = await this.supabase
-      .from('response_answers')
-      .insert(responseAnswers);
-
+      .from('response_answers').insert(responseAnswers);
     if (error) {
       console.error('Response Answers konnten nicht gespeichert werden:', error);
-
       return false;
     }
-
     return true;
   }
 
@@ -230,24 +221,16 @@ export class DatabaseService {
    */
   async getSurveyResponseAnswers(surveyId: string) {
     const { data, error } = await this.supabase
-      .from('survey_responses')
-      .select(
-        `
+      .from('survey_responses').select(`
       id,
       response_answers (
         question_id,
         answer_id
-      )
-    `,
-      )
-      .eq('survey_id', surveyId);
-
+      )`,).eq('survey_id', surveyId);
     if (error) {
       console.error('Survey Ergebnisse konnten nicht geladen werden:', error);
-
       return [];
     }
-
     return data;
   }
 
