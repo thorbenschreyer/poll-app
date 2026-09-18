@@ -38,17 +38,10 @@
 
 }
 
-
 @media (max-width: 1015px) {
 
   .survey {
-    flex: 0 0 570px;
-  }
-
-  .all-surveys {
-    width: unset;
-    display: flex;
-    justify-content: center;
+    flex: 0 0 350px;
   }
 
 }

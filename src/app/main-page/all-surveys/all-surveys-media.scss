@@ -5,23 +5,30 @@
 
   .all-surveys {
     width: unset;
+    display: flex;
+    justify-content: center;
   }
 
   .survey-detail {
     margin: 0px 16px;
-}
-
+  }
 }
 
 @media (max-width: 505px) {
-
   nav {
     flex-direction: column;
   }
 
-  app-all-surveys {
-    width: 100%;
+  .all-surveys[_ngcontent-ng-c2424752958] {
+    margin: 32px 0px 0px 0px;
   }
 
+  .survey[_ngcontent-ng-c2424752958] {
+    width: 270px;
+    height: 140px;
+  }
 
+  .survey-header[_ngcontent-ng-c2424752958] {
+    font-size: 18px;
+  }
 }
