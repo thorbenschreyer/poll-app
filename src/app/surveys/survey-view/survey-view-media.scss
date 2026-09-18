@@ -9,23 +9,41 @@
 
   .questions-header-content--h1 {
     font-size: 40px;
-}
+  }
 
-
-.questions-header-content {
+  .questions-header-content {
     margin: 12px 0px;
-}
+  }
 
-.questions-header {
+  .questions-header {
     margin-bottom: 20px;
-}
+  }
 
-.questions-card {
+  .questions-card {
     margin-bottom: 0px;
-}
+  }
 
-.answer-card {
+  .answer-card {
     margin: 4px 0px;
     padding: 4px;
+  }
 }
+
+@media (max-width: 1024px) {
+  .questions-section {
+    width: 60%;
+  }
+
+  .questions-section__content {
+    max-width: unset;
+    width: unset;
+  }
+
+  .date-category-section {
+    width: 90%;
+  }
+
+  .btn--area {
+    width: 93%;
+  }
 }

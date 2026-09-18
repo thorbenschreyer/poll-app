@@ -11,7 +11,7 @@
     margin-top: 24px;
   }
 
-  footer[_ngcontent-ng-c2185413282] {
+  footer {
     margin-bottom: 16px;
   }
 
@@ -19,7 +19,25 @@
     max-height: unset;
   }
 
-  .describing-section[_ngcontent-ng-c2185413282] {
+  .describing-section {
     margin: 16px 0px;
   }
+}
+
+@media (max-width: 1024px) {
+  .survey-header {
+    width: 95%;
+  }
+
+  .content-container {
+    width: 100%;
+  }
+
+  .describing-section {
+    width: 95%;
+  }
+
+  .question {
+    max-width: 43%;
+}
 }

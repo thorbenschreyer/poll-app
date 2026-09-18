@@ -18,7 +18,7 @@ import { SurveyOverview } from '../survey-overview/survey-overview';
   selector: 'app-all-surveys',
   imports: [SurveyOverview, DatePipe, RouterLink],
   templateUrl: './all-surveys.html',
-  styleUrl: './all-surveys.scss',
+  styleUrls: ['./all-surveys.scss', './all-surveys-media.scss']
 })
 export class AllSurveys {
 

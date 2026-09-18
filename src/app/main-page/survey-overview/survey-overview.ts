@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-survey-overview',
   imports: [RouterLink],
   templateUrl: './survey-overview.html',
-  styleUrl: './survey-overview.scss',
+  styleUrls: ['./survey-overview.scss', './survey-overview-media.scss']
 })
 export class SurveyOverview {
   
