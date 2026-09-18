@@ -1,5 +1,19 @@
-@media (max-height: 1024px) {
+@media (max-height: 768px) {
   .header-h1 {
     font-size: 90px;
+  }
+}
+
+@media (max-height: 680px) {
+  .main-header-section{
+    margin: 32px 16px 16px 16px;
+  }
+
+  .header-text{
+    font-size: 20px;
+  }
+
+  .header-h1 {
+    font-size: 64px;
   }
 }

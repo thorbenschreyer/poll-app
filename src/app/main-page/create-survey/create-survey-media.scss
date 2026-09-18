@@ -39,5 +39,31 @@
 
   .question {
     max-width: 43%;
+  }
 }
+
+@media (max-height: 680px) {
+  form {
+    width: 97%;
+    margin: 6px 0px;
+  }
+
+  footer {
+    margin-right: 28px;
+  }
+
+  .survey-header {
+    margin-top: 4px;
+  }
+
+  .new-survey-h1 {
+    font-size: 40px;
+  }
+  .form-content {
+    margin: 0px 8px;
+  }
+
+  .question-section{
+    max-height: 250px;
+  }
 }
