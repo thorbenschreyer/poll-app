@@ -37,6 +37,7 @@ export class SurveyView {
   // ---------------------------------------------------------------------------
 
   selectedAnswers = signal<Record<string, string[]>>({});
+  submitAttempted = signal(false);
 
   // ---------------------------------------------------------------------------
   // Survey Result State
@@ -103,6 +104,21 @@ export class SurveyView {
   }
 
   /**
+ * Checks whether every survey question has at least one selected answer.
+ *
+ * @returns True if every question has at least one selected answer.
+ */
+allQuestionsAnswered(): boolean {
+  return this.survey().questions.every((question) => {
+    if (!question.id) {
+      return false;
+    }
+
+    return this.getSelectedAnswers(question.id).length > 0;
+  });
+}
+
+  /**
    * Updates the selected answers for a question when a checkbox changes.
    *
    * For questions that allow multiple answers, the selected answer is added
@@ -144,6 +160,8 @@ export class SurveyView {
    * the main page after a successful submission.
    */
   async submitSurvey() {
+    this.submitAttempted.set(true);
+      if (!this.allQuestionsAnswered()) {return;}
     const answersForDatabase = Object.entries(this.selectedAnswers()).flatMap(
       ([questionId, answerIds]) => {
         return answerIds.map((answerId) => ({
