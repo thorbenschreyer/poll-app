@@ -6,6 +6,7 @@ import { Survey } from '../../interfaces/survey';
 import { DatabaseService } from '../../services/database-service';
 import { FilterService } from '../../services/filter-service';
 import { Questions } from '../../services/questions';
+import { CreateSurveyService } from '../../services/create-survey-service';
 
 @Component({
   selector: 'app-create-survey',
@@ -22,6 +23,7 @@ export class CreateSurvey {
   router = inject(Router);
   filterService = inject(FilterService);
   databaseService = inject(DatabaseService);
+  dialogService = inject(CreateSurveyService)
 
   // ---------------------------------------------------------------------------
   // Component State
@@ -317,6 +319,7 @@ export class CreateSurvey {
       this.showDialog();
       setTimeout(() => {
         this.router.navigate(['/survey', result.id]);
+        this.dialogService.close()
       }, 3000);
     }
   }
