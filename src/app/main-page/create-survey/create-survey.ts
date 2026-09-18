@@ -11,7 +11,7 @@ import { Questions } from '../../services/questions';
   selector: 'app-create-survey',
   imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './create-survey.html',
-  styleUrls: ['./create-survey.scss', './survey-questions.scss'],
+  styleUrls: ['./create-survey.scss', './survey-questions.scss', './create-survey-media.scss'],
   providers: [Questions],
 })
 export class CreateSurvey {
