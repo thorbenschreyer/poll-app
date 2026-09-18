@@ -259,10 +259,10 @@ export class CreateSurvey {
    */
   removeAnswer(answerIndex: number, questionIndex: number) {
     const answers = (this.questions.at(questionIndex).get('answers') as FormArray).length;
-    if (answers > 1) {
+    if (answers > 2) {
       (this.questions.at(questionIndex).get('answers') as FormArray).removeAt(answerIndex);
     } else {
-      (this.questions.at(questionIndex).get('answers') as FormArray).at(0).setValue('');
+      (this.questions.at(questionIndex).get('answers') as FormArray).at(answerIndex).setValue('');
     }
   }
 
