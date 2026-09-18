@@ -1,5 +1,109 @@
-@media (max-width: 1024px) {
-  .survey {
-    width: 300px;
+// ---------------------------------------------------------------------------
+// Responsive Design
+// ---------------------------------------------------------------------------
+
+@media (max-width: 1080px) {
+
+  .main-surveys {
+    width: calc(100% - 32px);
+    max-width: calc(100vw - 32px);
+    min-width: 0;
+    overflow: hidden;
   }
+
+  .ending-surveys-section {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .ending-surveys {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    gap: 24px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .survey {
+    flex: 0 0 300px;
+  }
+
+}
+
+
+@media (max-width: 1015px) {
+
+  .survey {
+    flex: 0 0 570px;
+  }
+
+  .all-surveys {
+    width: unset;
+    display: flex;
+    justify-content: center;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .survey {
+    flex: 0 0 370px;
+    height: 230px;
+  }
+
+  .survey-detail {
+    margin-top: unset;
+    height: 150px;
+  }
+
+}
+
+
+@media (max-width: 505px) {
+
+  nav {
+    flex-direction: column;
+  }
+
+  .survey {
+    flex: 0 0 250px;
+  }
+
+  .survey-detail {
+    margin-top: unset;
+    height: 150px;
+  }
+
+  .survey-header {
+    font-size: 20px;
+  }
+
+  .sub-headline {
+    font-size: 22px;
+    margin: 24px 0 16px;
+  }
+
+  .your-surves-h2 {
+    font-size: 52px;
+  }
+
+  .all-surveys-section {
+    max-width: 1042px;
+    margin: 0 0 16px;
+  }
+
+  .ending-surveys {
+    gap: 12px;
+  }
+
 }

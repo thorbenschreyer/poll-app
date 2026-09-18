@@ -12,3 +12,16 @@
 }
 
 }
+
+@media (max-width: 505px) {
+
+  nav {
+    flex-direction: column;
+  }
+
+  app-all-surveys {
+    width: 100%;
+  }
+
+
+}

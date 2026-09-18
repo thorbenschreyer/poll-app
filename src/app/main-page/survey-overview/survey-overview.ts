@@ -12,7 +12,4 @@ import { RouterLink } from '@angular/router';
 export class SurveyOverview {
   
   filterservice = inject(FilterService)
-  day =2 
-
-
 }
