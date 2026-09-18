@@ -56,6 +56,15 @@
     font-size: 20px;
     margin-bottom: 20px;
   }
+
+  .btn {
+    width: 120px;
+    transition: all ease-in-out 350ms;
+  }
+
+  .btn-img {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 505px) {
