@@ -72,7 +72,6 @@
 
 .questions-and-answers-section {
   display: flex;
-  align-items: end;
   gap: 48px;
   max-width: 1300px;
   width: 100%;
@@ -83,6 +82,7 @@
   width: 100%;
   background-color: rgba(142, 112, 153, 0.1);
   border-top-right-radius: 160px;
+  margin-left: 16px;
 
   &__content {
     max-width: 770px;
@@ -94,7 +94,8 @@
 
 .answers-section {
   flex: 1;
-  height: 890px;
+  margin-top: 110px;
+  margin-right: 16px;
 }
 
 .no-answers-div {

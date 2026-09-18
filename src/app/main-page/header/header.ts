@@ -7,7 +7,7 @@ import { CreateSurveyService } from '../../services/create-survey-service';
   selector: 'app-header',
   imports: [RouterLink],
   templateUrl: './header.html',
-  styleUrl: './header.scss',
+  styleUrls: ['./header.scss', './header-media.scss']
 })
 export class Header {
 

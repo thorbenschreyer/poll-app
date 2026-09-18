@@ -10,7 +10,7 @@ import { FilterService } from '../../services/filter-service';
   selector: 'app-survey-view',
   imports: [DatePipe, RouterLink],
   templateUrl: './survey-view.html',
-  styleUrl: './survey-view.scss',
+  styleUrls: ['./survey-view.scss', './survey-view-media.scss']
 })
 export class SurveyView {
 
@@ -30,7 +30,7 @@ export class SurveyView {
 
   survey = this.filterService.SurveyDetail;
   surveyId: string | null = null;
-  noAnswers = true;
+  noAnswers = signal(true);
 
   // ---------------------------------------------------------------------------
   // Answer Selection State
@@ -57,21 +57,24 @@ export class SurveyView {
   // Lifecycle Hooks
   // ---------------------------------------------------------------------------
 
-  /**
-   * Initializes the survey view.
-   *
-   * Reads the survey ID from the current route, loads the corresponding
-   * survey details and results, and subscribes to realtime answer updates.
-   */
-  async ngOnInit() {
-    this.surveyId = this.route.snapshot.paramMap.get('id');
-    if (!this.surveyId) {return;}
-    this.filterService.setSurveyDetailByID(this.surveyId);
-    await this.loadSurveyResults();
-    this.realtimeChannel = this.databaseService.subscribeToResponseAnswers(() => {
+/**
+ * Initializes the survey view.
+ *
+ * Reads the survey ID from the current route, ensures that the surveys
+ * are loaded, selects the corresponding survey and loads its results.
+ * Finally, it subscribes to realtime answer updates.
+ */
+async ngOnInit() {
+  this.surveyId = this.route.snapshot.paramMap.get('id');
+  if (!this.surveyId) {return;}
+  await this.filterService.loadSurveys();
+  this.filterService.setSurveyDetailByID(this.surveyId);
+  await this.loadSurveyResults();
+  this.realtimeChannel =
+    this.databaseService.subscribeToResponseAnswers(() => {
       this.reloadResultsDebounced();
     });
-  }
+}
 
   /**
    * Cleans up resources before the component is destroyed.
@@ -191,7 +194,7 @@ allQuestionsAnswered(): boolean {
   async loadSurveyResults() {
     if (!this.surveyId) {return;}
     const results = await this.databaseService.getSurveyResponseAnswers(this.surveyId);
-    this.noAnswers = results.length === 0;
+    this.noAnswers.set(results.length === 0);
     const votes: Record<string, number> = {};
     results.forEach((response) => {
       response.response_answers.forEach((responseAnswer) => {
