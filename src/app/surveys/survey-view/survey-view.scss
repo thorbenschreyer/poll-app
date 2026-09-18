@@ -52,6 +52,7 @@
     width: 100%;
     display: flex;
     justify-content: end;
+    align-items: center;
   }
 
   &:hover {
@@ -219,4 +220,11 @@ li {
   height: 600px;
 
   border: 1px solid green;
+}
+
+
+.error-message {
+  color: rgb(209, 8, 8);
+  font-family: 'Nokora-bold';
+  margin-right: 24px;
 }
