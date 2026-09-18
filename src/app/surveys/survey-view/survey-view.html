@@ -1,7 +1,7 @@
 <section class="survey-view-section">
   <!-- Header Section -->
   <header class="survey-header">
-    <a  routerLink="/">
+    <a routerLink="/">
       <img class="header-img" src="/assets/poll_app_logo_dark.svg" alt="" />
     </a>
     <a (click)="createSurveyService.open()" class="btn"
@@ -36,54 +36,33 @@
           </section>
         </header>
         <section class="questions">
+          @for (question of survey().questions; track question.id) {
+            <div class="question">
+              <div class="questions-card">
+                <h3 class="questoins--h3">{{ $index + 1 + '. ' + question.question }}</h3>
+                @if (question.allowMultipleAnswers) {
+                  <p>More than one answers are possible.</p>
+                } @else {}
+              </div>
+              <ol type="A">
+                @for (answer of question.answers; track answer.id) {
+                  <label class="answer-card">
+                    <input class="answer__checkbox--checkbox"
+                      type="checkbox"
+                      [checked]="getSelectedAnswers(question.id!).includes(answer.id!)"
+                      (change)="
+                        selectAnswer(question.id, answer.id, question.allowMultipleAnswers, $event)
+                      "
+                    />
 
-
-
-
-@for (question of survey().questions; track question.id) {
-
-  <div class="question">
-
-    <h3>{{ question.question }}</h3>
-
-    @for (answer of question.answers; track answer.id) {
-
-      <label class="answer">
-
-<input
-  type="checkbox"
-
-  [checked]="
-    getSelectedAnswers(question.id!)
-      .includes(answer.id!)
-  "
-
-  (change)="selectAnswer(
-    question.id,
-    answer.id,
-    question.allowMultipleAnswers,
-    $event
-  )"
-/>
-
-        {{ answer.answer }} <strong>
-  {{ getAnswerVotes(answer.id) }} Stimmen
-</strong>
-
-<strong>
-  {{ getAnswerPercentage(question.id, answer.id) }} %
-</strong>
-
-      </label>
-
-    }
-
-  </div>
-}
-
-
-
-
+                    <li class="answer">
+                      {{ answer.answer }}
+                    </li>
+                  </label>
+                }
+              </ol>
+            </div>
+          }
         </section>
         <div class="btn--area">
           @if (submitAttempted() == true) {
@@ -97,69 +76,47 @@
       </section>
     </section>
 
-<!-- Answers -->
-<article class="answers-section">
+    <!-- Answers -->
+    <article class="answers-section">
+      <h2 class="answers-section-h2">
+        Survey results
+        <span class="answers-section-h2 answers-section-h2--color"> LIVE </span>
+      </h2>
 
-  <h2 class="answers-section-h2">
-    Survey results
-    <span class="answers-section-h2 answers-section-h2--color">
-      LIVE
-    </span>
-  </h2>
+      <!-- Results -->
+      <div>
+        @if (noAnswers) {
+          <div class="no-answers-div">
+            <p class="no-answers-div__header">
+              Results will be shown here after participants complete the survey.
+            </p>
 
-  <!-- Results -->
-  <div>
+            <p class="no-answers-div__header no-answers-div__header--text">
+              There are no answers yet.
+            </p>
+          </div>
+        } @else {
+          @for (question of survey().questions; track question.id) {
+            <p class="question question--answer">{{ $index + 1 }}. {{ question.question }}</p>
 
-    @if (noAnswers) {
+            <ol type="A">
+              @for (answer of question.answers; track answer.id) {
+                <li class="answers">
+                  <progress
+                    class="progress-bar"
+                    [value]="getAnswerPercentage(question.id, answer.id)"
+                    max="100"
+                  ></progress>
 
-      <div class="no-answers-div">
-
-        <p class="no-answers-div__header">
-          Results will be shown here after participants complete the survey.
-        </p>
-
-        <p class="no-answers-div__header no-answers-div__header--text">
-          There are no answers yet.
-        </p>
-
-      </div>
-
-    } @else {
-
-      @for (question of survey().questions; track question.id) {
-
-        <p class="question">
-          {{ $index + 1 }}. {{ question.question }}
-        </p>
-
-        <ol type="A">
-
-          @for (answer of question.answers; track answer.id) {
-
-            <li class="answers">
-
-              <progress
-                class="progress-bar"
-                [value]="getAnswerPercentage(question.id, answer.id)"
-                max="100">
-              </progress>
-
-              <span class="answers--number">
-                {{ getAnswerPercentage(question.id, answer.id) }}%
-              </span>
-
-            </li>
-
+                  <span class="answers--number">
+                    {{ getAnswerPercentage(question.id, answer.id) }}%
+                  </span>
+                </li>
+              }
+            </ol>
           }
-
-        </ol>
-
-      }
-
-    }
-
-  </div>
-
-</article>
+        }
+      </div>
+    </article>
   </section>
 </section>

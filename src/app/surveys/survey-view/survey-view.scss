@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 16px);
   margin: 48px 0px;
 }
 
@@ -53,6 +53,7 @@
     display: flex;
     justify-content: end;
     align-items: center;
+    margin-bottom: 32px;
   }
 
   &:hover {
@@ -80,14 +81,12 @@
 .questions-section {
   max-width: 850px;
   width: 100%;
-  height: 1100px;
   background-color: rgba(142, 112, 153, 0.1);
   border-top-right-radius: 160px;
 
   &__content {
     max-width: 770px;
     width: 100%;
-    height: 950px;
     margin-top: 80px;
     margin-left: 32px;
   }
@@ -128,8 +127,17 @@
 }
 
 .question {
+  display: flex;
+  flex-direction: column;
+  width: 49%;
   font-family: 'Mulish-Bold';
-  margin: 24px 0px 8px 0px;
+  margin-bottom: 24px;
+
+  &--answer {
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 8px;
+  }
 }
 
 .answers {
@@ -168,7 +176,7 @@
 }
 
 li {
-  margin: 8px 0px 4px 20px;
+  margin-left: 32px;
 }
 
 .batch {
@@ -217,14 +225,64 @@ li {
 
 .questions {
   width: 100%;
-  height: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 8px;
 
-  border: 1px solid green;
+  &--h3 {
+    font-size: 18px;
+    color: rgba(53, 39, 58, 1);
+    font-family: 'Mulish-Bold';
+  }
 }
 
+.questions-card {
+  margin-bottom: 16px;
+}
 
 .error-message {
   color: rgb(209, 8, 8);
   font-family: 'Nokora-bold';
   margin-right: 24px;
+}
+
+.answer {
+  &-card {
+    display: flex;
+    align-content: center;
+    margin: 6px 0px;
+    padding: 4px;
+
+    &:hover {
+      background-color: rgba(255, 207, 161, 0.4);
+    }
+  }
+
+  &__checkbox {
+    &--text {
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 1);
+      font-size: 14px;
+      font-family: 'Mulish-Regular';
+    }
+
+    &--checkbox {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      margin-right: 4px;
+
+      background-image: url('/assets/checkbox_black.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      cursor: pointer;
+
+      &:checked {
+        background-image: url('/assets/checkbox-checked-answers.png');
+      }
+    }
+  }
 }
