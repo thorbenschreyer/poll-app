@@ -316,6 +316,10 @@ export class CreateSurvey {
       })),};
     const result = await this.databaseService.createSurvey(newSurvey);
     if (result.success) {await this.filterService.loadSurveys();
+    if (window.innerWidth <= 950) 
+      {await this.router.navigate(['/survey', result.id])
+         this.dialogService.close()
+      ;return;}
       this.showDialog();
       setTimeout(() => {
         this.router.navigate(['/survey', result.id]);
