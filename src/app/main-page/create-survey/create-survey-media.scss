@@ -38,7 +38,7 @@
   }
 
   .describing-section {
-    width: 95%;
+    width: 94%;
   }
 
   .question {
@@ -55,8 +55,28 @@
 }
 
 @media (max-width: 950px) {
+  .new-survey-section {
+    width: 100%;
+    height: auto;
+    margin: 0;
+
+    position: absolute;
+    top: 96px;
+  }
+
+  .content-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .form-content {
+    height: auto;
+    max-height: none;
+  }
+
   .describing-section {
     flex-direction: column;
+    margin-top: 16px;
   }
 
   .date-category-form {
@@ -87,20 +107,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-
-    padding-top: 450px;
     box-sizing: border-box;
 
     background-color: rgb(255, 255, 255);
+    overflow: scroll;
+  }
+
+  .describing-section {
+    gap: unset;
   }
 
   .button-area {
     margin-right: 16px;
-  }
-
-  .new-survey-section {
-    width: 100%;
-    margin: 0;
   }
 
   form {
@@ -109,10 +127,20 @@
 
   .survey-header {
     width: 95%;
+    margin-top: 32px;
   }
 
   footer {
     width: 96%;
+    margin-bottom: 32px;
+    justify-content: center;
+    flex-direction: column-reverse;
+  }
+
+  .error-message {
+    transition: all ease-in-out 500ms;
+    margin-right: unset;
+    margin-top: 8px;
   }
 
   .cancel-button {
@@ -125,12 +153,108 @@
 
   .mobile-image {
     display: block;
+    position: absolute;
 
-    position: fixed;
+    position: ab;
     top: 24px;
     left: 24px;
 
     z-index: 1000;
+  }
+
+  body-card-mobile {
+    position: relative;
+    inset: 0;
+  }
+
+  .question {
+    max-width: 99%;
+  }
+
+  .answers ol {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    counter-reset: answer;
+  }
+
+  .answer-list {
+    counter-increment: answer;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    padding-top: 40px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+
+  .answer-list::before {
+    content: counter(answer, upper-alpha) '.';
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    color: rgba(254, 253, 255, 1);
+    font-family: 'Mulish-Bold';
+    font-size: 24px;
+  }
+
+  .answer-list > .input__img {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    margin: 0;
+  }
+
+  .answer-list--margin {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .question-section {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    flex-wrap: nowrap;
+    max-height: unset;
+    overflow-x: hidden;
+  }
+
+  .btn-img {
+    position: absolute;
+    opacity: 1;
+    top: 11px;
+    right: 16px;
+
+    // Beim Verlassen: sehr schnell ausblenden
+    transition: opacity 100ms ease-in;
+  }
+
+  .btn {
+    width: 90px;
+    transition: all ease-in-out 350ms;
+
+    &:hover {
+      width: 90px;
+      text-align: unset;
+      background-color: var(--secondary-color-orange);
+
+      .btn-img {
+        opacity: 1;
+        transition: unset;
+      }
+    }
+  }
+
+  dialog {
+    opacity: 0;
   }
 }
 
