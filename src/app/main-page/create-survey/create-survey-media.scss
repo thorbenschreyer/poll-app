@@ -55,6 +55,27 @@
 }
 
 @media (max-width: 950px) {
+  .describing-section {
+    flex-direction: column;
+  }
+
+  .date-category-form {
+    flex-direction: column-reverse;
+    height: 140px;
+  }
+
+  .input--enddate {
+    width: unset;
+  }
+
+  .category-select__button > span {
+    justify-content: start;
+  }
+
+  .name-date-form {
+    width: unset;
+  }
+
   .new-survey-body {
     position: fixed;
     inset: 0;
@@ -67,10 +88,14 @@
     justify-content: center;
     align-items: flex-start;
 
-    padding-top: 160px;
+    padding-top: 450px;
     box-sizing: border-box;
 
     background-color: rgb(255, 255, 255);
+  }
+
+  .button-area {
+    margin-right: 16px;
   }
 
   .new-survey-section {
@@ -109,10 +134,6 @@
   }
 }
 
-@media (max-width: 520px) {
-
-}
-
 @media (max-height: 680px) {
   form {
     width: 97%;
@@ -124,7 +145,7 @@
   }
 
   .survey-header {
-    margin-top: 4px;
+    margin-top: 24px;
   }
 
   .new-survey-h1 {
@@ -136,5 +157,35 @@
 
   .question-section {
     max-height: 250px;
+  }
+}
+
+@media (max-width: 520px) {
+  .survey-header {
+    margin-top: 24px;
+  }
+
+  .new-survey-h1 {
+    font-size: 32px;
+  }
+
+  .batch {
+    width: 40px;
+    height: 17px;
+    margin-bottom: 4px;
+  }
+
+  .button-area {
+    align-items: start;
+    margin-right: 40px;
+  }
+
+  .cancel-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .h1-card {
+    max-width: 75%;
   }
 }
