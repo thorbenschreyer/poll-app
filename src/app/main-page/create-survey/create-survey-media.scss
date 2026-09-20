@@ -253,8 +253,14 @@
     }
   }
 
-  dialog {
-    opacity: 0;
+  .answer__add {
+    flex-direction: column;
+  }
+
+  .add-more-questions-btn {
+    margin-left: unset;
+    margin-bottom: 8px;
+    width: 115px
   }
 }
 
