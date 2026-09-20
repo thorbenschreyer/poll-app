@@ -246,7 +246,7 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
    */
   subscribeToResponseAnswers(onNewAnswer: () => void) {
     const channel = this.supabase
-      .channel(`response-answers-changes-${crypto.randomUUID()}`)
+      .channel(`response-answers-changes-${Date.now()}`)
       .on('postgres_changes',
         {
           event: 'INSERT',

@@ -114,13 +114,13 @@ export class FilterService {
    * Loads all surveys from the database and stores them
    * in the survey list signal.
    */
-  async loadSurveys() {
-    const surveys = await this.databaseService.getSurveys();
+async loadSurveys() {
+  const surveys = await this.databaseService.getSurveys();
 
-    if (surveys) {
-      this.surveyList.set(surveys);
-    }
+  if (surveys) {
+    this.surveyList.set(surveys);
   }
+}
 
   /**
    * Selects a survey from the survey list by its unique ID
