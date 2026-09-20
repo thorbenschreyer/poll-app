@@ -83,8 +83,23 @@
       </section>
     </section>
 
+    <button type="button" class="show-reslults-button" (click)="toggleResults()">
+      @if (isClosed()) {
+        See results
+      } @else {
+        Close results
+      }
+
+      <img
+        class="dropdown-img"
+        [class.dropdown-img--open]="!isClosed()"
+        src="/assets/arrow_drop_down.png"
+        alt=""
+      />
+    </button>
+
     <!-- Answers -->
-    <article class="answers-section">
+    <article class="answers-section" [class.answers-section--open]="!isClosed()">
       <h2 class="answers-section-h2">
         Survey results
         <span class="answers-section-h2 answers-section-h2--color"> LIVE </span>

@@ -69,7 +69,6 @@
   .button-area {
     display: flex;
     justify-content: space-between;
-    
   }
 
   .cancel-button {
@@ -97,7 +96,114 @@
       height: 16px;
     }
   }
+
+  .answers-section {
+    margin: 16px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .progress-bar {
+    width: 100%;
+  }
 }
 
 @media (max-width: 670px) {
+  .date-category-section__enddate {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .questions-header-content--h1 {
+    font-size: 30px;
+  }
+  .question {
+    display: flex;
+    width: 100%;
+  }
+
+  .questions-and-answers-section {
+    gap: unset;
+  }
+
+  .answers-section {
+    display: none;
+    margin: 24px;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .answers-section--open {
+    display: flex;
+  }
+
+  .progress-bar {
+    width: 79%;
+  }
+
+  .show-reslults-button {
+    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: rgba(53, 39, 58, 1);
+    font-family: 'Mulish-Bold';
+    font-size: 18px;
+    margin: 16px 0px;
+  }
+
+  .dropdown-img {
+    margin-left: 10px;
+  }
+
+  .answers-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin: 0 16px;
+
+    transition:
+      max-height 400ms ease,
+      opacity 250ms ease,
+      margin 400ms ease;
+  }
+
+  .answers-section--open {
+    max-height: 3000px;
+    opacity: 1;
+    margin: 16px;
+  }
+
+  .show-reslults-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: none;
+    border: none;
+
+    color: rgba(53, 39, 58, 1);
+    font-family: 'Mulish-Bold';
+    font-size: 18px;
+
+    margin: 16px 0;
+    cursor: pointer;
+  }
+
+  .dropdown-img {
+    margin-left: 10px;
+    transform: rotate(0deg);
+    transition: transform 250ms ease-in-out;
+  }
+
+  .dropdown-img--open {
+    transform: rotate(180deg);
+  }
 }

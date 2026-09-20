@@ -45,6 +45,7 @@ export class SurveyView {
 
   answerVotes = signal<Record<string, number>>({});
   questionResponses = signal<Record<string, number>>({});
+  isClosed = signal(true)
 
   // ---------------------------------------------------------------------------
   // Realtime State
@@ -95,6 +96,13 @@ async ngOnInit() {
   // ---------------------------------------------------------------------------
   // Answer Selection
   // ---------------------------------------------------------------------------
+
+/**
+ * Toggles the visibility of the survey results on mobile devices.
+ */
+toggleResults() {
+  this.isClosed.update((closed) => !closed);
+}
 
   /**
    * Returns all currently selected answer IDs for a specific question.
