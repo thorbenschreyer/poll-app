@@ -110,6 +110,11 @@
 }
 
 @media (max-width: 670px) {
+
+  // ---------------------------------------------------------------------------
+  // Survey Header / Information
+  // ---------------------------------------------------------------------------
+
   .date-category-section__enddate {
     flex-direction: column;
     gap: 8px;
@@ -118,6 +123,7 @@
   .questions-header-content--h1 {
     font-size: 30px;
   }
+
   .question {
     display: flex;
     width: 100%;
@@ -127,83 +133,84 @@
     gap: unset;
   }
 
-  .answers-section {
-    display: none;
-    margin: 24px;
-    align-items: center;
-    flex-direction: column;
-  }
 
-  .answers-section--open {
-    display: flex;
-  }
-
-  .progress-bar {
-    width: 79%;
-  }
-
-  .show-reslults-button {
-    display: block;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    color: rgba(53, 39, 58, 1);
-    font-family: 'Mulish-Bold';
-    font-size: 18px;
-    margin: 16px 0px;
-  }
-
-  .dropdown-img {
-    margin-left: 10px;
-  }
-
-  .answers-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    margin: 0 16px;
-
-    transition:
-      max-height 400ms ease,
-      opacity 250ms ease,
-      margin 400ms ease;
-  }
-
-  .answers-section--open {
-    max-height: 3000px;
-    opacity: 1;
-    margin: 16px;
-  }
+  // ---------------------------------------------------------------------------
+  // Results Dropdown Button
+  // ---------------------------------------------------------------------------
 
   .show-reslults-button {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background: none;
-    border: none;
-
-    color: rgba(53, 39, 58, 1);
-    font-family: 'Mulish-Bold';
-    font-size: 18px;
 
     margin: 16px 0;
+
+    background: none;
+    border: none;
+
+    color: rgba(53, 39, 58, 1);
+    font-family: 'Mulish-Bold';
+    font-size: 18px;
+
     cursor: pointer;
   }
 
+
+  // ---------------------------------------------------------------------------
+  // Dropdown Arrow
+  // ---------------------------------------------------------------------------
+
   .dropdown-img {
     margin-left: 10px;
+
     transform: rotate(0deg);
-    transition: transform 250ms ease-in-out;
+    transition: transform 400ms ease-in-out;
   }
 
   .dropdown-img--open {
     transform: rotate(180deg);
+  }
+
+
+  // ---------------------------------------------------------------------------
+  // Results Dropdown Animation
+  // ---------------------------------------------------------------------------
+
+  .answers-dropdown {
+    display: grid;
+    grid-template-rows: 0fr;
+
+    opacity: 0;
+
+    transition:
+      grid-template-rows 400ms ease-in-out,
+      opacity 300ms ease-in-out;
+  }
+
+  .answers-dropdown--open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .answers-dropdown__content {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+
+  // ---------------------------------------------------------------------------
+  // Results
+  // ---------------------------------------------------------------------------
+
+  .answers-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 24px;
+  }
+
+  .progress-bar {
+    width: 79%;
   }
 }
