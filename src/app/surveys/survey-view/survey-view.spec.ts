@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { SurveyView } from './survey-view';
 
@@ -9,6 +10,7 @@ describe('SurveyView', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SurveyView],
+      providers: [provideRouter([])]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SurveyView);

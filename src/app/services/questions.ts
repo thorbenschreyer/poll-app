@@ -1,5 +1,6 @@
-import { Injectable, signal } from '@angular/core';
-import { Survey } from '../interfaces/survey';
+import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class Questions {}
