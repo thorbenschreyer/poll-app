@@ -135,6 +135,7 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
       description: survey.description,
       isActive: survey.is_active,
       isPublished: survey.is_published,
+      isSubmitted: survey.is_submitted,
 
       questions: survey.questions.map((question: any) => ({
         id: question.id,
@@ -154,6 +155,35 @@ private async saveAnswers(survey: Survey, savedQuestions: any[]) {
   // ---------------------------------------------------------------------------
   // Survey Responses
   // ---------------------------------------------------------------------------
+
+  /**
+ * Marks a survey as submitted.
+ *
+ * This prevents the survey from being submitted again
+ * during the current demo cycle.
+ *
+ * @param surveyId - The unique ID of the submitted survey.
+ * @returns True if the survey was successfully marked as submitted.
+ */
+async markSurveyAsSubmitted(surveyId: string): Promise<boolean> {
+  const { data, error } = await this.supabase
+    .from('surveys')
+    .update({
+      is_submitted: true,
+    })
+    .eq('id', surveyId)
+    .select();
+
+  console.log('Survey ID:', surveyId);
+  console.log('Update data:', data);
+  console.log('Update error:', error);
+
+  if (error) {
+    return false;
+  }
+
+  return true;
+}
 
   /**
    * Creates a new response entry for a specific survey.

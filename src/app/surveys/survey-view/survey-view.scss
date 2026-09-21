@@ -56,10 +56,15 @@
     margin-bottom: 32px;
   }
 
-  &:hover {
+  &:not(:disabled):hover {
     width: 160px;
     text-align: start;
     background-color: var(--primary-color-orange);
+
+    .btn-img {
+      opacity: 1;
+      transition: opacity 200ms ease-in-out 300ms;
+    }
 
     .btn-img {
       opacity: 1;
@@ -292,4 +297,9 @@ li {
 .cancel-button,
 .show-reslults-button {
   display: none;
+}
+
+.btn--submitted {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

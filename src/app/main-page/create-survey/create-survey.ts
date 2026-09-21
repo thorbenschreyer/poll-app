@@ -371,6 +371,7 @@ export class CreateSurvey {
       description: formValue.description ?? '',
       isActive: true,
       isPublished: formValue.isPublished ?? true,
+      isSubmitted: false,
       questions: formValue.questions.map((question) => ({
         question: question.question ?? '',
         allowMultipleAnswers: question.allowMultipleAnswers,

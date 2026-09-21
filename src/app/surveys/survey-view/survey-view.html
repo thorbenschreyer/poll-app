@@ -56,6 +56,7 @@
                     <input
                       class="answer__checkbox--checkbox"
                       type="checkbox"
+                      [disabled]="survey().isSubmitted"
                       [checked]="getSelectedAnswers(question.id!).includes(answer.id!)"
                       (change)="
                         selectAnswer(question.id, answer.id, question.allowMultipleAnswers, $event)
@@ -75,10 +76,21 @@
           @if (submitAttempted() == true) {
             <p class="error-message">Please select at least one answer.</p>
           }
-          <a (click)="submitSurvey()" type="submit" class="btn btn-survey btn--width">
-            Complete survey
+          <button
+            type="button"
+            class="btn btn-survey btn--width"
+            [disabled]="survey().isSubmitted"
+            [class.btn--submitted]="survey().isSubmitted"
+            (click)="submitSurvey()"
+          >
+            @if (survey().isSubmitted) {
+              Already submitted
+            } @else {
+              Complete survey
+            }
+
             <img class="btn-img" src="assets/check.svg" alt="" />
-          </a>
+          </button>
         </div>
       </section>
     </section>
@@ -99,58 +111,49 @@
     </button>
 
     <!-- Answers -->
-<div
-  class="answers-dropdown"
-  [class.answers-dropdown--open]="!isClosed()"
->
-  <div class="answers-dropdown__content">
+    <div class="answers-dropdown" [class.answers-dropdown--open]="!isClosed()">
+      <div class="answers-dropdown__content">
+        <article class="answers-section">
+          <h2 class="answers-section-h2">
+            Survey results
+            <span class="answers-section-h2 answers-section-h2--color"> LIVE </span>
+          </h2>
 
-    <article class="answers-section">
-      <h2 class="answers-section-h2">
-        Survey results
-        <span class="answers-section-h2 answers-section-h2--color">
-          LIVE
-        </span>
-      </h2>
+          <div>
+            @if (!hasPreviewResults()) {
+              <div class="no-answers-div">
+                <p class="no-answers-div__header">
+                  Results will be shown here after participants complete the survey.
+                </p>
 
-      <div>
-        @if (!hasPreviewResults()) {
-          <div class="no-answers-div">
-            <p class="no-answers-div__header">
-              Results will be shown here after participants complete the survey.
-            </p>
+                <p class="no-answers-div__header no-answers-div__header--text">
+                  There are no answers yet.
+                </p>
+              </div>
+            } @else {
+              @for (question of survey().questions; track question.id) {
+                <p class="question question--answer">{{ $index + 1 }}. {{ question.question }}</p>
 
-            <p class="no-answers-div__header no-answers-div__header--text">
-              There are no answers yet.
-            </p>
-          </div>
-        } @else {
-          @for (question of survey().questions; track question.id) {
-            <p class="question question--answer">
-              {{ $index + 1 }}. {{ question.question }}
-            </p>
+                <ol type="A">
+                  @for (answer of question.answers; track answer.id) {
+                    <li class="answers">
+                      <progress
+                        class="progress-bar"
+                        [value]="getAnswerPercentage(question.id, answer.id)"
+                        max="100"
+                      ></progress>
 
-            <ol type="A">
-              @for (answer of question.answers; track answer.id) {
-                <li class="answers">
-                  <progress
-                    class="progress-bar"
-                    [value]="getAnswerPercentage(question.id, answer.id)"
-                    max="100"
-                  ></progress>
-
-                  <span class="answers--number">
-                    {{ getAnswerPercentage(question.id, answer.id) }}%
-                  </span>
-                </li>
+                      <span class="answers--number">
+                        {{ getAnswerPercentage(question.id, answer.id) }}%
+                      </span>
+                    </li>
+                  }
+                </ol>
               }
-            </ol>
-          }
-        }
+            }
+          </div>
+        </article>
       </div>
-    </article>
-
-  </div>
-</div>
+    </div>
   </section>
 </section>

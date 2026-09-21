@@ -8,5 +8,6 @@ export interface Survey {
     description: string,
     isActive:boolean,
     isPublished: boolean,
+    isSubmitted: boolean;
     questions: Question[]
 }

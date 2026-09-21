@@ -78,6 +78,7 @@ export class FilterService {
     description: '',
     isActive: true,
     isPublished: false,
+    isSubmitted: false,
 
     questions: [
       {
