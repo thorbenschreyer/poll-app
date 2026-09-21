@@ -59,18 +59,18 @@ export class SurveyView {
   // ---------------------------------------------------------------------------
 
 /**
- * Initializes the survey view.
+ * Initializes the survey view and reacts to route changes.
  *
- * Reads the survey ID from the current route, ensures that the surveys
- * are loaded, selects the corresponding survey and loads its results.
- * Finally, it subscribes to realtime answer updates.
+ * Reloads the survey whenever the survey ID in the URL changes.
  */
-async ngOnInit() {
-  this.surveyId = this.route.snapshot.paramMap.get('id');
-  if (!this.surveyId) {return;}
-  await this.filterService.loadSurveys();
-  this.filterService.setSurveyDetailByID(this.surveyId);
-  await this.loadSurveyResults();
+ngOnInit() {
+  this.route.paramMap.subscribe(async (params) => {
+    const surveyId = params.get('id');
+    if (!surveyId) {return;}
+    this.surveyId = surveyId;
+    await this.filterService.loadSurveys();
+    this.filterService.setSurveyDetailByID(this.surveyId);
+    await this.loadSurveyResults();});
   this.realtimeChannel =
     this.databaseService.subscribeToResponseAnswers(() => {
       this.reloadResultsDebounced();
@@ -194,6 +194,23 @@ allQuestionsAnswered(): boolean {
   // ---------------------------------------------------------------------------
 
   /**
+ * Checks whether results should currently be displayed.
+ * Results are available when database responses exist
+ * or the user has made a local selection.
+ *
+ * @returns True if database or local results exist.
+ */
+hasPreviewResults(): boolean {
+  const hasDatabaseResults = !this.noAnswers();
+
+  const hasLocalSelection = Object.values(
+    this.selectedAnswers()
+  ).some((answers) => answers.length > 0);
+
+  return hasDatabaseResults || hasLocalSelection;
+}
+
+  /**
    * Loads all submitted responses for the current survey.
    *
    * Calculates the total number of votes for each answer and determines
@@ -229,24 +246,50 @@ allQuestionsAnswered(): boolean {
     return this.answerVotes()[answerId] ?? 0;
   }
 
+/**
+ * Calculates the displayed percentage for an answer.
+ * Includes the current local selection as a preview
+ * without saving it to the database.
+ *
+ * @param questionId - ID of the question.
+ * @param answerId - ID of the answer.
+ * @returns Percentage including the local preview.
+ */
+getAnswerPercentage(
+  questionId: string | undefined,
+  answerId: string | undefined
+): number {
+  if (!questionId || !answerId) {return 0;}
+  const votes = this.getPreviewAnswerVotes(questionId, answerId);
+  const databaseResponses =
+    this.questionResponses()[questionId] ?? 0;
+  const hasLocalSelection =
+    this.getSelectedAnswers(questionId).length > 0;
+  const responses =
+    databaseResponses + (hasLocalSelection ? 1 : 0);
+  if (responses === 0) {return 0;}
+  return Math.round((votes / responses) * 100);
+}
+
   /**
-   * Calculates the percentage of participants who selected a specific answer.
-   *
-   * The percentage is calculated relative to the number of participants
-   * who answered the corresponding question.
-   *
-   * @param questionId - The unique ID of the question.
-   * @param answerId - The unique ID of the answer.
-   * @returns The rounded answer percentage between 0 and 100.
-   */
-  getAnswerPercentage(questionId: string | undefined, answerId: string | undefined): number {
-    if (!questionId || !answerId) {return 0;}
-    const votes = this.getAnswerVotes(answerId);
-    const responses = this.questionResponses()[questionId] ?? 0;
-    if (responses === 0) {
-      return 0;}
-    return Math.round((votes / responses) * 100);
-  }
+ * Returns the displayed vote count for an answer.
+ * Includes the current local selection without saving it
+ * to the database.
+ *
+ * @param questionId - ID of the question.
+ * @param answerId - ID of the answer.
+ * @returns Number of persisted votes plus the local selection.
+ */
+getPreviewAnswerVotes(
+  questionId: string | undefined,
+  answerId: string | undefined
+): number {
+  if (!questionId || !answerId) {return 0;}
+  const databaseVotes = this.getAnswerVotes(answerId);
+  const isLocallySelected =
+    this.getSelectedAnswers(questionId).includes(answerId);
+  return databaseVotes + (isLocallySelected ? 1 : 0);
+}
 
 
   // ---------------------------------------------------------------------------
