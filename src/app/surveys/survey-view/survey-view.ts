@@ -141,52 +141,57 @@ allQuestionsAnswered(): boolean {
    * @param allowMultipleAnswers - Indicates whether multiple answers are allowed.
    * @param event - The change event emitted by the checkbox input.
    */
-  selectAnswer(questionId: string | undefined, answerId: string | undefined, allowMultipleAnswers: boolean, event: Event,) {
-    if (!questionId || !answerId) {return;}
-    const checkbox = event.target as HTMLInputElement;
-    if (checkbox.checked) {
-      this.selectedAnswers.update((current) => {
-        return {...current,
-          [questionId]: allowMultipleAnswers
-            ? [...(current[questionId] ?? []), answerId]
-            : [answerId],};
-      });
-    } else {
-      this.selectedAnswers.update((current) => {
-        return {...current,
-          [questionId]: (current[questionId] ?? []).filter((id) => id !== answerId),
-        };});
-    }
-  }
+selectAnswer(questionId: string | undefined, answerId: string | undefined, allowMultipleAnswers: boolean, event: Event,) {
+  if (!questionId || !answerId) {return;}
+  this.submitAttempted.set(false);
+  const checkbox = event.target as HTMLInputElement;
+  if (checkbox.checked) {
+    this.selectedAnswers.update((current) => {
+      return {
+        ...current,
+        [questionId]: allowMultipleAnswers
+          ? [...(current[questionId] ?? []), answerId]
+          : [answerId],
+      };
+    });
+  } else {
+    this.selectedAnswers.update((current) => {
+      return {
+        ...current,
+        [questionId]: (current[questionId] ?? []).filter(
+          (id) => id !== answerId
+        ),};
+    });}
+}
 
   // ---------------------------------------------------------------------------
   // Survey Submission
   // ---------------------------------------------------------------------------
 
-  /**
-   * Submits the currently selected answers for the survey.
-   *
-   * Creates a new survey response, transforms the selected answers into
-   * database records, stores them in the database, and navigates back to
-   * the main page after a successful submission.
-   */
-  async submitSurvey() {
+/**
+ * Submits the survey if all questions have been answered.
+ * Shows the validation message only when answers are missing.
+ */
+async submitSurvey() {
+  if (!this.allQuestionsAnswered()) {
     this.submitAttempted.set(true);
-      if (!this.allQuestionsAnswered()) {return;}
-    const answersForDatabase = Object.entries(this.selectedAnswers()).flatMap(
-      ([questionId, answerIds]) => {
-        return answerIds.map((answerId) => ({
-          question_id: questionId, answer_id: answerId}));
-      },
-    );
-    const responseId = await this.databaseService.createSurveyResponse(this.survey().id);
-    if (!responseId) {return;}
-    const responseAnswers = answersForDatabase.map((answer) => ({
-      ...answer, response_id: responseId,
-    }));
-    const success = await this.databaseService.createResponseAnswers(responseAnswers);
-    if (success) {this.router.navigate(['/']);}
-  }
+    return;}
+  this.submitAttempted.set(false);
+  const answersForDatabase = Object.entries(
+    this.selectedAnswers()
+  ).flatMap(([questionId, answerIds]) => {
+    return answerIds.map((answerId) => ({
+      question_id: questionId, answer_id: answerId,}));
+  });
+  const responseId = await this.databaseService.createSurveyResponse(this.survey().id);
+  if (!responseId) {return;}
+  const responseAnswers = answersForDatabase.map((answer) => ({
+    ...answer,
+    response_id: responseId,
+  }));
+  const success = await this.databaseService.createResponseAnswers(responseAnswers);
+  if (success) {this.router.navigate(['/']);}
+}
 
 
   // ---------------------------------------------------------------------------
