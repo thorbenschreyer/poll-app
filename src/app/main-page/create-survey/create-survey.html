@@ -3,6 +3,7 @@
     <a class="mobile-image" routerLink="/">
       <img class="header-img" src="assets/poll_app_logo_dark.svg" alt="" />
     </a>
+
     <section class="new-survey-section">
       <div class="content-container">
         <header class="survey-header">
@@ -14,6 +15,7 @@
                 Published
               }
             </p>
+
             <h1 class="new-survey-h1">Create new survey</h1>
           </div>
 
@@ -33,20 +35,32 @@
           <div class="form-content">
             <article class="describing-section">
               <div class="name-date-form">
-                <!-- Input name -->
+                <!-- Survey Name -->
                 <label for="name">Survey name</label>
+
                 <div class="input">
-                  <input class="input__field" id="name" formControlName="name" type="text" />
-                  <div (click)="deleteText('name')" class="input__img">
+                  <input
+                    class="input__field"
+                    [class.input__field--error]="invalidFields().has('name')"
+                    id="name"
+                    formControlName="name"
+                    type="text"
+                    (input)="clearFieldError('name')"
+                  />
+
+                  <div (click)="deleteText('name'); clearFieldError('name')" class="input__img">
                     <img class="input__img" src="assets/delete_white.svg" alt="" />
+
                     <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
                   </div>
                 </div>
 
-                <!-- Input date -->
+                <!-- Date / Category -->
                 <div class="date-category-form">
+                  <!-- End Date -->
                   <div>
-                    <label for="enddate">Set end date (optional)</label>
+                    <label for="endDate">Set end date (optional)</label>
+
                     <div class="input input--enddate">
                       <input
                         id="endDate"
@@ -55,15 +69,20 @@
                         type="date"
                         [min]="minDate"
                       />
+
                       <div (click)="deleteText('endDate')" class="input__img">
                         <img class="input__img" src="assets/delete_white.svg" alt="" />
+
                         <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
                       </div>
                     </div>
                   </div>
 
-                  <!-- select category -->
-                  <div class="category-select">
+                  <!-- Category -->
+                  <div
+                    class="category-select"
+                    [class.category-select--error]="invalidFields().has('category')"
+                  >
                     <button
                       type="button"
                       class="category-select__button"
@@ -72,6 +91,7 @@
                     >
                       <span>
                         Sort by categories
+
                         <span
                           class="category-select__button--state"
                           [class.isActive]="categoryIsShown()"
@@ -81,19 +101,18 @@
                             src="assets/arrow_drop_down-down-white.svg"
                             alt=""
                           />
+
                           <img
                             class="img-hover"
                             src="assets/arrow_drop_down-down-orange.svg"
                             alt=""
                           />
-                          <img
-                            class="img-open"
-                            src="assets/arrow_drop_down-up-orange.svg"
-                            alt=""
-                          />
+
+                          <img class="img-open" src="assets/arrow_drop_down-up-orange.svg" alt="" />
                         </span>
                       </span>
                     </button>
+
                     <p class="used-category">
                       @if (shownCategory == 'All Surveys') {
                       } @else {
@@ -116,55 +135,68 @@
 
               <!-- Description -->
               <div class="description-form">
-                <label for="describing">Describing text (optional)</label>
+                <label for="describing"> Describing text (optional) </label>
+
                 <div class="input input--description">
                   <textarea
                     id="describing"
                     formControlName="description"
                     class="input__field input__field--description"
                   ></textarea>
+
                   <div (click)="deleteText('description')" class="input__img">
                     <img class="input__img" src="assets/delete_white.svg" alt="" />
+
                     <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
                   </div>
                 </div>
               </div>
             </article>
 
+            <!-- Questions -->
             <section class="question-section">
               @for (question of questionForms; track $index; let questionIndex = $index) {
                 <div [formGroup]="question" class="question">
                   <!-- Question -->
                   <section class="question-head">
                     <div class="question-head--asked-question">
-                      <label [for]="'question-' + questionIndex">{{ $index + 1 }}. Question</label>
+                      <label [for]="'question-' + questionIndex">
+                        {{ questionIndex + 1 }}. Question
+                      </label>
 
                       <div (click)="removeQuestion(questionIndex)" class="input__img">
                         <img class="input__img" src="assets/delete_white.svg" alt="" />
+
                         <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
                       </div>
                     </div>
+
                     <input
                       formControlName="question"
                       class="input__field"
+                      [class.input__field--error]="invalidFields().has('question-' + questionIndex)"
                       type="text"
-                      name=""
                       [id]="'question-' + questionIndex"
+                      (input)="clearFieldError('question-' + questionIndex)"
                     />
                   </section>
+
                   <!-- Answers -->
                   <section class="answers-sectiom">
                     <div class="answer__head">
                       <label for="answers">Answers</label>
-                      <span class="answer__checkbox--text"
-                        ><input
+
+                      <span class="answer__checkbox--text">
+                        <input
                           formControlName="allowMultipleAnswers"
                           class="answer__checkbox--checkbox"
                           type="checkbox"
                         />
-                        Allow multiple answers.</span
-                      >
+
+                        Allow multiple answers.
+                      </span>
                     </div>
+
                     <div class="answers">
                       <ol type="A">
                         @for (
@@ -176,13 +208,21 @@
                             <input
                               [formControl]="answer"
                               class="input__field answer-list--margin"
+                              [class.input__field--error]="
+                                invalidFields().has('answer-' + questionIndex + '-' + answerIndex)
+                              "
                               type="text"
+                              (input)="
+                                clearFieldError('answer-' + questionIndex + '-' + answerIndex)
+                              "
                             />
+
                             <div
                               (click)="removeAnswer(answerIndex, questionIndex)"
                               class="input__img"
                             >
                               <img class="input__img" src="assets/delete_white.svg" alt="" />
+
                               <img
                                 class="input__img--hover"
                                 src="assets/delete_orange.svg"
@@ -192,11 +232,14 @@
                           </li>
                         }
                       </ol>
+
                       <div class="answer__add">
                         @if (getNumberofAnswers(questionIndex) != 6) {
-                          <a (click)="addAnswer(questionIndex)" class="add-more-questions-btn"
-                            >Add answer <img src="assets/add_white.svg" alt=""
-                          /></a>
+                          <a (click)="addAnswer(questionIndex)" class="add-more-questions-btn">
+                            Add answer
+
+                            <img src="assets/add_white.svg" alt="" />
+                          </a>
 
                           <p>You can add up to 6 answer fields.</p>
                         }
@@ -206,23 +249,27 @@
                 </div>
               }
 
-              <a class="add-question-button" (click)="addQuestion()"
-                ><span>Add next question</span><img src="assets/add_white.svg" alt=""
-              /></a>
+              <!-- Add Question -->
+              <a class="add-question-button" (click)="addQuestion()">
+                <span>Add next question</span>
+
+                <img src="assets/add_white.svg" alt="" />
+              </a>
             </section>
           </div>
         </form>
 
+        <!-- Footer -->
         <footer>
-          <p class="error-message">
-            @if (publishAttempted() && !surveyForm.controls.category.valid) {
-              <p class="error-message">Please use a category.</p>
-            } @else if (publishAttempted() && surveyForm.invalid) {
-              <p class="error-message">Please fill in all required fields.</p>
-            }
-          </p>
+          @if (publishAttempted() && !surveyForm.controls.category.valid) {
+            <p class="error-message">Please use a category.</p>
+          } @else if (publishAttempted() && surveyForm.invalid) {
+            <p class="error-message">Please fill in all required fields.</p>
+          }
+
           <a type="submit" class="btn" (click)="onSubmit()" #publishButton>
             Publish
+
             <img class="btn-img" src="assets/check.svg" alt="" />
           </a>
         </footer>
@@ -231,12 +278,11 @@
   </div>
 </div>
 
+<!-- Success Dialog -->
 <dialog #dialog (click)="closeDialogOnOutsideClick($event)">
   <section class="dialog-section">
-    <p>
-      Your survey is now
-      published
-    </p>
+    <p>Your survey is now published</p>
+
     <img (click)="closeDialog()" src="assets/close (black).png" alt="" />
   </section>
 </dialog>

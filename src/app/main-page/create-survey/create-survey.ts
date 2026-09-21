@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild, inject, output, signal} from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators} from '@angular/forms';
+import { Component, ElementRef, ViewChild, inject, output, signal } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { Survey } from '../../interfaces/survey';
@@ -23,7 +23,7 @@ export class CreateSurvey {
   router = inject(Router);
   filterService = inject(FilterService);
   databaseService = inject(DatabaseService);
-  dialogService = inject(CreateSurveyService)
+  dialogService = inject(CreateSurveyService);
 
   // ---------------------------------------------------------------------------
   // Component State
@@ -52,6 +52,11 @@ export class CreateSurvey {
    */
   publishAttempted = signal(false);
 
+  /**
+   * Stores the controls that should currently be displayed
+   * with a validation error.
+   */
+  invalidFields = signal<Set<string>>(new Set());
 
   // ---------------------------------------------------------------------------
   // Date Configuration
@@ -69,8 +74,11 @@ export class CreateSurvey {
    * expiration date input.
    */
   minDate =
-    this.today.getFullYear() + '-' + String(this.today.getMonth() + 1).padStart(2, '0') + '-' + String(this.today.getDate()).padStart(2, '0');
-
+    this.today.getFullYear() +
+    '-' +
+    String(this.today.getMonth() + 1).padStart(2, '0') +
+    '-' +
+    String(this.today.getDate()).padStart(2, '0');
 
   // ---------------------------------------------------------------------------
   // Template References
@@ -89,7 +97,6 @@ export class CreateSurvey {
    */
   @ViewChild('publishButton')
   publishButton!: ElementRef<HTMLElement>;
-
 
   // ---------------------------------------------------------------------------
   // Survey Form
@@ -119,7 +126,6 @@ export class CreateSurvey {
     ]),
   });
 
-
   // ---------------------------------------------------------------------------
   // Form Accessors
   // ---------------------------------------------------------------------------
@@ -143,6 +149,32 @@ export class CreateSurvey {
   }
 
   /**
+   * Stores all currently invalid fields.
+   */
+  setInvalidFields() {
+    const invalid = new Set<string>();
+    if (this.surveyForm.controls.name.invalid) {
+      invalid.add('name');
+    }
+    if (this.surveyForm.controls.category.invalid) {
+      invalid.add('category');
+    }
+    this.questions.controls.forEach((question, questionIndex) => {
+      const questionGroup = question as FormGroup;
+      if (questionGroup.controls['question'].invalid) {
+        invalid.add(`question-${questionIndex}`);
+      }
+      const answers = questionGroup.controls['answers'] as FormArray;
+      answers.controls.forEach((answer, answerIndex) => {
+        if (answer.invalid) {
+          invalid.add(`answer-${questionIndex}-${answerIndex}`);
+        }
+      });
+    });
+    this.invalidFields.set(invalid);
+  }
+
+  /**
    * Returns the answers FormArray belonging to a specific question.
    *
    * @param question - The question FormGroup containing the answers.
@@ -163,7 +195,6 @@ export class CreateSurvey {
     return result;
   }
 
-
   // ---------------------------------------------------------------------------
   // Category Selection
   // ---------------------------------------------------------------------------
@@ -182,18 +213,20 @@ export class CreateSurvey {
   ];
 
   /**
-   * Sets the selected category in the survey form and updates
-   * the category displayed in the interface.
+   * Sets the selected category and removes its
+   * visual validation error.
    *
-   * @param category - The category selected by the user.
+   * @param category - Selected survey category.
    */
   setCategory(category: string) {
     this.surveyForm.patchValue({
       category: category,
     });
-    this.shownCategory = category;
-  }
 
+    this.shownCategory = category;
+
+    this.clearFieldError('category');
+  }
 
   // ---------------------------------------------------------------------------
   // Question Management
@@ -234,7 +267,6 @@ export class CreateSurvey {
     }
   }
 
-
   // ---------------------------------------------------------------------------
   // Answer Management
   // ---------------------------------------------------------------------------
@@ -268,7 +300,6 @@ export class CreateSurvey {
     }
   }
 
-
   // ---------------------------------------------------------------------------
   // Form Utilities
   // ---------------------------------------------------------------------------
@@ -282,6 +313,36 @@ export class CreateSurvey {
     this.surveyForm.controls[toDelete].setValue('');
   }
 
+  /**
+   * Hides the general validation message after the user edits a field.
+   *
+   * Individual invalid fields can remain visually marked until they
+   * are edited or the form is validated again.
+   */
+  hideValidationMessage() {
+    this.publishAttempted.set(false);
+  }
+
+  /**
+   * Removes the visual validation error from a specific field
+   * after the user starts editing it.
+   *
+   * Also hides the general validation message without triggering
+   * a new validation of the complete form.
+   *
+   * @param field - Unique key of the field whose error should be removed.
+   */
+  clearFieldError(field: string) {
+    this.hideValidationMessage();
+
+    this.invalidFields.update((fields) => {
+      const updatedFields = new Set(fields);
+
+      updatedFields.delete(field);
+
+      return updatedFields;
+    });
+  }
 
   // ---------------------------------------------------------------------------
   // Survey Submission
@@ -298,7 +359,10 @@ export class CreateSurvey {
   async onSubmit() {
     const formValue = this.surveyForm.getRawValue();
     this.publishAttempted.set(true);
-    if (this.surveyForm.invalid) {return;}
+    this.setInvalidFields();
+    if (this.surveyForm.invalid) {
+      return;
+    }
     const newSurvey: Survey = {
       id: '',
       name: formValue.name ?? '',
@@ -313,21 +377,23 @@ export class CreateSurvey {
         answers: question.answers.map((answer) => ({
           answer: answer ?? '',
         })),
-      })),};
+      })),
+    };
     const result = await this.databaseService.createSurvey(newSurvey);
-    if (result.success) {await this.filterService.loadSurveys();
-    if (window.innerWidth <= 950) 
-      {await this.router.navigate(['/survey', result.id])
-         this.dialogService.close()
-      ;return;}
+    if (result.success) {
+      await this.filterService.loadSurveys();
+      if (window.innerWidth <= 950) {
+        await this.router.navigate(['/survey', result.id]);
+        this.dialogService.close();
+        return;
+      }
       this.showDialog();
       setTimeout(() => {
         this.router.navigate(['/survey', result.id]);
-        this.dialogService.close()
+        this.dialogService.close();
       }, 3000);
     }
   }
-
 
   // ---------------------------------------------------------------------------
   // Dialog Management
@@ -367,5 +433,4 @@ export class CreateSurvey {
   closeDialog() {
     this.dialog.nativeElement.close();
   }
-
 }

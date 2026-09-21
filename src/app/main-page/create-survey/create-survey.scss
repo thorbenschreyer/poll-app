@@ -77,6 +77,7 @@
   &:hover {
     background-color: rgba(174, 126, 90);
   }
+
   > span {
     color: rgba(254, 253, 255, 1);
     font-family: 'Nokora-bold';
@@ -148,13 +149,18 @@ label {
     margin: 4px 0px 12px 0px;
     padding: 8px 8px;
     border-radius: 5px 20px 5px 5px;
-    border: none;
+
+    // Transparent border prevents layout shift when
+    // the validation border becomes visible.
+    border: 1px solid transparent;
+
     width: 100%;
     box-sizing: border-box;
 
     &:focus {
       background-color: rgba(254, 233, 212, 1);
-      border: none;
+      border: 1px solid transparent;
+      outline: none;
     }
 
     &[type='text'] {
@@ -165,6 +171,17 @@ label {
     &--description {
       height: 92px;
       align-items: none;
+    }
+
+    // Validation error
+    &--error {
+      border: 1px solid red;
+      background-color: rgba(255, 0, 0, 0.08);
+
+      &:focus {
+        border: 1px solid red;
+        background-color: rgba(255, 0, 0, 0.08);
+      }
     }
   }
 
@@ -251,7 +268,11 @@ footer {
   &__button {
     cursor: pointer;
     background-color: unset;
-    border: none;
+
+    // Transparent border prevents layout shift.
+    border: 1px solid transparent;
+    border-radius: 6px;
+
     width: 206px;
     height: 32px;
     color: rgba(255, 255, 255, 1);
@@ -275,6 +296,7 @@ footer {
         .img-white {
           opacity: 0;
         }
+
         .img-open {
           opacity: 1;
         }
@@ -284,9 +306,11 @@ footer {
     &:not(.isActive):hover {
       border-radius: 6px;
       background-color: rgba(217, 217, 217, 0.12);
+
       .img-hover {
         opacity: 1;
       }
+
       .img-white {
         opacity: 0;
       }
@@ -329,6 +353,13 @@ footer {
         background-color: rgba(244, 233, 251, 1);
         border-radius: 6px;
       }
+    }
+  }
+
+  // Validation error for category button
+  &--error {
+    .category-select__button {
+      border: 1px solid red;
     }
   }
 }
@@ -404,7 +435,7 @@ dialog::backdrop {
   justify-content: space-between;
 
   > p {
-    font-family:'Nerko-One';
+    font-family: 'Nerko-One';
     color: rgba(53, 39, 58, 1);
     font-size: 24px;
   }
