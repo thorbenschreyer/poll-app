@@ -155,20 +155,15 @@ export class CreateSurvey {
     const invalid = new Set<string>();
     if (this.surveyForm.controls.name.invalid) {
       invalid.add('name');
-    }
-    if (this.surveyForm.controls.category.invalid) {
+    } if (this.surveyForm.controls.category.invalid) {
       invalid.add('category');
     }
     this.questions.controls.forEach((question, questionIndex) => {
       const questionGroup = question as FormGroup;
-      if (questionGroup.controls['question'].invalid) {
-        invalid.add(`question-${questionIndex}`);
-      }
+      if (questionGroup.controls['question'].invalid) {invalid.add(`question-${questionIndex}`);}
       const answers = questionGroup.controls['answers'] as FormArray;
       answers.controls.forEach((answer, answerIndex) => {
-        if (answer.invalid) {
-          invalid.add(`answer-${questionIndex}-${answerIndex}`);
-        }
+        if (answer.invalid) {invalid.add(`answer-${questionIndex}-${answerIndex}`);}
       });
     });
     this.invalidFields.set(invalid);

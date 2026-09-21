@@ -182,36 +182,18 @@ export class SurveyView {
   async submitSurvey() {
       if (this.survey().isSubmitted) {return;}
     if (!this.allQuestionsAnswered()) {
-      this.submitAttempted.set(true);
-      return;
-    }
+      this.submitAttempted.set(true); return;}
     this.submitAttempted.set(false);
     const answersForDatabase = Object.entries(this.selectedAnswers()).flatMap(
       ([questionId, answerIds]) => {
-        return answerIds.map((answerId) => ({
-          question_id: questionId,
-          answer_id: answerId,
-        }));
-      },
-    );
+        return answerIds.map((answerId) => ({question_id: questionId, answer_id: answerId,}));},);
     const responseId = await this.databaseService.createSurveyResponse(this.survey().id);
-    if (!responseId) {
-      return;
-    }
+    if (!responseId) {return;}
     const responseAnswers = answersForDatabase.map((answer) => ({
-      ...answer,
-      response_id: responseId,
-    }));
+      ...answer,response_id: responseId,}));
     const success = await this.databaseService.createResponseAnswers(responseAnswers);
-    if (success) {
-      const surveyMarkedAsSubmitted = await this.databaseService.markSurveyAsSubmitted(
-        this.survey().id,
-      );
-
-      if (!surveyMarkedAsSubmitted) {
-        return;
-      }
-
+    if (success) {const surveyMarkedAsSubmitted = await this.databaseService.markSurveyAsSubmitted(this.survey().id,);
+      if (!surveyMarkedAsSubmitted) {return;}
       this.router.navigate(['/']);
     }
   }
@@ -229,11 +211,9 @@ export class SurveyView {
    */
   hasPreviewResults(): boolean {
     const hasDatabaseResults = !this.noAnswers();
-
     const hasLocalSelection = Object.values(this.selectedAnswers()).some(
       (answers) => answers.length > 0,
     );
-
     return hasDatabaseResults || hasLocalSelection;
   }
 
@@ -244,28 +224,21 @@ export class SurveyView {
    * how many participants answered each individual question.
    */
   async loadSurveyResults() {
-    if (!this.surveyId) {
-      return;
-    }
+    if (!this.surveyId) {return;}
     const results = await this.databaseService.getSurveyResponseAnswers(this.surveyId);
     this.noAnswers.set(results.length === 0);
     const votes: Record<string, number> = {};
     results.forEach((response) => {
-      response.response_answers.forEach((responseAnswer) => {
-        const answerId = responseAnswer.answer_id;
-        votes[answerId] = (votes[answerId] ?? 0) + 1;
-      });
-    });
+      response.response_answers.forEach((responseAnswer) => {const answerId = responseAnswer.answer_id;
+        votes[answerId] = (votes[answerId] ?? 0) + 1;});});
     this.answerVotes.set(votes);
     const questionResponses: Record<string, number> = {};
     results.forEach((response) => {
       const answeredQuestions = new Set<string>();
       response.response_answers.forEach((responseAnswer) => {
-        answeredQuestions.add(responseAnswer.question_id);
-      });
+        answeredQuestions.add(responseAnswer.question_id);});
       answeredQuestions.forEach((questionId) => {
-        questionResponses[questionId] = (questionResponses[questionId] ?? 0) + 1;
-      });
+        questionResponses[questionId] = (questionResponses[questionId] ?? 0) + 1;});
     });
     this.questionResponses.set(questionResponses);
   }
