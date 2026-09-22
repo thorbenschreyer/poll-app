@@ -8,7 +8,7 @@ import { SurveyOverview } from '../survey-overview/survey-overview';
 
 @Component({
   selector: 'app-all-surveys',
-  imports: [SurveyOverview, DatePipe, RouterLink],
+  imports: [RouterLink],
   templateUrl: './all-surveys.html',
   styleUrls: ['./all-surveys.scss', './all-surveys-media.scss'],
 })
