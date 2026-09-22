@@ -31,234 +31,243 @@
           </div>
         </header>
 
-        <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
-          <div class="form-content">
-            <article class="describing-section">
-              <div class="name-date-form">
-                <!-- Survey Name -->
-                <label for="name">Survey name</label>
+        <div class="form-content-scroll">
+          <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
+            <div class="form-content">
+              <article class="describing-section">
+                <div class="name-date-form">
+                  <!-- Survey Name -->
+                  <label for="name">Survey name</label>
 
-                <div class="input">
-                  <input
-                    class="input__field"
-                    [class.input__field--error]="invalidFields().has('name')"
-                    id="name"
-                    formControlName="name"
-                    type="text"
-                    (input)="clearFieldError('name')"
-                  />
-
-                  <div (click)="deleteText('name'); clearFieldError('name')" class="input__img">
-                    <img class="input__img" src="assets/delete_white.svg" alt="" />
-
-                    <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
-                  </div>
-                </div>
-
-                <!-- Date / Category -->
-                <div class="date-category-form">
-                  <!-- End Date -->
-                  <div>
-                    <label for="endDate">Set end date (optional)</label>
-
-                    <div class="input input--enddate">
-                      <input
-                        id="endDate"
-                        class="input__field"
-                        formControlName="endDate"
-                        type="date"
-                        [min]="minDate"
-                      />
-
-                      <div (click)="deleteText('endDate')" class="input__img">
-                        <img class="input__img" src="assets/delete_white.svg" alt="" />
-
-                        <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Category -->
-                  <div
-                    class="category-select"
-                    [class.category-select--error]="invalidFields().has('category')"
-                  >
-                    <button
-                      type="button"
-                      class="category-select__button"
-                      (click)="categoryIsShown.set(!categoryIsShown())"
-                      [class.isActive]="categoryIsShown()"
-                    >
-                      <span>
-                        Sort by categories
-
-                        <span
-                          class="category-select__button--state"
-                          [class.isActive]="categoryIsShown()"
-                        >
-                          <img
-                            class="img-white"
-                            src="assets/arrow_drop_down-down-white.svg"
-                            alt=""
-                          />
-
-                          <img
-                            class="img-hover"
-                            src="assets/arrow_drop_down-down-orange.svg"
-                            alt=""
-                          />
-
-                          <img class="img-open" src="assets/arrow_drop_down-up-orange.svg" alt="" />
-                        </span>
-                      </span>
-                    </button>
-
-                    <p class="used-category">
-                      @if (shownCategory == 'All Surveys') {
-                      } @else {
-                        {{ shownCategory }}
-                      }
-                    </p>
-
-                    <ul class="category-select__list" [class.isActive]="categoryIsShown()">
-                      @for (categorie of categorylist; track categorie) {
-                        <li
-                          (click)="categoryIsShown.set(!categoryIsShown()); setCategory(categorie)"
-                        >
-                          {{ categorie }}
-                        </li>
-                      }
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Description -->
-              <div class="description-form">
-                <label for="describing"> Describing text (optional) </label>
-
-                <div class="input input--description">
-                  <textarea
-                    id="describing"
-                    formControlName="description"
-                    class="input__field input__field--description"
-                  ></textarea>
-
-                  <div (click)="deleteText('description')" class="input__img">
-                    <img class="input__img" src="assets/delete_white.svg" alt="" />
-
-                    <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- Questions -->
-            <section class="question-section">
-              @for (question of questionForms; track $index; let questionIndex = $index) {
-                <div [formGroup]="question" class="question">
-                  <!-- Question -->
-                  <section class="question-head">
-                    <div class="question-head--asked-question">
-                      <label [for]="'question-' + questionIndex">
-                        {{ questionIndex + 1 }}. Question
-                      </label>
-
-                      <div (click)="removeQuestion(questionIndex)" class="input__img">
-                        <img class="input__img" src="assets/delete_white.svg" alt="" />
-
-                        <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
-                      </div>
-                    </div>
-
+                  <div class="input">
                     <input
-                      formControlName="question"
                       class="input__field"
-                      [class.input__field--error]="invalidFields().has('question-' + questionIndex)"
+                      [class.input__field--error]="invalidFields().has('name')"
+                      id="name"
+                      formControlName="name"
                       type="text"
-                      [id]="'question-' + questionIndex"
-                      (input)="clearFieldError('question-' + questionIndex)"
+                      (input)="clearFieldError('name')"
                     />
-                  </section>
 
-                  <!-- Answers -->
-                  <section class="answers-sectiom">
-                    <div class="answer__head">
-                      <label for="answers">Answers</label>
+                    <div (click)="deleteText('name'); clearFieldError('name')" class="input__img">
+                      <img class="input__img" src="assets/delete_white.svg" alt="" />
 
-                      <span class="answer__checkbox--text">
+                      <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                    </div>
+                  </div>
+
+                  <!-- Date / Category -->
+                  <div class="date-category-form">
+                    <!-- End Date -->
+                    <div>
+                      <label for="endDate">Set end date (optional)</label>
+
+                      <div class="input input--enddate">
                         <input
-                          formControlName="allowMultipleAnswers"
-                          class="answer__checkbox--checkbox"
-                          type="checkbox"
+                          id="endDate"
+                          class="input__field"
+                          formControlName="endDate"
+                          type="date"
+                          [min]="minDate"
                         />
 
-                        Allow multiple answers.
-                      </span>
-                    </div>
+                        <div (click)="deleteText('endDate')" class="input__img">
+                          <img class="input__img" src="assets/delete_white.svg" alt="" />
 
-                    <div class="answers">
-                      <ol type="A">
-                        @for (
-                          answer of getAnswers(question).controls;
-                          track $index;
-                          let answerIndex = $index
-                        ) {
-                          <li class="answer-list">
-                            <input
-                              [formControl]="answer"
-                              class="input__field answer-list--margin"
-                              [class.input__field--error]="
-                                invalidFields().has('answer-' + questionIndex + '-' + answerIndex)
-                              "
-                              type="text"
-                              (input)="
-                                clearFieldError('answer-' + questionIndex + '-' + answerIndex)
-                              "
-                            />
-
-                            <div
-                              (click)="removeAnswer(answerIndex, questionIndex)"
-                              class="input__img"
-                            >
-                              <img class="input__img" src="assets/delete_white.svg" alt="" />
-
-                              <img
-                                class="input__img--hover"
-                                src="assets/delete_orange.svg"
-                                alt=""
-                              />
-                            </div>
-                          </li>
-                        }
-                      </ol>
-
-                      <div class="answer__add">
-                        @if (getNumberofAnswers(questionIndex) != 6) {
-                          <a (click)="addAnswer(questionIndex)" class="add-more-questions-btn">
-                            Add answer
-
-                            <img src="assets/add_white.svg" alt="" />
-                          </a>
-
-                          <p>You can add up to 6 answer fields.</p>
-                        }
+                          <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                        </div>
                       </div>
                     </div>
-                  </section>
+
+                    <!-- Category -->
+                    <div
+                      class="category-select"
+                      [class.category-select--error]="invalidFields().has('category')"
+                    >
+                      <button
+                        type="button"
+                        class="category-select__button"
+                        (click)="categoryIsShown.set(!categoryIsShown())"
+                        [class.isActive]="categoryIsShown()"
+                      >
+                        <span>
+                          Sort by categories
+
+                          <span
+                            class="category-select__button--state"
+                            [class.isActive]="categoryIsShown()"
+                          >
+                            <img
+                              class="img-white"
+                              src="assets/arrow_drop_down-down-white.svg"
+                              alt=""
+                            />
+
+                            <img
+                              class="img-hover"
+                              src="assets/arrow_drop_down-down-orange.svg"
+                              alt=""
+                            />
+
+                            <img
+                              class="img-open"
+                              src="assets/arrow_drop_down-up-orange.svg"
+                              alt=""
+                            />
+                          </span>
+                        </span>
+                      </button>
+
+                      <p class="used-category">
+                        @if (shownCategory == 'All Surveys') {
+                        } @else {
+                          {{ shownCategory }}
+                        }
+                      </p>
+
+                      <ul class="category-select__list" [class.isActive]="categoryIsShown()">
+                        @for (categorie of categorylist; track categorie) {
+                          <li
+                            (click)="
+                              categoryIsShown.set(!categoryIsShown()); setCategory(categorie)
+                            "
+                          >
+                            {{ categorie }}
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-              }
 
-              <!-- Add Question -->
-              <a class="add-question-button" (click)="addQuestion()">
-                <span>Add next question</span>
+                <!-- Description -->
+                <div class="description-form">
+                  <label for="describing"> Describing text (optional) </label>
 
-                <img src="assets/add_white.svg" alt="" />
-              </a>
-            </section>
-          </div>
-        </form>
+                  <div class="input input--description">
+                    <textarea
+                      id="describing"
+                      formControlName="description"
+                      class="input__field input__field--description"
+                    ></textarea>
 
+                    <div (click)="deleteText('description')" class="input__img">
+                      <img class="input__img" src="assets/delete_white.svg" alt="" />
+
+                      <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Questions -->
+              <section class="question-section">
+                @for (question of questionForms; track $index; let questionIndex = $index) {
+                  <div [formGroup]="question" class="question">
+                    <!-- Question -->
+                    <section class="question-head">
+                      <div class="question-head--asked-question">
+                        <label [for]="'question-' + questionIndex">
+                          {{ questionIndex + 1 }}. Question
+                        </label>
+
+                        <div (click)="removeQuestion(questionIndex)" class="input__img">
+                          <img class="input__img" src="assets/delete_white.svg" alt="" />
+
+                          <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                        </div>
+                      </div>
+
+                      <input
+                        formControlName="question"
+                        class="input__field"
+                        [class.input__field--error]="
+                          invalidFields().has('question-' + questionIndex)
+                        "
+                        type="text"
+                        [id]="'question-' + questionIndex"
+                        (input)="clearFieldError('question-' + questionIndex)"
+                      />
+                    </section>
+
+                    <!-- Answers -->
+                    <section class="answers-sectiom">
+                      <div class="answer__head">
+                        <label for="answers">Answers</label>
+
+                        <span class="answer__checkbox--text">
+                          <input
+                            formControlName="allowMultipleAnswers"
+                            class="answer__checkbox--checkbox"
+                            type="checkbox"
+                          />
+
+                          Allow multiple answers.
+                        </span>
+                      </div>
+
+                      <div class="answers">
+                        <ol type="A">
+                          @for (
+                            answer of getAnswers(question).controls;
+                            track $index;
+                            let answerIndex = $index
+                          ) {
+                            <li class="answer-list">
+                              <input
+                                [formControl]="answer"
+                                class="input__field answer-list--margin"
+                                [class.input__field--error]="
+                                  invalidFields().has('answer-' + questionIndex + '-' + answerIndex)
+                                "
+                                type="text"
+                                (input)="
+                                  clearFieldError('answer-' + questionIndex + '-' + answerIndex)
+                                "
+                              />
+
+                              <div
+                                (click)="removeAnswer(answerIndex, questionIndex)"
+                                class="input__img"
+                              >
+                                <img class="input__img" src="assets/delete_white.svg" alt="" />
+
+                                <img
+                                  class="input__img--hover"
+                                  src="assets/delete_orange.svg"
+                                  alt=""
+                                />
+                              </div>
+                            </li>
+                          }
+                        </ol>
+
+                        <div class="answer__add">
+                          @if (getNumberofAnswers(questionIndex) != 6) {
+                            <a (click)="addAnswer(questionIndex)" class="add-more-questions-btn">
+                              Add answer
+
+                              <img src="assets/add_white.svg" alt="" />
+                            </a>
+
+                            <p>You can add up to 6 answer fields.</p>
+                          }
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                }
+
+                <!-- Add Question -->
+                <a class="add-question-button" (click)="addQuestion()">
+                  <span>Add next question</span>
+
+                  <img src="assets/add_white.svg" alt="" />
+                </a>
+              </section>
+            </div>
+          </form>
+        </div>
         <!-- Footer -->
         <footer>
           @if (publishAttempted() && !surveyForm.controls.category.valid) {

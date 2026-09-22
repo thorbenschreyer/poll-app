@@ -94,19 +94,44 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 1052px;
   width: 100%;
   height: 100%;
-  margin: 32px 0px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 64px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--primary-color-orange);
+    box-shadow: 3px 3px 3.2px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color-orange);
+  }
+}
+
+.form-content-scroll {
+  margin: 40px 0px 24px 0px;
   border-radius: 5px 100px 5px 5px;
   background-color: rgba(142, 112, 153, 0.16);
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20px;
 }
 
 .form-content {
   max-width: 976px;
   width: 100%;
-  max-height: 420px;
   height: 100%;
+  margin: 58px 0px 16px 0px;
 }
 
 .describing-section {
