@@ -51,7 +51,7 @@
   }
 
   &--area {
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: end;
     align-items: center;
@@ -206,7 +206,7 @@ li {
 }
 
 .date-category-section {
-  width: 100%;
+  width: 90%;
 
   &__enddate {
     display: flex;
@@ -215,6 +215,7 @@ li {
     &--design {
       color: rgba(53, 39, 58, 1);
       font-family: 'Mulish-Medium';
+      margin-left: 8px;
     }
   }
 }
@@ -268,6 +269,15 @@ li {
     &:hover {
       background-color: rgba(255, 207, 161, 0.4);
     }
+
+    &:has(.answer__checkbox--checkbox:disabled) {
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
   }
 
   &__checkbox {
@@ -294,6 +304,10 @@ li {
 
       &:checked {
         background-image: url('../../../assets/checkbox-checked-answers.png');
+      }
+
+      &:disabled {
+        cursor: not-allowed;
       }
     }
   }

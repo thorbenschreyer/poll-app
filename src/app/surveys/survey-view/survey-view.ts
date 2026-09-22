@@ -152,10 +152,9 @@ export class SurveyView {
     allowMultipleAnswers: boolean,
     event: Event,
   ) {
-    if (!questionId || !answerId) {
-      return;
-    }
-    this.submitAttempted.set(false);
+  if (this.survey().isSubmitted || !this.survey().isActive) {return;}
+  if (!questionId || !answerId) {return;}
+  this.submitAttempted.set(false);
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.checked) {
       this.selectedAnswers.update((current) => {
