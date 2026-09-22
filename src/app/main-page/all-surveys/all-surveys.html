@@ -1,4 +1,5 @@
 <section class="all-surveys-section">
+  <div class="navbar-controller">
   <nav>
     <div class="survey-badge">
       <a
@@ -65,9 +66,10 @@
       </div>
     </div>
   </nav>
+  </div>
   <div class="all-surveys">
     @if (sortedSurveylist().length == 0) {
-      <p>No surveys avilable</p>
+      <p class="error-no-surveys">No surveys avilable</p>
       <!-- #TODO Style -->
     } @else {
       @for (survey of sortedSurveylist(); track survey.id) {

@@ -6,7 +6,7 @@
 }
 
 .all-surveys-section {
-  max-width: 1042px;
+  max-width: 1010px;
   margin: auto;
   margin-bottom: 80px;
   height: 482px;
@@ -15,7 +15,9 @@
 nav {
   display: flex;
   justify-content: space-between;
-  margin: 0px 6px;
+  align-items: center;
+  align-content: center;
+  width: 100%;
   margin-bottom: 8px;
 }
 
@@ -142,6 +144,7 @@ nav {
   align-items: center;
   gap: 8px;
   padding: 2px 10px;
+  margin-left: -5px;
   border-radius: 20px;
   font-family: 'Nokora-Regular';
   font-size: 16px;
@@ -161,13 +164,13 @@ nav {
 }
 
 .all-surveys {
-  margin: 32px 0px 0px 16px;
+  margin-top: 32px;
   display: flex;
   max-height: 422px;
   overflow-y: auto;
   gap: 16px;
   flex-wrap: wrap;
-  width: 1042px;
+  width: 100%;
 }
 
 .survey {
@@ -235,4 +238,14 @@ nav {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary-color-orange);
+}
+
+.error-no-surveys {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 32px;
+  font-family: 'Nerko-One';
+  color: var(--primary-color-orange);
+  font-size: 40px;
 }

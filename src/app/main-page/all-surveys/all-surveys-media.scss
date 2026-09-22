@@ -12,6 +12,16 @@
   .survey-detail {
     margin: 0px 16px;
   }
+
+  .navbar-controller {
+    margin: 0px 24px;
+  }
+}
+
+@media (max-width: 1015px) {
+    .navbar-controller {
+    margin: 0px 16px;
+  }
 }
 
 @media (max-width: 505px) {
@@ -30,5 +40,9 @@
 
   .survey-header {
     font-size: 18px;
+  }
+
+  .error-no-surveys {
+    font-size: 24px;
   }
 }
