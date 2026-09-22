@@ -44,7 +44,7 @@
   color: rgba(34, 18, 39, 1);
   background-color: var(--secondary-color-orange);
   width: 110px;
-  transition: all ease-in-out 350ms;
+  transition: all ease-in-out 150ms;
   border: unset;
 
   &--width {
@@ -60,20 +60,22 @@
   }
 
   &:not(:disabled):hover {
+    display: flex;
+    align-items: center;
     width: 160px;
     text-align: start;
     background-color: var(--primary-color-orange);
 
     .btn-img {
       opacity: 1;
-      transition: opacity 200ms ease-in-out 300ms;
+      transition: opacity 200ms ease-in-out 200ms;
     }
 
     .btn-img {
       opacity: 1;
 
       // 300ms warten, dann 200ms einblenden
-      transition: opacity 200ms ease-in-out 300ms;
+      transition: opacity 100ms ease-in-out 200ms;
     }
   }
 }
