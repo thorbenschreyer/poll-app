@@ -1,7 +1,7 @@
 <div class="new-survey-body">
   <div class="body-card-mobile">
     <a class="mobile-image" routerLink="/">
-      <img class="header-img" src="assets/poll_app_logo_dark.svg" alt="" />
+      <img class="header-img" src="/assets/poll_app_logo_dark.svg" alt="" />
     </a>
 
     <section class="new-survey-section">
@@ -26,7 +26,7 @@
               class="cancel-button"
             >
               <span>Cancel</span>
-              <img src="assets/close.svg" alt="" />
+              <img src="/assets/close.svg" alt="" />
             </a>
           </div>
         </header>
@@ -50,9 +50,9 @@
                     />
 
                     <div (click)="deleteText('name'); clearFieldError('name')" class="input__img">
-                      <img class="input__img" src="assets/delete_white.svg" alt="" />
+                      <img class="input__img" src="/assets/delete_white.svg" alt="" />
 
-                      <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                      <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                     </div>
                   </div>
 
@@ -74,9 +74,9 @@
                         />
 
                         <div (click)="deleteText('endDate')" class="input__img">
-                          <img class="input__img" src="assets/delete_white.svg" alt="" />
+                          <img class="input__img" src="/assets/delete_white.svg" alt="" />
 
-                          <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                          <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                         </div>
                       </div>
                     </div>
@@ -101,19 +101,19 @@
                           >
                             <img
                               class="img-white"
-                              src="assets/arrow_drop_down-down-white.svg"
+                              src="/assets/arrow_drop_down-down-white.svg"
                               alt=""
                             />
 
                             <img
                               class="img-hover"
-                              src="assets/arrow_drop_down-down-orange.svg"
+                              src="/assets/arrow_drop_down-down-orange.svg"
                               alt=""
                             />
 
                             <img
                               class="img-open"
-                              src="assets/arrow_drop_down-up-orange.svg"
+                              src="/assets/arrow_drop_down-up-orange.svg"
                               alt=""
                             />
                           </span>
@@ -154,9 +154,9 @@
                     ></textarea>
 
                     <div (click)="deleteText('description')" class="input__img">
-                      <img class="input__img" src="assets/delete_white.svg" alt="" />
+                      <img class="input__img" src="/assets/delete_white.svg" alt="" />
 
-                      <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                      <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                     </div>
                   </div>
                 </div>
@@ -174,9 +174,9 @@
                         </label>
 
                         <div (click)="removeQuestion(questionIndex)" class="input__img">
-                          <img class="input__img" src="assets/delete_white.svg" alt="" />
+                          <img class="input__img" src="/assets/delete_white.svg" alt="" />
 
-                          <img class="input__img--hover" src="assets/delete_orange.svg" alt="" />
+                          <img class="input__img--hover" src="/assets/delete_orange.svg" alt="" />
                         </div>
                       </div>
 
@@ -232,11 +232,11 @@
                                 (click)="removeAnswer(answerIndex, questionIndex)"
                                 class="input__img"
                               >
-                                <img class="input__img" src="assets/delete_white.svg" alt="" />
+                                <img class="input__img" src="/assets/delete_white.svg" alt="" />
 
                                 <img
                                   class="input__img--hover"
-                                  src="assets/delete_orange.svg"
+                                  src="/assets/delete_orange.svg"
                                   alt=""
                                 />
                               </div>
@@ -249,7 +249,7 @@
                             <a (click)="addAnswer(questionIndex)" class="add-more-questions-btn">
                               Add answer
 
-                              <img src="assets/add_white.svg" alt="" />
+                              <img src="/assets/add_white.svg" alt="" />
                             </a>
 
                             <p>You can add up to 6 answer fields.</p>
@@ -264,7 +264,7 @@
                 <a class="add-question-button" (click)="addQuestion()">
                   <span>Add next question</span>
 
-                  <img src="assets/add_white.svg" alt="" />
+                  <img src="/assets/add_white.svg" alt="" />
                 </a>
               </section>
             </div>
@@ -282,7 +282,7 @@
           <a type="submit" class="btn" (click)="onSubmit()" #publishButton>
             Publish
 
-            <img class="btn-img" src="assets/check.svg" alt="" />
+            <img class="btn-img" src="/assets/check.svg" alt="" />
           </a>
         </footer>
       </div>
@@ -295,6 +295,6 @@
   <section class="dialog-section">
     <p>Your survey is now published</p>
 
-    <img (click)="closeDialog()" src="assets/close (black).png" alt="" />
+    <img (click)="closeDialog()" src="/assets/close (black).png" alt="" />
   </section>
 </dialog>

@@ -295,7 +295,7 @@ li {
       height: 18px;
       margin-right: 4px;
 
-      background-image: url('../../../assets/checkbox_black.png');
+      background-image: url('/assets/checkbox_black.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -303,7 +303,7 @@ li {
       cursor: pointer;
 
       &:checked {
-        background-image: url('../../../assets/checkbox-checked-answers.png');
+        background-image: url('/assets/checkbox-checked-answers.png');
       }
 
       &:disabled {
