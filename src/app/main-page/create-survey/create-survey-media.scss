@@ -31,10 +31,11 @@
 
   .survey-header {
     width: 934px;
+    max-width: 100%;
   }
 
   .content-container {
-    width: 100%;
+    width: calc(100% - 64px);
   }
 
   .describing-section {
@@ -46,17 +47,19 @@
   }
 
   .form-content {
-    margin-left: 16px;
+    width: 100%;
   }
 
   footer {
     width: 934px;
+    max-width: 100%;
   }
 }
 
 @media (max-width: 950px) {
   .new-survey-section {
     width: 100%;
+    max-width: 100%;
     height: auto;
     margin: 0;
 
@@ -65,13 +68,15 @@
   }
 
   .content-container {
-    width: 100%;
+    width: calc(100% - 32px);
+    max-width: none;
     height: auto;
   }
 
   .form-content {
+    width: 100%;
+    max-width: none;
     height: auto;
-    max-height: none;
   }
 
   .describing-section {
@@ -257,7 +262,7 @@
   .add-more-questions-btn {
     margin-left: unset;
     margin-bottom: 8px;
-    width: 115px
+    width: 115px;
   }
 }
 
