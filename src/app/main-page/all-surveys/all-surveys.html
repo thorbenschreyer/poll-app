@@ -4,27 +4,13 @@
     <div class="survey-badge">
       <a
         class="survey-badge survey-badge__design"
-        (click)="
-          filterservice.activeSurvey.set(!filterservice.activeSurvey());
-          filterSurveyList(
-            filterservice.pastSurvey(),
-            filterservice.activeSurvey(),
-            this.usedCategory()
-          )
-        "
+        (click)="toggleActiveSurvey()"
         [class.isActive]="filterservice.activeSurvey()"
         >Active survey</a
       >
       <a
         class="survey-badge survey-badge__design"
-        (click)="
-          filterservice.pastSurvey.set(!filterservice.pastSurvey());
-          filterSurveyList(
-            filterservice.pastSurvey(),
-            filterservice.activeSurvey(),
-            this.usedCategory()
-          )
-        "
+        (click)="togglePastSurvey()"
         [class.isActive]="filterservice.pastSurvey()"
         >Past survey</a
       >
@@ -79,11 +65,10 @@
             <h3 class="survey-header">{{ survey.name }}</h3>
             <span class="ending-batch">
               @if (survey.endDate) {
-                Ends in {{ filterservice.getSurveyEnds(survey) }}
-                @if (filterservice.getSurveyEnds(survey) == 1) {
-                  Day
-                } @else {
-                  Days
+                @if (filterservice.getSurveyEnds(survey) > 1) {
+                   Ends in {{ filterservice.getSurveyEnds(survey) }} Days
+                } @else if (filterservice.getSurveyEnds(survey) <= 0){
+                  Survey ended
                 }
               } @else {
                 Ends never

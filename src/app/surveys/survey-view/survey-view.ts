@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { CreateSurveyService } from '../../services/create-survey-service';
@@ -30,6 +30,11 @@ export class SurveyView {
   survey = this.filterService.SurveyDetail;
   surveyId: string | null = null;
   noAnswers = signal(true);
+  surveyEnded = computed(() => {
+  const endDate = this.survey().endDate;
+  if (!endDate) {return false;}
+  return new Date(endDate).getTime() <= Date.now();
+});
 
   // ---------------------------------------------------------------------------
   // Answer Selection State
@@ -180,7 +185,7 @@ export class SurveyView {
    * Shows the validation message only when answers are missing.
    */
   async submitSurvey() {
-      if (this.survey().isSubmitted) {return;}
+    if (this.survey().isSubmitted || this.surveyEnded()) {return;}
     if (!this.allQuestionsAnswered()) {
       this.submitAttempted.set(true); return;}
     this.submitAttempted.set(false);

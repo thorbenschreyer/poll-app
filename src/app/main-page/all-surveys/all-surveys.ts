@@ -1,12 +1,4 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  HostListener,
-  inject,
-  Pipe,
-  signal
-} from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, Pipe, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -18,16 +10,14 @@ import { SurveyOverview } from '../survey-overview/survey-overview';
   selector: 'app-all-surveys',
   imports: [SurveyOverview, DatePipe, RouterLink],
   templateUrl: './all-surveys.html',
-  styleUrls: ['./all-surveys.scss', './all-surveys-media.scss']
+  styleUrls: ['./all-surveys.scss', './all-surveys-media.scss'],
 })
 export class AllSurveys {
-
   // ---------------------------------------------------------------------------
   // Dependencies
   // ---------------------------------------------------------------------------
 
   filterservice = inject(FilterService);
-
 
   // ---------------------------------------------------------------------------
   // Initialization
@@ -42,7 +32,6 @@ export class AllSurveys {
    * @param elementRef - Reference to the component's native DOM element.
    */
   constructor(private elementRef: ElementRef) {}
-
 
   // ---------------------------------------------------------------------------
   // Category State
@@ -71,7 +60,6 @@ export class AllSurveys {
     'Technology & Innovation',
   ];
 
-
   // ---------------------------------------------------------------------------
   // Survey State
   // ---------------------------------------------------------------------------
@@ -93,10 +81,29 @@ export class AllSurveys {
   });
 
   /**
+   * Set state true/false
+   */
+  toggleActiveSurvey() {
+    const newState = !this.filterservice.activeSurvey();
+
+    this.filterservice.activeSurvey.set(newState);
+    this.filterservice.pastSurvey.set(false);
+  }
+
+  /**
+   * Set state true/false
+   */
+  togglePastSurvey() {
+    const newState = !this.filterservice.pastSurvey();
+
+    this.filterservice.pastSurvey.set(newState);
+    this.filterservice.activeSurvey.set(false);
+  }
+
+  /**
    * Stores surveys related to the next expiration state.
    */
   nextExpire = [];
-
 
   // ---------------------------------------------------------------------------
   // Document Events
@@ -117,7 +124,6 @@ export class AllSurveys {
     }
   }
 
-
   // ---------------------------------------------------------------------------
   // Survey Filtering
   // ---------------------------------------------------------------------------
@@ -132,17 +138,10 @@ export class AllSurveys {
    * @param activeSurvey - Indicates whether active surveys should be included.
    * @param category - The category used to filter the survey list.
    */
-  filterSurveyList(
-    pastSurvey: boolean,
-    activeSurvey: boolean,
-    category: string
-  ) {
+  filterSurveyList(pastSurvey: boolean, activeSurvey: boolean, category: string) {
     this.usedCategory.set(category);
 
-    const newList: Survey[] = this.filterservice.filterByActivity(
-      pastSurvey,
-      activeSurvey
-    );
+    const newList: Survey[] = this.filterservice.filterByActivity(pastSurvey, activeSurvey);
   }
 
   /**
@@ -165,5 +164,4 @@ export class AllSurveys {
       category,
     );
   }
-
 }

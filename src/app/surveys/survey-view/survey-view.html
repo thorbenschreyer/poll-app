@@ -56,7 +56,7 @@
                     <input
                       class="answer__checkbox--checkbox"
                       type="checkbox"
-                      [disabled]="survey().isSubmitted"
+                      [disabled]="survey().isSubmitted || surveyEnded()"
                       [checked]="getSelectedAnswers(question.id!).includes(answer.id!)"
                       (change)="
                         selectAnswer(question.id, answer.id, question.allowMultipleAnswers, $event)
@@ -79,11 +79,13 @@
           <button
             type="button"
             class="btn btn-survey btn--width"
-            [disabled]="survey().isSubmitted"
-            [class.btn--submitted]="survey().isSubmitted"
+            [disabled]="survey().isSubmitted || surveyEnded()"
+            [class.btn--submitted]="survey().isSubmitted || surveyEnded()"
             (click)="submitSurvey()"
           >
-            @if (survey().isSubmitted) {
+            @if (surveyEnded()) {
+              Survey ended
+            } @else if (survey().isSubmitted) {
               Already submitted
             } @else {
               Complete survey
