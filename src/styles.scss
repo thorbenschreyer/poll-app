@@ -98,8 +98,9 @@ a {
 .background-color {
   &--primary {
     background-color: var(--primary-color-purple);
-    height: 100vh;
+    min-height: 100vh;
   }
+  
 }
 
 .content-container {
