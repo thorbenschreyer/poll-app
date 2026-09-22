@@ -278,7 +278,7 @@ footer {
   color: rgba(34, 18, 39, 1);
   background-color: var(--secondary-color-orange);
   width: 60px;
-  transition: all ease-in-out 350ms;
+  transition: all ease-in-out 250ms;
 
   &:hover {
     width: 80px;
@@ -289,7 +289,7 @@ footer {
       opacity: 1;
 
       // 300ms warten, dann 200ms einblenden
-      transition: opacity 200ms ease-in-out 300ms;
+      transition: opacity 100ms ease-in-out 200ms;
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, inject, output, signal } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors , ReactiveFormsModule, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { Survey } from '../../interfaces/survey';
@@ -109,18 +109,18 @@ export class CreateSurvey {
    * containing the individual questions and their corresponding answers.
    */
   surveyForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    endDate: new FormControl(''),
-    category: new FormControl('', Validators.required),
+    name: new FormControl('', [Validators.required, this.noWhitespaceValidator,]),
+    endDate: new FormControl('', [this.notPastDateValidator,]),
+    category: new FormControl('', [Validators.required, this.noWhitespaceValidator,]),
     description: new FormControl(''),
     isPublished: new FormControl(false),
     questions: new FormArray([
       new FormGroup({
-        question: new FormControl('', Validators.required),
+        question: new FormControl('', [Validators.required, this.noWhitespaceValidator,]),
         allowMultipleAnswers: new FormControl(false, { nonNullable: true }),
         answers: new FormArray([
-          new FormControl<string>('', Validators.required),
-          new FormControl<string>('', Validators.required),
+          new FormControl<string>('', [Validators.required, this.noWhitespaceValidator,]),
+          new FormControl<string>('', [Validators.required, this.noWhitespaceValidator,]),
         ]),
       }),
     ]),
@@ -129,6 +129,45 @@ export class CreateSurvey {
   // ---------------------------------------------------------------------------
   // Form Accessors
   // ---------------------------------------------------------------------------
+
+  /**
+   * Validates that a text field contains at least one
+   * non-whitespace character.
+   *
+   * @param control - Form control that should be validated.
+   * @returns A validation error if the value contains only whitespace.
+   */
+  noWhitespaceValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+
+    if (typeof value === 'string' && value.trim().length === 0) {
+      return { whitespace: true };
+    }
+
+    return null;
+  }
+
+    /**
+   * Validates that the selected date is not in the past.
+   *
+   * An empty date is valid because surveys are allowed
+   * to have no end date.
+   *
+   * @param control - Form control containing the selected date.
+   * @returns A validation error if the selected date is in the past.
+   */
+  notPastDateValidator(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) {
+      return null;
+    }
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+    selectedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    return selectedDate < today
+      ? { pastDate: true }
+      : null;
+  }
 
   /**
    * Returns the questions FormArray from the survey form.
@@ -153,17 +192,15 @@ export class CreateSurvey {
    */
   setInvalidFields() {
     const invalid = new Set<string>();
-    if (this.surveyForm.controls.name.invalid) {
-      invalid.add('name');
-    } if (this.surveyForm.controls.category.invalid) {
-      invalid.add('category');
-    }
+    if (this.surveyForm.controls.endDate.invalid) {invalid.add('endDate');}
+    if (this.surveyForm.controls.name.invalid) {invalid.add('name');}
+    if (this.surveyForm.controls.category.invalid) {invalid.add('category');}
     this.questions.controls.forEach((question, questionIndex) => {
       const questionGroup = question as FormGroup;
       if (questionGroup.controls['question'].invalid) {invalid.add(`question-${questionIndex}`);}
       const answers = questionGroup.controls['answers'] as FormArray;
       answers.controls.forEach((answer, answerIndex) => {
-        if (answer.invalid) {invalid.add(`answer-${questionIndex}-${answerIndex}`);}
+      if (answer.invalid) {invalid.add(`answer-${questionIndex}-${answerIndex}`);}
       });
     });
     this.invalidFields.set(invalid);

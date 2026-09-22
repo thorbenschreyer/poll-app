@@ -19,7 +19,6 @@
 .header-img {
   width: 120px;
   height: 44px;
-  
 }
 
 .btn-img {
@@ -264,6 +263,7 @@ li {
     align-content: center;
     margin: 6px 0px;
     padding: 4px;
+    cursor: pointer;
 
     &:hover {
       background-color: rgba(255, 207, 161, 0.4);

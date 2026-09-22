@@ -69,6 +69,8 @@
                           formControlName="endDate"
                           type="date"
                           [min]="minDate"
+                          [class.input__field--error]="invalidFields().has('endDate')"
+                          (input)="clearFieldError('endDate')"
                         />
 
                         <div (click)="deleteText('endDate')" class="input__img">
@@ -270,12 +272,13 @@
         </div>
         <!-- Footer -->
         <footer>
-          @if (publishAttempted() && !surveyForm.controls.category.valid) {
+          @if (publishAttempted() && surveyForm.controls.endDate.hasError('pastDate')) {
+            <p class="error-message">The end date cannot be in the past.</p>
+          } @else if (publishAttempted() && !surveyForm.controls.category.valid) {
             <p class="error-message">Please use a category.</p>
           } @else if (publishAttempted() && surveyForm.invalid) {
             <p class="error-message">Please fill in all required fields.</p>
           }
-
           <a type="submit" class="btn" (click)="onSubmit()" #publishButton>
             Publish
 
