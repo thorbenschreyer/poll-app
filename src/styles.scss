@@ -91,13 +91,14 @@
   font-family: 'Mulish-Regular', Arial, Helvetica, sans-serif;
 }
 
-a{
+a {
   text-decoration: none;
 }
 
 .background-color {
   &--primary {
     background-color: var(--primary-color-purple);
+    height: 100vh;
   }
 }
 
@@ -108,4 +109,3 @@ a{
   flex-direction: column;
   align-items: center;
 }
-
